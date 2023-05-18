@@ -1,0 +1,319 @@
+May-09 14:47:01.551 [main] DEBUG nextflow.cli.Launcher - $> nextflow run epi2me-labs/wf-flu --fastq ./Grid000/OppsettXXXXA/20230204xxxxxxxxx/demultiplexed --out_dir /Users/rasmuskopperudriis/Coding/work/new_influenza_pipline_docker/results/epi2me_wf_flu_output --min_qscore 14 --min_coverage 30 --downsample 600 --reference /Users/rasmuskopperudriis/Coding/work/new_influenza_pipline_docker/references/epi2me/reference_epi2me_FULL_NAMES.fasta
+May-09 14:47:01.612 [main] INFO  nextflow.cli.CmdRun - N E X T F L O W  ~  version 22.10.6
+May-09 14:47:01.621 [main] DEBUG nextflow.plugin.PluginsFacade - Setting up plugin manager > mode=prod; embedded=false; plugins-dir=/Users/rasmuskopperudriis/.nextflow/plugins; core-plugins: nf-amazon@1.11.3,nf-azure@0.14.2,nf-codecommit@0.1.2,nf-console@1.0.4,nf-ga4gh@1.0.4,nf-google@1.4.5,nf-tower@1.5.6,nf-wave@0.5.3
+May-09 14:47:01.626 [main] INFO  org.pf4j.DefaultPluginStatusProvider - Enabled plugins: []
+May-09 14:47:01.626 [main] INFO  org.pf4j.DefaultPluginStatusProvider - Disabled plugins: []
+May-09 14:47:01.627 [main] INFO  org.pf4j.DefaultPluginManager - PF4J version 3.4.1 in 'deployment' mode
+May-09 14:47:01.632 [main] INFO  org.pf4j.AbstractPluginManager - No plugins
+May-09 14:47:01.638 [main] DEBUG nextflow.scm.ProviderConfig - Using SCM config path: /Users/rasmuskopperudriis/.nextflow/scm
+May-09 14:47:02.001 [main] DEBUG nextflow.scm.AssetManager - Git config: /Users/rasmuskopperudriis/.nextflow/assets/epi2me-labs/wf-flu/.git/config; branch: master; remote: origin; url: https://github.com/epi2me-labs/wf-flu.git
+May-09 14:47:02.009 [main] DEBUG nextflow.scm.RepositoryFactory - Found Git repository result: [RepositoryFactory]
+May-09 14:47:02.013 [main] DEBUG nextflow.scm.AssetManager - Git config: /Users/rasmuskopperudriis/.nextflow/assets/epi2me-labs/wf-flu/.git/config; branch: master; remote: origin; url: https://github.com/epi2me-labs/wf-flu.git
+May-09 14:47:02.940 [main] INFO  nextflow.scm.AssetManager - NOTE: Your local project version looks outdated - a different revision is available in the remote repository [a21c1b843c]
+May-09 14:47:02.952 [main] DEBUG nextflow.config.ConfigBuilder - Found config base: /Users/rasmuskopperudriis/.nextflow/assets/epi2me-labs/wf-flu/nextflow.config
+May-09 14:47:02.952 [main] DEBUG nextflow.config.ConfigBuilder - Parsing config file: /Users/rasmuskopperudriis/.nextflow/assets/epi2me-labs/wf-flu/nextflow.config
+May-09 14:47:02.957 [main] DEBUG nextflow.config.ConfigBuilder - Applying config profile: `standard`
+May-09 14:47:03.027 [main] DEBUG nextflow.cli.CmdRun - Applied DSL=2 from script declararion
+May-09 14:47:03.027 [main] INFO  nextflow.cli.CmdRun - Launching `https://github.com/epi2me-labs/wf-flu` [tiny_laplace] DSL2 - revision: 729fabb71f [master]
+May-09 14:47:03.027 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins default=[]
+May-09 14:47:03.027 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins resolved requirement=[]
+May-09 14:47:03.035 [main] DEBUG nextflow.secret.LocalSecretsProvider - Secrets store: /Users/rasmuskopperudriis/.nextflow/secrets/store.json
+May-09 14:47:03.036 [main] DEBUG nextflow.secret.SecretsLoader - Discovered secrets providers: [nextflow.secret.LocalSecretsProvider@6b8d54da] - activable => nextflow.secret.LocalSecretsProvider@6b8d54da
+May-09 14:47:03.062 [main] DEBUG nextflow.Session - Session UUID: addcfb7c-74d4-4d83-b4db-19089fa7f4e2
+May-09 14:47:03.062 [main] DEBUG nextflow.Session - Run name: tiny_laplace
+May-09 14:47:03.062 [main] DEBUG nextflow.Session - Executor pool size: 8
+May-09 14:47:03.067 [main] DEBUG nextflow.util.ThreadPoolBuilder - Creating thread pool 'FileTransfer' minSize=10; maxSize=24; workQueue=LinkedBlockingQueue[10000]; allowCoreThreadTimeout=false
+May-09 14:47:03.079 [main] DEBUG nextflow.cli.CmdRun - 
+  Version: 22.10.6 build 5843
+  Created: 23-01-2023 23:20 UTC (24-01-2023 00:20 CEST)
+  System: Mac OS X 13.2.1
+  Runtime: Groovy 3.0.13 on Java HotSpot(TM) 64-Bit Server VM 17.0.5+9-LTS-191
+  Encoding: UTF-8 (UTF-8)
+  Process: 84183@Rasmuss-MacBook-Air.local [127.0.0.1]
+  CPUs: 8 - Mem: 16 GB (29 MB) - Swap: 4 GB (812.2 MB)
+May-09 14:47:03.084 [main] DEBUG nextflow.Session - Work-dir: /Users/rasmuskopperudriis/Coding/work/new_influenza_pipline_docker/nextflow_training_set/work [Mac OS X]
+May-09 14:47:03.092 [main] DEBUG nextflow.executor.ExecutorFactory - Extension executors providers=[]
+May-09 14:47:03.098 [main] DEBUG nextflow.Session - Observer factory: DefaultObserverFactory
+May-09 14:47:03.128 [main] DEBUG nextflow.cache.CacheFactory - Using Nextflow cache factory: nextflow.cache.DefaultCacheFactory
+May-09 14:47:03.134 [main] DEBUG nextflow.util.CustomThreadPool - Creating default thread pool > poolSize: 9; maxThreads: 1000
+May-09 14:47:03.163 [main] DEBUG nextflow.Session - Session start
+May-09 14:47:03.164 [main] DEBUG nextflow.trace.TraceFileObserver - Workflow started -- trace file: /Users/rasmuskopperudriis/Coding/work/new_influenza_pipline_docker/results/epi2me_wf_flu_output/execution/trace.txt
+May-09 14:47:03.169 [main] DEBUG nextflow.Session - Using default localLib path: /Users/rasmuskopperudriis/.nextflow/assets/epi2me-labs/wf-flu/lib
+May-09 14:47:03.170 [main] DEBUG nextflow.Session - Adding to the classpath library: /Users/rasmuskopperudriis/.nextflow/assets/epi2me-labs/wf-flu/lib
+May-09 14:47:03.170 [main] DEBUG nextflow.Session - Adding to the classpath library: /Users/rasmuskopperudriis/.nextflow/assets/epi2me-labs/wf-flu/lib/nfcore_external_java_deps.jar
+May-09 14:47:04.112 [main] DEBUG nextflow.script.ScriptRunner - > Launching execution
+May-09 14:47:04.438 [main] WARN  nextflow.Nextflow - Found unexpected parameters:
+* --process_label: wfflu
+May-09 14:47:04.438 [main] INFO  nextflow.Nextflow - - [2mIgnore this warning: params.schema_ignore_params = "process_label" [0m
+May-09 14:47:04.443 [main] INFO  nextflow.Nextflow - 
+[0;92m||||||||||   [0m[2m_____ ____ ___ ____  __  __ _____      _       _
+[0;92m||||||||||  [0m[2m| ____|  _ \_ _|___ \|  \/  | ____|    | | __ _| |__  ___
+[0;33m|||||       [0m[2m|  _| | |_) | |  __) | |\/| |  _| _____| |/ _` | '_ \/ __|
+[0;33m|||||       [0m[2m| |___|  __/| | / __/| |  | | |__|_____| | (_| | |_) \__ \
+[0;94m||||||||||  [0m[2m|_____|_|  |___|_____|_|  |_|_____|    |_|\__,_|_.__/|___/
+[0;94m||||||||||  [0m[1mwf-flu v0.0.6-g729fabb[0m
+[2m--------------------------------------------------------------------------------[0m
+[1mCore Nextflow options[0m
+  [0;34mrevision       : [0;32mmaster[0m
+  [0;34mrunName        : [0;32mtiny_laplace[0m
+  [0;34mcontainerEngine: [0;32mdocker[0m
+  [0;34mlaunchDir      : [0;32m/Users/rasmuskopperudriis/Coding/work/new_influenza_pipline_docker/nextflow_training_set[0m
+  [0;34mworkDir        : [0;32m/Users/rasmuskopperudriis/Coding/work/new_influenza_pipline_docker/nextflow_training_set/work[0m
+  [0;34mprojectDir     : [0;32m/Users/rasmuskopperudriis/.nextflow/assets/epi2me-labs/wf-flu[0m
+  [0;34muserName       : [0;32mrasmuskopperudriis[0m
+  [0;34mprofile        : [0;32mstandard[0m
+  [0;34mconfigFiles    : [0;32m/Users/rasmuskopperudriis/.nextflow/assets/epi2me-labs/wf-flu/nextflow.config[0m
+
+[1mInput Options[0m
+  [0;34mfastq          : [0;32m./Grid000/OppsettXXXXA/20230204xxxxxxxxx/demultiplexed[0m
+
+[1mOutput Options[0m
+  [0;34mout_dir        : [0;32m/Users/rasmuskopperudriis/Coding/work/new_influenza_pipline_docker/results/epi2me_wf_flu_output[0m
+
+[1mAdvanced Options[0m
+  [0;34mreference      : [0;32m/Users/rasmuskopperudriis/Coding/work/new_influenza_pipline_docker/references/epi2me/reference_epi2me_FULL_NAMES.fasta[0m
+  [0;34mmin_coverage   : [0;32m30[0m
+  [0;34mmin_qscore     : [0;32m14[0m
+  [0;34mdownsample     : [0;32m600[0m
+
+!! Only displaying parameters that differ from the pipeline defaults !!
+[2m--------------------------------------------------------------------------------[0m
+If you use epi2me-labs/wf-flu for your analysis please cite:
+
+* The nf-core framework
+  https://doi.org/10.1038/s41587-020-0439-x
+
+
+[2m--------------------------------------------------------------------------------[0m
+This is epi2me-labs/wf-flu v0.0.6-g729fabb.
+[2m--------------------------------------------------------------------------------[0m
+May-09 14:47:04.678 [main] INFO  nextflow.Nextflow - Checking fastq input.
+May-09 14:47:04.696 [main] INFO  nextflow.Nextflow - Non barcoded directories detected.
+May-09 14:47:04.741 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:wfflu` matches labels `wfflu` for process with name pipeline:combineFastq
+May-09 14:47:04.742 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+May-09 14:47:04.742 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+May-09 14:47:04.744 [main] DEBUG nextflow.executor.Executor - [warm up] executor > local
+May-09 14:47:04.746 [main] DEBUG n.processor.LocalPollingMonitor - Creating local task monitor for executor 'local' > cpus=4; memory=8 GB; capacity=8; pollInterval=100ms; dumpInterval=5m
+May-09 14:47:04.771 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:wfflu` matches labels `wfflu` for process with name pipeline:alignReads
+May-09 14:47:04.772 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+May-09 14:47:04.772 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+May-09 14:47:04.773 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:wfflu` matches labels `wfflu` for process with name pipeline:coverageCalc
+May-09 14:47:04.774 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+May-09 14:47:04.774 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+May-09 14:47:04.775 [main] INFO  nextflow.script.BaseScript - Downsampling!!!
+May-09 14:47:04.776 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:wfflu` matches labels `wfflu` for process with name pipeline:downSample
+May-09 14:47:04.777 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+May-09 14:47:04.777 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+May-09 14:47:04.779 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:wfflu` matches labels `wfflu` for process with name pipeline:medakaVariants
+May-09 14:47:04.779 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+May-09 14:47:04.779 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+May-09 14:47:04.782 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:wfflu` matches labels `wfflu` for process with name pipeline:makeConsensus
+May-09 14:47:04.783 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+May-09 14:47:04.783 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+May-09 14:47:04.785 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:wfflutyping` matches labels `wfflutyping` for process with name pipeline:typeFlu
+May-09 14:47:04.785 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+May-09 14:47:04.785 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+May-09 14:47:04.786 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:wfflu` matches labels `wfflu` for process with name pipeline:getVersions
+May-09 14:47:04.786 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+May-09 14:47:04.786 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+May-09 14:47:04.789 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:wfflu` matches labels `wfflu` for process with name pipeline:getParams
+May-09 14:47:04.789 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+May-09 14:47:04.789 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+May-09 14:47:04.797 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:wfflu` matches labels `wfflu` for process with name pipeline:makeReport
+May-09 14:47:04.798 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+May-09 14:47:04.798 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+May-09 14:47:04.802 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:wfflu` matches labels `wfflu` for process with name output
+May-09 14:47:04.802 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+May-09 14:47:04.802 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+May-09 14:47:04.803 [main] DEBUG nextflow.Session - Workflow process names [dsl2]: pipeline:getParams, pipeline:alignReads, pipeline:medakaVariants, combineFastq, isolateSingleFile, makeConsensus, pipeline:makeReport, pipeline:makeConsensus, pipeline:getVersions, downSample, alignReads, output, pipeline:coverageCalc, typeFlu, medakaVariants, makeReport, coverageCalc, pipeline:combineFastq, checkSampleSheet, pipeline:downSample, getVersions, pipeline:typeFlu, getParams
+May-09 14:47:04.803 [main] DEBUG nextflow.Session - Igniting dataflow network (14)
+May-09 14:47:04.805 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > pipeline:combineFastq
+May-09 14:47:04.806 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > pipeline:alignReads
+May-09 14:47:04.806 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > pipeline:coverageCalc
+May-09 14:47:04.806 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > pipeline:downSample
+May-09 14:47:04.806 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > pipeline:medakaVariants
+May-09 14:47:04.806 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > pipeline:makeConsensus
+May-09 14:47:04.806 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > pipeline:typeFlu
+May-09 14:47:04.806 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > pipeline:getVersions
+May-09 14:47:04.806 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > pipeline:getParams
+May-09 14:47:04.806 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > pipeline:makeReport
+May-09 14:47:04.806 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > output
+May-09 14:47:04.806 [main] DEBUG nextflow.script.ScriptRunner - > Awaiting termination 
+May-09 14:47:04.806 [main] DEBUG nextflow.Session - Session await
+May-09 14:47:04.864 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+May-09 14:47:04.865 [Task submitter] INFO  nextflow.Session - [2b/cae15d] Submitted process > pipeline:getParams
+May-09 14:47:04.873 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+May-09 14:47:04.873 [Task submitter] INFO  nextflow.Session - [b7/d3b10f] Submitted process > pipeline:getVersions
+May-09 14:47:04.877 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+May-09 14:47:04.877 [Task submitter] INFO  nextflow.Session - [11/31ae8a] Submitted process > pipeline:combineFastq (2)
+May-09 14:47:04.882 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+May-09 14:47:04.883 [Task submitter] INFO  nextflow.Session - [32/a3db55] Submitted process > pipeline:combineFastq (1)
+May-09 14:47:07.264 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 1; name: pipeline:getParams; status: COMPLETED; exit: 0; error: -; workDir: /Users/rasmuskopperudriis/Coding/work/new_influenza_pipline_docker/nextflow_training_set/work/2b/cae15d77c98b999021b590dbc07a52]
+May-09 14:47:07.269 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+May-09 14:47:07.269 [Task submitter] INFO  nextflow.Session - [70/56c821] Submitted process > pipeline:combineFastq (3)
+May-09 14:47:08.734 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 3; name: pipeline:combineFastq (1); status: COMPLETED; exit: 0; error: -; workDir: /Users/rasmuskopperudriis/Coding/work/new_influenza_pipline_docker/nextflow_training_set/work/32/a3db5511ad1d0d1ec42859328a55e1]
+May-09 14:47:08.744 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+May-09 14:47:08.744 [Task submitter] INFO  nextflow.Session - [88/805b3a] Submitted process > output (1)
+May-09 14:47:09.003 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 4; name: pipeline:combineFastq (2); status: COMPLETED; exit: 0; error: -; workDir: /Users/rasmuskopperudriis/Coding/work/new_influenza_pipline_docker/nextflow_training_set/work/11/31ae8a0f7c481bdf5c0530386151c4]
+May-09 14:47:10.012 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+May-09 14:47:10.014 [Task submitter] INFO  nextflow.Session - [79/ac0792] Submitted process > output (2)
+May-09 14:47:10.677 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 7; name: output (1); status: COMPLETED; exit: 0; error: -; workDir: /Users/rasmuskopperudriis/Coding/work/new_influenza_pipline_docker/nextflow_training_set/work/88/805b3a69331f6078b94c648c59230f]
+May-09 14:47:10.681 [Task monitor] DEBUG nextflow.util.ThreadPoolBuilder - Creating thread pool 'PublishDir' minSize=10; maxSize=24; workQueue=LinkedBlockingQueue[10000]; allowCoreThreadTimeout=false
+May-09 14:47:11.661 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 9; name: output (2); status: COMPLETED; exit: 0; error: -; workDir: /Users/rasmuskopperudriis/Coding/work/new_influenza_pipline_docker/nextflow_training_set/work/79/ac0792aef3612b119961067da5f1e5]
+May-09 14:47:11.666 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+May-09 14:47:11.667 [Task submitter] INFO  nextflow.Session - [a3/125643] Submitted process > pipeline:alignReads (1)
+May-09 14:47:12.897 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 2; name: pipeline:getVersions; status: COMPLETED; exit: 0; error: -; workDir: /Users/rasmuskopperudriis/Coding/work/new_influenza_pipline_docker/nextflow_training_set/work/b7/d3b10fc6473fbe72c838d9d8aefa7c]
+May-09 14:47:15.732 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 6; name: pipeline:alignReads (1); status: COMPLETED; exit: 0; error: -; workDir: /Users/rasmuskopperudriis/Coding/work/new_influenza_pipline_docker/nextflow_training_set/work/a3/12564312134c5e93f4bd352b03b923]
+May-09 14:47:15.736 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+May-09 14:47:15.736 [Task submitter] INFO  nextflow.Session - [56/fd5ed9] Submitted process > pipeline:alignReads (2)
+May-09 14:47:17.748 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 5; name: pipeline:combineFastq (3); status: COMPLETED; exit: 0; error: -; workDir: /Users/rasmuskopperudriis/Coding/work/new_influenza_pipline_docker/nextflow_training_set/work/70/56c8219996016c4669d8ba767ba15b]
+May-09 14:47:17.750 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+May-09 14:47:17.750 [Task submitter] INFO  nextflow.Session - [43/26e9ec] Submitted process > pipeline:coverageCalc (1)
+May-09 14:47:19.177 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 11; name: pipeline:coverageCalc (1); status: COMPLETED; exit: 0; error: -; workDir: /Users/rasmuskopperudriis/Coding/work/new_influenza_pipline_docker/nextflow_training_set/work/43/26e9ec1bf9235661d83bea54d92aed]
+May-09 14:47:19.181 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+May-09 14:47:19.181 [Task submitter] INFO  nextflow.Session - [84/d33adb] Submitted process > pipeline:downSample (1)
+May-09 14:47:20.089 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 8; name: pipeline:alignReads (2); status: COMPLETED; exit: 0; error: -; workDir: /Users/rasmuskopperudriis/Coding/work/new_influenza_pipline_docker/nextflow_training_set/work/56/fd5ed9ed92fbd4233e83f5e99536c7]
+May-09 14:47:20.093 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+May-09 14:47:20.093 [Task submitter] INFO  nextflow.Session - [3c/e084a2] Submitted process > output (3)
+May-09 14:47:21.527 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 12; name: output (3); status: COMPLETED; exit: 0; error: -; workDir: /Users/rasmuskopperudriis/Coding/work/new_influenza_pipline_docker/nextflow_training_set/work/3c/e084a20a347f92842db3dafe88553f]
+May-09 14:47:21.530 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+May-09 14:47:21.530 [Task submitter] INFO  nextflow.Session - [54/1051a9] Submitted process > pipeline:alignReads (3)
+May-09 14:47:30.743 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 10; name: pipeline:downSample (1); status: COMPLETED; exit: 0; error: -; workDir: /Users/rasmuskopperudriis/Coding/work/new_influenza_pipline_docker/nextflow_training_set/work/84/d33adb6d4ddab6bc77a1d16874b800]
+May-09 14:47:30.746 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+May-09 14:47:30.746 [Task submitter] INFO  nextflow.Session - [a3/82520a] Submitted process > pipeline:downSample (2)
+May-09 14:47:32.679 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 13; name: pipeline:alignReads (3); status: COMPLETED; exit: 0; error: -; workDir: /Users/rasmuskopperudriis/Coding/work/new_influenza_pipline_docker/nextflow_training_set/work/54/1051a9f914aa63b5757ee28e8293c3]
+May-09 14:47:32.681 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+May-09 14:47:32.681 [Task submitter] INFO  nextflow.Session - [4c/f00b5f] Submitted process > pipeline:coverageCalc (2)
+May-09 14:47:34.167 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 15; name: pipeline:coverageCalc (2); status: COMPLETED; exit: 0; error: -; workDir: /Users/rasmuskopperudriis/Coding/work/new_influenza_pipline_docker/nextflow_training_set/work/4c/f00b5f0c4f9bf1877b4e7af738acd1]
+May-09 14:47:34.170 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+May-09 14:47:34.170 [Task submitter] INFO  nextflow.Session - [f1/afb8f8] Submitted process > pipeline:medakaVariants (1)
+May-09 14:47:41.597 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 14; name: pipeline:downSample (2); status: COMPLETED; exit: 0; error: -; workDir: /Users/rasmuskopperudriis/Coding/work/new_influenza_pipline_docker/nextflow_training_set/work/a3/82520af73c04a895c913040dc9e6ac]
+May-09 14:47:41.600 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+May-09 14:47:41.600 [Task submitter] INFO  nextflow.Session - [a5/57f599] Submitted process > pipeline:downSample (3)
+May-09 14:47:59.999 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 18; name: pipeline:downSample (3); status: COMPLETED; exit: 0; error: -; workDir: /Users/rasmuskopperudriis/Coding/work/new_influenza_pipline_docker/nextflow_training_set/work/a5/57f599dc34a883fe20357596572e4b]
+May-09 14:48:00.001 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+May-09 14:48:00.001 [Task submitter] INFO  nextflow.Session - [64/c42f8c] Submitted process > pipeline:coverageCalc (3)
+May-09 14:48:01.332 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 17; name: pipeline:coverageCalc (3); status: COMPLETED; exit: 0; error: -; workDir: /Users/rasmuskopperudriis/Coding/work/new_influenza_pipline_docker/nextflow_training_set/work/64/c42f8ca87d2d29a8c1db5c0fbd34c0]
+May-09 14:48:01.334 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+May-09 14:48:01.334 [Task submitter] INFO  nextflow.Session - [42/59c9b1] Submitted process > pipeline:medakaVariants (2)
+May-09 14:48:14.491 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 16; name: pipeline:medakaVariants (1); status: COMPLETED; exit: 0; error: -; workDir: /Users/rasmuskopperudriis/Coding/work/new_influenza_pipline_docker/nextflow_training_set/work/f1/afb8f8296c7833dbb603843545881e]
+May-09 14:48:14.494 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+May-09 14:48:14.494 [Task submitter] INFO  nextflow.Session - [2d/7d0bdb] Submitted process > pipeline:medakaVariants (3)
+May-09 14:48:26.590 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 19; name: pipeline:medakaVariants (2); status: COMPLETED; exit: 133; error: -; workDir: /Users/rasmuskopperudriis/Coding/work/new_influenza_pipline_docker/nextflow_training_set/work/42/59c9b1c9568c3de74ff98b5659fca6]
+May-09 14:48:26.592 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+May-09 14:48:26.592 [Task submitter] INFO  nextflow.Session - [0d/6cd579] Submitted process > pipeline:makeConsensus (1)
+May-09 14:48:26.600 [Task monitor] ERROR nextflow.processor.TaskProcessor - Error executing process > 'pipeline:medakaVariants (2)'
+
+Caused by:
+  Process `pipeline:medakaVariants (2)` terminated with an error exit status (133)
+
+Command executed:
+
+  medaka consensus 252303587_N_all_merged.sorted.bam 252303587_N.hdf
+  medaka variant --gvcf reference_epi2me_FULL_NAMES.fasta 252303587_N.hdf 252303587_N.vcf --verbose
+  medaka tools annotate --debug --pad 25 252303587_N.vcf reference_epi2me_FULL_NAMES.fasta 252303587_N_all_merged.sorted.bam 252303587_N.annotate.vcf
+  
+  bcftools filter -e "ALT='.'" 252303587_N.annotate.vcf | bcftools filter -o 252303587_N.annotate.filtered.vcf -O v -e "INFO/DP<30" -
+
+Command exit status:
+  133
+
+Command output:
+  (empty)
+
+Command error:
+  [12:48:10 - Sampler] Took 0.01s to make features.
+  [12:48:10 - Sampler] Initializing sampler for consensus of region A_NA_N6:0-1413.
+  [12:48:10 - Sampler] Took 0.06s to make features.
+  [12:48:10 - Sampler] Initializing sampler for consensus of region A_NA_N7:0-1416.
+  [12:48:10 - Sampler] Took 0.06s to make features.
+  [12:48:10 - Sampler] Took 0.05s to make features.
+  [12:48:10 - Sampler] Initializing sampler for consensus of region A_NA_N9:0-1413.
+  [12:48:10 - Sampler] Initializing sampler for consensus of region A_NA_N8:0-1413.
+  [12:48:10 - Sampler] Took 0.04s to make features.
+  [12:48:10 - Sampler] Initializing sampler for consensus of region B_VIC_HA:0-1828.
+  [12:48:10 - Sampler] Took 0.08s to make features.
+  [12:48:10 - Sampler] Initializing sampler for consensus of region B_MP:0-1139.
+  [12:48:10 - Sampler] Took 0.02s to make features.
+  [12:48:10 - Sampler] Initializing sampler for consensus of region B_VIC_NA:0-1489.
+  [12:48:10 - Feature] Processed B_VIC_HA:0.0-1827.0 (median depth 570.0)
+  [12:48:10 - Sampler] Took 0.10s to make features.
+  [12:48:10 - Sampler] Region B_VIC_HA:0.0-1827.0 (4889 positions) is smaller than inference chunk length 10000, quarantining.
+  [12:48:10 - Sampler] Initializing sampler for consensus of region B_NP:0-1683.
+  [12:48:10 - Sampler] Took 0.05s to make features.
+  [12:48:10 - Sampler] Initializing sampler for consensus of region B_NS:0-1034.
+  [12:48:10 - Sampler] Took 0.04s to make features.
+  [12:48:10 - Sampler] Initializing sampler for consensus of region B_PA:0-2181.
+  [12:48:10 - Feature] Processed B_VIC_NA:0.0-1488.0 (median depth 940.0)
+  [12:48:10 - Sampler] Took 0.00s to make features.
+  [12:48:10 - Sampler] Initializing sampler for consensus of region B_PB1:0-2263.
+  [12:48:10 - Sampler] Took 0.10s to make features.
+  [12:48:10 - Sampler] Region B_VIC_NA:0.0-1488.0 (4625 positions) is smaller than inference chunk length 10000, quarantining.
+  [12:48:10 - Sampler] Initializing sampler for consensus of region B_PB2:0-2313.
+  [12:48:10 - Sampler] Took 0.00s to make features.
+  [12:48:10 - Sampler] Took 0.00s to make features.
+  [12:48:10 - PWorker] Processed 0 batches
+  [12:48:10 - PWorker] All done, 2 remainder regions.
+  [12:48:10 - Predict] Processing 2 short region(s).
+  [12:48:10 - MdlStrTF] Model <keras.engine.sequential.Sequential object at 0x7fffc1795550>
+  [12:48:10 - MdlStrTF] loading weights from /tmp/tmpuxfkt22r/model/variables/variables
+  [12:48:10 - Sampler] Initializing sampler for consensus of region B_VIC_HA:0-1828.
+  [12:48:10 - Sampler] Initializing sampler for consensus of region B_VIC_NA:0-1489.
+  [12:48:10 - PWorker] Running inference for 0.0M draft bases.
+  [12:48:11 - Feature] Processed B_VIC_NA:0.0-1488.0 (median depth 940.0)
+  [12:48:11 - Feature] Processed B_VIC_HA:0.0-1827.0 (median depth 570.0)
+  [12:48:11 - Sampler] Took 0.25s to make features.
+  [12:48:11 - Sampler] Took 0.24s to make features.
+  [12:48:18 - PWorker] Batches in cache: 2.
+  [12:48:23 - PWorker] Batches in cache: 1.
+  [12:48:23 - PWorker] 78.4% Done (0.0/0.0 Mbases) in 12.8s
+  [12:48:23 - PWorker] Processed 2 batches
+  [12:48:23 - PWorker] All done, 0 remainder regions.
+  [12:48:23 - Predict] Finished processing all regions.
+  rosetta error: unexpected valid thread with no suspend owner while resuming threads
+  .command.sh: line 3:   748 Trace/breakpoint trap   medaka variant --gvcf reference_epi2me_FULL_NAMES.fasta 252303587_N.hdf 252303587_N.vcf --verbose
+
+Work dir:
+  /Users/rasmuskopperudriis/Coding/work/new_influenza_pipline_docker/nextflow_training_set/work/42/59c9b1c9568c3de74ff98b5659fca6
+
+Tip: when you have fixed the problem you can continue the execution adding the option `-resume` to the run command line
+May-09 14:48:26.604 [Task monitor] DEBUG nextflow.Session - Session aborted -- Cause: Process `pipeline:medakaVariants (2)` terminated with an error exit status (133)
+May-09 14:48:26.612 [Task monitor] DEBUG nextflow.Session - The following nodes are still active:
+[process] pipeline:makeConsensus
+  status=ACTIVE
+  port 0: (queue) OPEN  ; channel: -
+  port 1: (value) bound ; channel: reference
+  port 2: (cntrl) -     ; channel: $
+
+[process] pipeline:typeFlu
+  status=ACTIVE
+  port 0: (queue) OPEN  ; channel: -
+  port 1: (value) bound ; channel: blastdb
+  port 2: (cntrl) -     ; channel: $
+
+[process] pipeline:makeReport
+  status=ACTIVE
+  port 0: (value) bound ; channel: metadata
+  port 1: (value) OPEN  ; channel: versions/*
+  port 2: (value) bound ; channel: coverage/*
+  port 3: (value) OPEN  ; channel: typing/*
+  port 4: (value) bound ; channel: fastqstats/*
+  port 5: (value) bound ; channel: params.json
+  port 6: (cntrl) -     ; channel: $
+
+[process] output
+  status=ACTIVE
+  port 0: (queue) OPEN  ; channel: fname
+  port 1: (cntrl) -     ; channel: $
+
+May-09 14:48:26.788 [main] DEBUG nextflow.Session - Session await > all processes finished
+May-09 14:48:26.788 [main] DEBUG nextflow.Session - Session await > all barriers passed
+May-09 14:48:26.847 [main] WARN  n.processor.TaskPollingMonitor - Killing running tasks (2)
+May-09 14:48:26.871 [main] DEBUG nextflow.trace.WorkflowStatsObserver - Workflow completed > WorkflowStats[succeededCount=18; failedCount=1; ignoredCount=0; cachedCount=0; pendingCount=2; submittedCount=1; runningCount=0; retriesCount=0; abortedCount=1; succeedDuration=3m 27s; failedDuration=50.3s; cachedDuration=0ms;loadCpus=0; loadMemory=0; peakRunning=4; peakCpus=4; peakMemory=0; ]
+May-09 14:48:26.871 [main] DEBUG nextflow.trace.TraceFileObserver - Workflow completed -- saving trace file
+May-09 14:48:26.873 [main] DEBUG nextflow.trace.ReportObserver - Workflow completed -- rendering execution report
+May-09 14:48:26.901 [main] DEBUG nextflow.trace.ReportObserver - Execution report summary data:
+  [{"cpuUsage":{"mean":52.9,"min":52.9,"q1":52.9,"q2":52.9,"q3":52.9,"max":52.9,"minLabel":"pipeline:getParams","maxLabel":"pipeline:getParams","q1Label":"pipeline:getParams","q2Label":"pipeline:getParams","q3Label":"pipeline:getParams"},"process":"getParams","mem":null,"memUsage":null,"timeUsage":null,"vmem":null,"reads":{"mean":55543,"min":55543,"q1":55543,"q2":55543,"q3":55543,"max":55543,"minLabel":"pipeline:getParams","maxLabel":"pipeline:getParams","q1Label":"pipeline:getParams","q2Label":"pipeline:getParams","q3Label":"pipeline:getParams"},"cpu":{"mean":52.9,"min":52.9,"q1":52.9,"q2":52.9,"q3":52.9,"max":52.9,"minLabel":"pipeline:getParams","maxLabel":"pipeline:getParams","q1Label":"pipeline:getParams","q2Label":"pipeline:getParams","q3Label":"pipeline:getParams"},"time":{"mean":206,"min":206,"q1":206,"q2":206,"q3":206,"max":206,"minLabel":"pipeline:getParams","maxLabel":"pipeline:getParams","q1Label":"pipeline:getParams","q2Label":"pipeline:getParams","q3Label":"pipeline:getParams"},"writes":{"mean":1422,"min":1422,"q1":1422,"q2":1422,"q3":1422,"max":1422,"minLabel":"pipeline:getParams","maxLabel":"pipeline:getParams","q1Label":"pipeline:getParams","q2Label":"pipeline:getParams","q3Label":"pipeline:getParams"}},{"cpuUsage":{"mean":44.13,"min":38.4,"q1":38.75,"q2":39.1,"q3":47,"max":54.9,"minLabel":"pipeline:combineFastq (2)","maxLabel":"pipeline:combineFastq (3)","q1Label":"pipeline:combineFastq (2)","q2Label":"pipeline:combineFastq (1)","q3Label":"pipeline:combineFastq (1)"},"process":"combineFastq","mem":{"mean":13526357.33,"min":4456448,"q1":6637568,"q2":8818688,"q3":18061312,"max":27303936,"minLabel":"pipeline:combineFastq (1)","maxLabel":"pipeline:combineFastq (3)","q1Label":"pipeline:combineFastq (1)","q2Label":"pipeline:combineFastq (2)","q3Label":"pipeline:combineFastq (2)"},"memUsage":null,"timeUsage":null,"vmem":{"mean":545913514.67,"min":151642112,"q1":227278848,"q2":302915584,"q3":743049216,"max":1183182848,"minLabel":"pipeline:combineFastq (1)","maxLabel":"pipeline:combineFastq (3)","q1Label":"pipeline:combineFastq (1)","q2Label":"pipeline:combineFastq (2)","q3Label":"pipeline:combineFastq (2)"},"reads":{"mean":73625275,"min":8431252,"q1":16096032.5,"q2":23760813,"q3":106222286.5,"max":188683760,"minLabel":"pipeline:combineFastq (1)","maxLabel":"pipeline:combineFastq (3)","q1Label":"pipeline:combineFastq (1)","q2Label":"pipeline:combineFastq (2)","q3Label":"pipeline:combineFastq (2)"},"cpu":{"mean":44.13,"min":38.4,"q1":38.75,"q2":39.1,"q3":47,"max":54.9,"minLabel":"pipeline:combineFastq (2)","maxLabel":"pipeline:combineFastq (3)","q1Label":"pipeline:combineFastq (2)","q2Label":"pipeline:combineFastq (1)","q3Label":"pipeline:combineFastq (1)"},"time":{"mean":4212.67,"min":1323,"q1":1737.5,"q2":2152,"q3":5657.5,"max":9163,"minLabel":"pipeline:combineFastq (1)","maxLabel":"pipeline:combineFastq (3)","q1Label":"pipeline:combineFastq (1)","q2Label":"pipeline:combineFastq (2)","q3Label":"pipeline:combineFastq (2)"},"writes":{"mean":52456855.67,"min":5835074,"q1":11128608.5,"q2":16422143,"q3":75767746.5,"max":135113350,"minLabel":"pipeline:combineFastq (1)","maxLabel":"pipeline:combineFastq (3)","q1Label":"pipeline:combineFastq (1)","q2Label":"pipeline:combineFastq (2)","q3Label":"pipeline:combineFastq (2)"}},{"cpuUsage":{"mean":65.37,"min":61.3,"q1":61.85,"q2":62.4,"q3":67.4,"max":72.4,"minLabel":"output (2)","maxLabel":"output (3)","q1Label":"output (2)","q2Label":"output (1)","q3Label":"output (1)"},"process":"output","mem":null,"memUsage":null,"timeUsage":null,"vmem":null,"reads":{"mean":54227.33,"min":54224,"q1":54225,"q2":54226,"q3":54229,"max":54232,"minLabel":"output (1)","maxLabel":"output (3)","q1Label":"output (1)","q2Label":"output (2)","q3Label":"output (2)"},"cpu":{"mean":65.37,"min":61.3,"q1":61.85,"q2":62.4,"q3":67.4,"max":72.4,"minLabel":"output (2)","maxLabel":"output (3)","q1Label":"output (2)","q2Label":"output (1)","q3Label":"output (1)"},"time":{"mean":98,"min":90,"q1":92,"q2":94,"q3":102,"max":110,"minLabel":"output (1)","maxLabel":"output (3)","q1Label":"output (1)","q2Label":"output (2)","q3Label":"output (2)"},"writes":{"mean":188.67,"min":188,"q1":188.5,"q2":189,"q3":189,"max":189,"minLabel":"output (1)","maxLabel":"output (3)","q1Label":"output (1)","q2Label":"output (2)","q3Label":"output (2)"}},{"cpuUsage":{"mean":50,"min":50,"q1":50,"q2":50,"q3":50,"max":50,"minLabel":"pipeline:getVersions","maxLabel":"pipeline:getVersions","q1Label":"pipeline:getVersions","q2Label":"pipeline:getVersions","q3Label":"pipeline:getVersions"},"process":"getVersions","mem":{"mean":54300672,"min":54300672,"q1":54300672,"q2":54300672,"q3":54300672,"max":54300672,"minLabel":"pipeline:getVersions","maxLabel":"pipeline:getVersions","q1Label":"pipeline:getVersions","q2Label":"pipeline:getVersions","q3Label":"pipeline:getVersions"},"memUsage":null,"timeUsage":null,"vmem":{"mean":955756544,"min":955756544,"q1":955756544,"q2":955756544,"q3":955756544,"max":955756544,"minLabel":"pipeline:getVersions","maxLabel":"pipeline:getVersions","q1Label":"pipeline:getVersions","q2Label":"pipeline:getVersions","q3Label":"pipeline:getVersions"},"reads":{"mean":11911043,"min":11911043,"q1":11911043,"q2":11911043,"q3":11911043,"max":11911043,"minLabel":"pipeline:getVersions","maxLabel":"pipeline:getVersions","q1Label":"pipeline:getVersions","q2Label":"pipeline:getVersions","q3Label":"pipeline:getVersions"},"cpu":{"mean":50,"min":50,"q1":50,"q2":50,"q3":50,"max":50,"minLabel":"pipeline:getVersions","maxLabel":"pipeline:getVersions","q1Label":"pipeline:getVersions","q2Label":"pipeline:getVersions","q3Label":"pipeline:getVersions"},"time":{"mean":5821,"min":5821,"q1":5821,"q2":5821,"q3":5821,"max":5821,"minLabel":"pipeline:getVersions","maxLabel":"pipeline:getVersions","q1Label":"pipeline:getVersions","q2Label":"pipeline:getVersions","q3Label":"pipeline:getVersions"},"writes":{"mean":8612000,"min":8612000,"q1":8612000,"q2":8612000,"q3":8612000,"max":8612000,"minLabel":"pipeline:getVersions","maxLabel":"pipeline:getVersions","q1Label":"pipeline:getVersions","q2Label":"pipeline:getVersions","q3Label":"pipeline:getVersions"}},{"cpuUsage":{"mean":54.77,"min":46.95,"q1":51.4,"q2":55.85,"q3":58.68,"max":61.5,"minLabel":"pipeline:alignReads (1)","maxLabel":"pipeline:alignReads (3)","q1Label":"pipeline:alignReads (1)","q2Label":"pipeline:alignReads (2)","q3Label":"pipeline:alignReads (2)"},"process":"alignReads","mem":{"mean":100833962.67,"min":62349312,"q1":75847680,"q2":89346048,"q3":120076288,"max":150806528,"minLabel":"pipeline:alignReads (2)","maxLabel":"pipeline:alignReads (3)","q1Label":"pipeline:alignReads (2)","q2Label":"pipeline:alignReads (1)","q3Label":"pipeline:alignReads (1)"},"memUsage":null,"timeUsage":null,"vmem":{"mean":2479052117.33,"min":824856576,"q1":839229440,"q2":853602304,"q3":3306149888,"max":5758697472,"minLabel":"pipeline:alignReads (2)","maxLabel":"pipeline:alignReads (3)","q1Label":"pipeline:alignReads (2)","q2Label":"pipeline:alignReads (1)","q3Label":"pipeline:alignReads (1)"},"reads":{"mean":74585326,"min":19307512,"q1":25922285,"q2":32537058,"q3":102224233,"max":171911408,"minLabel":"pipeline:alignReads (1)","maxLabel":"pipeline:alignReads (3)","q1Label":"pipeline:alignReads (1)","q2Label":"pipeline:alignReads (2)","q3Label":"pipeline:alignReads (2)"},"cpu":{"mean":109.53,"min":93.9,"q1":102.8,"q2":111.7,"q3":117.35,"max":123,"minLabel":"pipeline:alignReads (1)","maxLabel":"pipeline:alignReads (3)","q1Label":"pipeline:alignReads (1)","q2Label":"pipeline:alignReads (2)","q3Label":"pipeline:alignReads (2)"},"time":{"mean":5450.67,"min":2972,"q1":3155.5,"q2":3339,"q3":6690,"max":10041,"minLabel":"pipeline:alignReads (1)","maxLabel":"pipeline:alignReads (3)","q1Label":"pipeline:alignReads (1)","q2Label":"pipeline:alignReads (2)","q3Label":"pipeline:alignReads (2)"},"writes":{"mean":57322052.67,"min":15009941,"q1":20071436,"q2":25132931,"q3":78478108.5,"max":131823286,"minLabel":"pipeline:alignReads (1)","maxLabel":"pipeline:alignReads (3)","q1Label":"pipeline:alignReads (1)","q2Label":"pipeline:alignReads (2)","q3Label":"pipeline:alignReads (2)"}},{"cpuUsage":{"mean":35.4,"min":30.1,"q1":31.73,"q2":33.35,"q3":38.05,"max":42.75,"minLabel":"pipeline:coverageCalc (1)","maxLabel":"pipeline:coverageCalc (3)","q1Label":"pipeline:coverageCalc (1)","q2Label":"pipeline:coverageCalc (2)","q3Label":"pipeline:coverageCalc (2)"},"process":"coverageCalc","mem":{"mean":4636672,"min":4632576,"q1":4634624,"q2":4636672,"q3":4638720,"max":4640768,"minLabel":"pipeline:coverageCalc (2)","maxLabel":"pipeline:coverageCalc (3)","q1Label":"pipeline:coverageCalc (2)","q2Label":"pipeline:coverageCalc (1)","q3Label":"pipeline:coverageCalc (1)"},"memUsage":null,"timeUsage":null,"vmem":{"mean":151654400,"min":151654400,"q1":151654400,"q2":151654400,"q3":151654400,"max":151654400,"minLabel":"pipeline:coverageCalc (1)","maxLabel":"pipeline:coverageCalc (3)","q1Label":"pipeline:coverageCalc (1)","q2Label":"pipeline:coverageCalc (2)","q3Label":"pipeline:coverageCalc (2)"},"reads":{"mean":7943565.67,"min":973292,"q1":1836891.5,"q2":2700491,"q3":11428702.5,"max":20156914,"minLabel":"pipeline:coverageCalc (1)","maxLabel":"pipeline:coverageCalc (3)","q1Label":"pipeline:coverageCalc (1)","q2Label":"pipeline:coverageCalc (2)","q3Label":"pipeline:coverageCalc (2)"},"cpu":{"mean":70.8,"min":60.2,"q1":63.45,"q2":66.7,"q3":76.1,"max":85.5,"minLabel":"pipeline:coverageCalc (1)","maxLabel":"pipeline:coverageCalc (3)","q1Label":"pipeline:coverageCalc (1)","q2Label":"pipeline:coverageCalc (2)","q3Label":"pipeline:coverageCalc (2)"},"time":{"mean":216,"min":181,"q1":188.5,"q2":196,"q3":233.5,"max":271,"minLabel":"pipeline:coverageCalc (1)","maxLabel":"pipeline:coverageCalc (3)","q1Label":"pipeline:coverageCalc (1)","q2Label":"pipeline:coverageCalc (2)","q3Label":"pipeline:coverageCalc (2)"},"writes":{"mean":1079201.67,"min":1070392,"q1":1070608,"q2":1070824,"q3":1083606.5,"max":1096389,"minLabel":"pipeline:coverageCalc (2)","maxLabel":"pipeline:coverageCalc (3)","q1Label":"pipeline:coverageCalc (2)","q2Label":"pipeline:coverageCalc (1)","q3Label":"pipeline:coverageCalc (1)"}},{"cpuUsage":{"mean":38.08,"min":31.5,"q1":35.9,"q2":40.3,"q3":41.38,"max":42.45,"minLabel":"pipeline:downSample (3)","maxLabel":"pipeline:downSample (2)","q1Label":"pipeline:downSample (3)","q2Label":"pipeline:downSample (1)","q3Label":"pipeline:downSample (1)"},"process":"downSample","mem":{"mean":7143424,"min":5373952,"q1":5373952,"q2":5373952,"q3":8028160,"max":10682368,"minLabel":"pipeline:downSample (1)","maxLabel":"pipeline:downSample (3)","q1Label":"pipeline:downSample (1)","q2Label":"pipeline:downSample (2)","q3Label":"pipeline:downSample (2)"},"memUsage":null,"timeUsage":null,"vmem":{"mean":202693290.67,"min":151822336,"q1":151822336,"q2":151822336,"q3":228128768,"max":304435200,"minLabel":"pipeline:downSample (1)","maxLabel":"pipeline:downSample (3)","q1Label":"pipeline:downSample (1)","q2Label":"pipeline:downSample (2)","q3Label":"pipeline:downSample (2)"},"reads":{"mean":121911821,"min":24552634,"q1":40251125.5,"q2":55949617,"q3":170591414.5,"max":285233212,"minLabel":"pipeline:downSample (1)","maxLabel":"pipeline:downSample (3)","q1Label":"pipeline:downSample (1)","q2Label":"pipeline:downSample (2)","q3Label":"pipeline:downSample (2)"},"cpu":{"mean":76.17,"min":63,"q1":71.8,"q2":80.6,"q3":82.75,"max":84.9,"minLabel":"pipeline:downSample (3)","maxLabel":"pipeline:downSample (2)","q1Label":"pipeline:downSample (3)","q2Label":"pipeline:downSample (1)","q3Label":"pipeline:downSample (1)"},"time":{"mean":12613.67,"min":9834,"q1":10210,"q2":10586,"q3":14003.5,"max":17421,"minLabel":"pipeline:downSample (2)","maxLabel":"pipeline:downSample (3)","q1Label":"pipeline:downSample (2)","q2Label":"pipeline:downSample (1)","q3Label":"pipeline:downSample (1)"},"writes":{"mean":94864917.33,"min":15829367,"q1":28617966,"q2":41406565,"q3":134382692.5,"max":227358820,"minLabel":"pipeline:downSample (1)","maxLabel":"pipeline:downSample (3)","q1Label":"pipeline:downSample (1)","q2Label":"pipeline:downSample (2)","q3Label":"pipeline:downSample (2)"}},{"cpuUsage":{"mean":48.65,"min":48.65,"q1":48.65,"q2":48.65,"q3":48.65,"max":48.65,"minLabel":"pipeline:medakaVariants (1)","maxLabel":"pipeline:medakaVariants (1)","q1Label":"pipeline:medakaVariants (1)","q2Label":"pipeline:medakaVariants (1)","q3Label":"pipeline:medakaVariants (1)"},"process":"medakaVariants","mem":{"mean":459567104,"min":459567104,"q1":459567104,"q2":459567104,"q3":459567104,"max":459567104,"minLabel":"pipeline:medakaVariants (1)","maxLabel":"pipeline:medakaVariants (1)","q1Label":"pipeline:medakaVariants (1)","q2Label":"pipeline:medakaVariants (1)","q3Label":"pipeline:medakaVariants (1)"},"memUsage":null,"timeUsage":null,"vmem":{"mean":2342219776,"min":2342219776,"q1":2342219776,"q2":2342219776,"q3":2342219776,"max":2342219776,"minLabel":"pipeline:medakaVariants (1)","maxLabel":"pipeline:medakaVariants (1)","q1Label":"pipeline:medakaVariants (1)","q2Label":"pipeline:medakaVariants (1)","q3Label":"pipeline:medakaVariants (1)"},"reads":{"mean":165541974,"min":165541974,"q1":165541974,"q2":165541974,"q3":165541974,"max":165541974,"minLabel":"pipeline:medakaVariants (1)","maxLabel":"pipeline:medakaVariants (1)","q1Label":"pipeline:medakaVariants (1)","q2Label":"pipeline:medakaVariants (1)","q3Label":"pipeline:medakaVariants (1)"},"cpu":{"mean":97.3,"min":97.3,"q1":97.3,"q2":97.3,"q3":97.3,"max":97.3,"minLabel":"pipeline:medakaVariants (1)","maxLabel":"pipeline:medakaVariants (1)","q1Label":"pipeline:medakaVariants (1)","q2Label":"pipeline:medakaVariants (1)","q3Label":"pipeline:medakaVariants (1)"},"time":{"mean":32216.5,"min":25158,"q1":28687.25,"q2":32216.5,"q3":35745.75,"max":39275,"minLabel":"pipeline:medakaVariants (2)","maxLabel":"pipeline:medakaVariants (1)","q1Label":"pipeline:medakaVariants (2)","q2Label":"pipeline:medakaVariants (2)","q3Label":"pipeline:medakaVariants (2)"},"writes":{"mean":48899035,"min":48899035,"q1":48899035,"q2":48899035,"q3":48899035,"max":48899035,"minLabel":"pipeline:medakaVariants (1)","maxLabel":"pipeline:medakaVariants (1)","q1Label":"pipeline:medakaVariants (1)","q2Label":"pipeline:medakaVariants (1)","q3Label":"pipeline:medakaVariants (1)"}},{"cpuUsage":null,"process":"makeConsensus","mem":null,"memUsage":null,"timeUsage":null,"vmem":null,"reads":null,"cpu":null,"time":null,"writes":null}]
+May-09 14:48:27.682 [main] DEBUG nextflow.trace.TimelineObserver - Workflow completed -- rendering execution timeline
+May-09 14:48:27.759 [main] DEBUG nextflow.cache.CacheDB - Closing CacheDB done
+May-09 14:48:27.774 [main] DEBUG nextflow.script.ScriptRunner - > Execution complete -- Goodbye

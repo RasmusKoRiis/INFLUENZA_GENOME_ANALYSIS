@@ -1,0 +1,211 @@
+May-09 14:45:48.084 [main] DEBUG nextflow.cli.Launcher - $> nextflow run epi2me-labs/wf-flu --fastq ./Grid000/OppsettXXXXA/20230204xxxxxxxxx/demultiplexed --out_dir /Users/rasmuskopperudriis/Coding/work/new_influenza_pipline_docker/results/epi2me_wf_flu_output --min_qscore 14 --min_coverage 30 --downsample 600 --reference /Users/rasmuskopperudriis/Coding/work/new_influenza_pipline_docker/references/epi2me/reference_epi2me_FULL_NAMES.fasta
+May-09 14:45:48.139 [main] INFO  nextflow.cli.CmdRun - N E X T F L O W  ~  version 22.10.6
+May-09 14:45:48.148 [main] DEBUG nextflow.plugin.PluginsFacade - Setting up plugin manager > mode=prod; embedded=false; plugins-dir=/Users/rasmuskopperudriis/.nextflow/plugins; core-plugins: nf-amazon@1.11.3,nf-azure@0.14.2,nf-codecommit@0.1.2,nf-console@1.0.4,nf-ga4gh@1.0.4,nf-google@1.4.5,nf-tower@1.5.6,nf-wave@0.5.3
+May-09 14:45:48.153 [main] INFO  org.pf4j.DefaultPluginStatusProvider - Enabled plugins: []
+May-09 14:45:48.153 [main] INFO  org.pf4j.DefaultPluginStatusProvider - Disabled plugins: []
+May-09 14:45:48.155 [main] INFO  org.pf4j.DefaultPluginManager - PF4J version 3.4.1 in 'deployment' mode
+May-09 14:45:48.159 [main] INFO  org.pf4j.AbstractPluginManager - No plugins
+May-09 14:45:48.167 [main] DEBUG nextflow.scm.ProviderConfig - Using SCM config path: /Users/rasmuskopperudriis/.nextflow/scm
+May-09 14:45:48.506 [main] DEBUG nextflow.scm.AssetManager - Git config: /Users/rasmuskopperudriis/.nextflow/assets/epi2me-labs/wf-flu/.git/config; branch: master; remote: origin; url: https://github.com/epi2me-labs/wf-flu.git
+May-09 14:45:48.515 [main] DEBUG nextflow.scm.RepositoryFactory - Found Git repository result: [RepositoryFactory]
+May-09 14:45:48.518 [main] DEBUG nextflow.scm.AssetManager - Git config: /Users/rasmuskopperudriis/.nextflow/assets/epi2me-labs/wf-flu/.git/config; branch: master; remote: origin; url: https://github.com/epi2me-labs/wf-flu.git
+May-09 14:45:49.314 [main] INFO  nextflow.scm.AssetManager - NOTE: Your local project version looks outdated - a different revision is available in the remote repository [a21c1b843c]
+May-09 14:45:49.325 [main] DEBUG nextflow.config.ConfigBuilder - Found config base: /Users/rasmuskopperudriis/.nextflow/assets/epi2me-labs/wf-flu/nextflow.config
+May-09 14:45:49.326 [main] DEBUG nextflow.config.ConfigBuilder - Parsing config file: /Users/rasmuskopperudriis/.nextflow/assets/epi2me-labs/wf-flu/nextflow.config
+May-09 14:45:49.332 [main] DEBUG nextflow.config.ConfigBuilder - Applying config profile: `standard`
+May-09 14:45:49.406 [main] DEBUG nextflow.cli.CmdRun - Applied DSL=2 from script declararion
+May-09 14:45:49.406 [main] INFO  nextflow.cli.CmdRun - Launching `https://github.com/epi2me-labs/wf-flu` [angry_church] DSL2 - revision: 729fabb71f [master]
+May-09 14:45:49.406 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins default=[]
+May-09 14:45:49.406 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins resolved requirement=[]
+May-09 14:45:49.407 [main] DEBUG nextflow.secret.LocalSecretsProvider - Secrets store: /Users/rasmuskopperudriis/.nextflow/secrets/store.json
+May-09 14:45:49.408 [main] DEBUG nextflow.secret.SecretsLoader - Discovered secrets providers: [nextflow.secret.LocalSecretsProvider@28ee0a3c] - activable => nextflow.secret.LocalSecretsProvider@28ee0a3c
+May-09 14:45:49.441 [main] DEBUG nextflow.Session - Session UUID: 78819b8a-580a-46b3-a389-720459ef51eb
+May-09 14:45:49.441 [main] DEBUG nextflow.Session - Run name: angry_church
+May-09 14:45:49.441 [main] DEBUG nextflow.Session - Executor pool size: 8
+May-09 14:45:49.445 [main] DEBUG nextflow.util.ThreadPoolBuilder - Creating thread pool 'FileTransfer' minSize=10; maxSize=24; workQueue=LinkedBlockingQueue[10000]; allowCoreThreadTimeout=false
+May-09 14:45:49.613 [main] DEBUG nextflow.cli.CmdRun - 
+  Version: 22.10.6 build 5843
+  Created: 23-01-2023 23:20 UTC (24-01-2023 00:20 CEST)
+  System: Mac OS X 13.2.1
+  Runtime: Groovy 3.0.13 on Java HotSpot(TM) 64-Bit Server VM 17.0.5+9-LTS-191
+  Encoding: UTF-8 (UTF-8)
+  Process: 82593@Rasmuss-MacBook-Air.local [127.0.0.1]
+  CPUs: 8 - Mem: 16 GB (76.4 MB) - Swap: 4 GB (812.2 MB)
+May-09 14:45:49.622 [main] DEBUG nextflow.Session - Work-dir: /Users/rasmuskopperudriis/Coding/work/new_influenza_pipline_docker/nextflow_training_set/work [Mac OS X]
+May-09 14:45:49.633 [main] DEBUG nextflow.executor.ExecutorFactory - Extension executors providers=[]
+May-09 14:45:49.638 [main] DEBUG nextflow.Session - Observer factory: DefaultObserverFactory
+May-09 14:45:49.670 [main] DEBUG nextflow.cache.CacheFactory - Using Nextflow cache factory: nextflow.cache.DefaultCacheFactory
+May-09 14:45:49.675 [main] DEBUG nextflow.util.CustomThreadPool - Creating default thread pool > poolSize: 9; maxThreads: 1000
+May-09 14:45:49.706 [main] DEBUG nextflow.Session - Session start
+May-09 14:45:49.707 [main] DEBUG nextflow.trace.TraceFileObserver - Workflow started -- trace file: /Users/rasmuskopperudriis/Coding/work/new_influenza_pipline_docker/results/epi2me_wf_flu_output/execution/trace.txt
+May-09 14:45:49.713 [main] DEBUG nextflow.Session - Using default localLib path: /Users/rasmuskopperudriis/.nextflow/assets/epi2me-labs/wf-flu/lib
+May-09 14:45:49.714 [main] DEBUG nextflow.Session - Adding to the classpath library: /Users/rasmuskopperudriis/.nextflow/assets/epi2me-labs/wf-flu/lib
+May-09 14:45:49.714 [main] DEBUG nextflow.Session - Adding to the classpath library: /Users/rasmuskopperudriis/.nextflow/assets/epi2me-labs/wf-flu/lib/nfcore_external_java_deps.jar
+May-09 14:45:50.530 [main] DEBUG nextflow.script.ScriptRunner - > Launching execution
+May-09 14:45:50.849 [main] WARN  nextflow.Nextflow - Found unexpected parameters:
+* --process_label: wfflu
+May-09 14:45:50.850 [main] INFO  nextflow.Nextflow - - [2mIgnore this warning: params.schema_ignore_params = "process_label" [0m
+May-09 14:45:50.857 [main] INFO  nextflow.Nextflow - 
+[0;92m||||||||||   [0m[2m_____ ____ ___ ____  __  __ _____      _       _
+[0;92m||||||||||  [0m[2m| ____|  _ \_ _|___ \|  \/  | ____|    | | __ _| |__  ___
+[0;33m|||||       [0m[2m|  _| | |_) | |  __) | |\/| |  _| _____| |/ _` | '_ \/ __|
+[0;33m|||||       [0m[2m| |___|  __/| | / __/| |  | | |__|_____| | (_| | |_) \__ \
+[0;94m||||||||||  [0m[2m|_____|_|  |___|_____|_|  |_|_____|    |_|\__,_|_.__/|___/
+[0;94m||||||||||  [0m[1mwf-flu v0.0.6-g729fabb[0m
+[2m--------------------------------------------------------------------------------[0m
+[1mCore Nextflow options[0m
+  [0;34mrevision       : [0;32mmaster[0m
+  [0;34mrunName        : [0;32mangry_church[0m
+  [0;34mcontainerEngine: [0;32mdocker[0m
+  [0;34mlaunchDir      : [0;32m/Users/rasmuskopperudriis/Coding/work/new_influenza_pipline_docker/nextflow_training_set[0m
+  [0;34mworkDir        : [0;32m/Users/rasmuskopperudriis/Coding/work/new_influenza_pipline_docker/nextflow_training_set/work[0m
+  [0;34mprojectDir     : [0;32m/Users/rasmuskopperudriis/.nextflow/assets/epi2me-labs/wf-flu[0m
+  [0;34muserName       : [0;32mrasmuskopperudriis[0m
+  [0;34mprofile        : [0;32mstandard[0m
+  [0;34mconfigFiles    : [0;32m/Users/rasmuskopperudriis/.nextflow/assets/epi2me-labs/wf-flu/nextflow.config[0m
+
+[1mInput Options[0m
+  [0;34mfastq          : [0;32m./Grid000/OppsettXXXXA/20230204xxxxxxxxx/demultiplexed[0m
+
+[1mOutput Options[0m
+  [0;34mout_dir        : [0;32m/Users/rasmuskopperudriis/Coding/work/new_influenza_pipline_docker/results/epi2me_wf_flu_output[0m
+
+[1mAdvanced Options[0m
+  [0;34mreference      : [0;32m/Users/rasmuskopperudriis/Coding/work/new_influenza_pipline_docker/references/epi2me/reference_epi2me_FULL_NAMES.fasta[0m
+  [0;34mmin_coverage   : [0;32m30[0m
+  [0;34mmin_qscore     : [0;32m14[0m
+  [0;34mdownsample     : [0;32m600[0m
+
+!! Only displaying parameters that differ from the pipeline defaults !!
+[2m--------------------------------------------------------------------------------[0m
+If you use epi2me-labs/wf-flu for your analysis please cite:
+
+* The nf-core framework
+  https://doi.org/10.1038/s41587-020-0439-x
+
+
+[2m--------------------------------------------------------------------------------[0m
+This is epi2me-labs/wf-flu v0.0.6-g729fabb.
+[2m--------------------------------------------------------------------------------[0m
+May-09 14:45:51.164 [main] INFO  nextflow.Nextflow - Checking fastq input.
+May-09 14:45:51.179 [main] INFO  nextflow.Nextflow - Non barcoded directories detected.
+May-09 14:45:51.226 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:wfflu` matches labels `wfflu` for process with name pipeline:combineFastq
+May-09 14:45:51.227 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+May-09 14:45:51.227 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+May-09 14:45:51.229 [main] DEBUG nextflow.executor.Executor - [warm up] executor > local
+May-09 14:45:51.231 [main] DEBUG n.processor.LocalPollingMonitor - Creating local task monitor for executor 'local' > cpus=4; memory=8 GB; capacity=8; pollInterval=100ms; dumpInterval=5m
+May-09 14:45:51.256 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:wfflu` matches labels `wfflu` for process with name pipeline:alignReads
+May-09 14:45:51.256 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+May-09 14:45:51.256 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+May-09 14:45:51.257 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:wfflu` matches labels `wfflu` for process with name pipeline:coverageCalc
+May-09 14:45:51.258 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+May-09 14:45:51.258 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+May-09 14:45:51.259 [main] INFO  nextflow.script.BaseScript - Downsampling!!!
+May-09 14:45:51.261 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:wfflu` matches labels `wfflu` for process with name pipeline:downSample
+May-09 14:45:51.261 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+May-09 14:45:51.261 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+May-09 14:45:51.263 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:wfflu` matches labels `wfflu` for process with name pipeline:medakaVariants
+May-09 14:45:51.263 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+May-09 14:45:51.263 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+May-09 14:45:51.267 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:wfflu` matches labels `wfflu` for process with name pipeline:makeConsensus
+May-09 14:45:51.267 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+May-09 14:45:51.267 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+May-09 14:45:51.269 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:wfflutyping` matches labels `wfflutyping` for process with name pipeline:typeFlu
+May-09 14:45:51.270 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+May-09 14:45:51.270 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+May-09 14:45:51.271 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:wfflu` matches labels `wfflu` for process with name pipeline:getVersions
+May-09 14:45:51.271 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+May-09 14:45:51.271 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+May-09 14:45:51.274 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:wfflu` matches labels `wfflu` for process with name pipeline:getParams
+May-09 14:45:51.275 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+May-09 14:45:51.275 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+May-09 14:45:51.285 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:wfflu` matches labels `wfflu` for process with name pipeline:makeReport
+May-09 14:45:51.285 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+May-09 14:45:51.285 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+May-09 14:45:51.289 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:wfflu` matches labels `wfflu` for process with name output
+May-09 14:45:51.289 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+May-09 14:45:51.289 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+May-09 14:45:51.290 [main] DEBUG nextflow.Session - Workflow process names [dsl2]: pipeline:getParams, pipeline:alignReads, pipeline:medakaVariants, combineFastq, isolateSingleFile, makeConsensus, pipeline:makeReport, pipeline:makeConsensus, pipeline:getVersions, downSample, alignReads, output, pipeline:coverageCalc, typeFlu, medakaVariants, makeReport, coverageCalc, pipeline:combineFastq, checkSampleSheet, pipeline:downSample, getVersions, pipeline:typeFlu, getParams
+May-09 14:45:51.290 [main] DEBUG nextflow.Session - Igniting dataflow network (14)
+May-09 14:45:51.292 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > pipeline:combineFastq
+May-09 14:45:51.293 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > pipeline:alignReads
+May-09 14:45:51.293 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > pipeline:coverageCalc
+May-09 14:45:51.293 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > pipeline:downSample
+May-09 14:45:51.293 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > pipeline:medakaVariants
+May-09 14:45:51.293 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > pipeline:makeConsensus
+May-09 14:45:51.293 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > pipeline:typeFlu
+May-09 14:45:51.293 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > pipeline:getVersions
+May-09 14:45:51.293 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > pipeline:getParams
+May-09 14:45:51.293 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > pipeline:makeReport
+May-09 14:45:51.294 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > output
+May-09 14:45:51.294 [main] DEBUG nextflow.script.ScriptRunner - > Awaiting termination 
+May-09 14:45:51.294 [main] DEBUG nextflow.Session - Session await
+May-09 14:45:51.351 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+May-09 14:45:51.352 [Task submitter] INFO  nextflow.Session - [fa/580e92] Submitted process > pipeline:getVersions
+May-09 14:45:51.356 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+May-09 14:45:51.356 [Task submitter] INFO  nextflow.Session - [81/80f929] Submitted process > pipeline:getParams
+May-09 14:45:51.414 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+May-09 14:45:51.414 [Task submitter] INFO  nextflow.Session - [e0/90fa63] Submitted process > pipeline:combineFastq (1)
+May-09 14:45:51.418 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+May-09 14:45:51.418 [Task submitter] INFO  nextflow.Session - [5b/99d625] Submitted process > pipeline:combineFastq (3)
+May-09 14:45:53.144 [SIGINT handler] DEBUG nextflow.Session - Session aborted -- Cause: SIGINT
+May-09 14:45:53.160 [SIGINT handler] DEBUG nextflow.Session - The following nodes are still active:
+[process] pipeline:alignReads
+  status=ACTIVE
+  port 0: (queue) OPEN  ; channel: -
+  port 1: (value) bound ; channel: reference
+  port 2: (cntrl) -     ; channel: $
+
+[process] pipeline:coverageCalc
+  status=ACTIVE
+  port 0: (queue) OPEN  ; channel: -
+  port 1: (cntrl) -     ; channel: $
+
+[process] pipeline:downSample
+  status=ACTIVE
+  port 0: (queue) OPEN  ; channel: -
+  port 1: (value) bound ; channel: reference
+  port 2: (cntrl) -     ; channel: $
+
+[process] pipeline:medakaVariants
+  status=ACTIVE
+  port 0: (queue) OPEN  ; channel: -
+  port 1: (value) bound ; channel: reference
+  port 2: (cntrl) -     ; channel: $
+
+[process] pipeline:makeConsensus
+  status=ACTIVE
+  port 0: (queue) OPEN  ; channel: -
+  port 1: (value) bound ; channel: reference
+  port 2: (cntrl) -     ; channel: $
+
+[process] pipeline:typeFlu
+  status=ACTIVE
+  port 0: (queue) OPEN  ; channel: -
+  port 1: (value) bound ; channel: blastdb
+  port 2: (cntrl) -     ; channel: $
+
+[process] pipeline:makeReport
+  status=ACTIVE
+  port 0: (value) bound ; channel: metadata
+  port 1: (value) OPEN  ; channel: versions/*
+  port 2: (value) OPEN  ; channel: coverage/*
+  port 3: (value) OPEN  ; channel: typing/*
+  port 4: (value) OPEN  ; channel: fastqstats/*
+  port 5: (value) OPEN  ; channel: params.json
+  port 6: (cntrl) -     ; channel: $
+
+[process] output
+  status=ACTIVE
+  port 0: (queue) OPEN  ; channel: fname
+  port 1: (cntrl) -     ; channel: $
+
+May-09 14:45:53.225 [main] DEBUG nextflow.Session - Session await > all processes finished
+May-09 14:45:53.225 [main] DEBUG nextflow.Session - Session await > all barriers passed
+May-09 14:45:53.286 [main] WARN  n.processor.TaskPollingMonitor - Killing running tasks (4)
+May-09 14:45:53.379 [main] DEBUG nextflow.trace.WorkflowStatsObserver - Workflow completed > WorkflowStats[succeededCount=0; failedCount=0; ignoredCount=0; cachedCount=0; pendingCount=1; submittedCount=0; runningCount=0; retriesCount=0; abortedCount=4; succeedDuration=0ms; failedDuration=0ms; cachedDuration=0ms;loadCpus=0; loadMemory=0; peakRunning=4; peakCpus=4; peakMemory=0; ]
+May-09 14:45:53.379 [main] DEBUG nextflow.trace.TraceFileObserver - Workflow completed -- saving trace file
+May-09 14:45:53.380 [main] DEBUG nextflow.trace.ReportObserver - Workflow completed -- rendering execution report
+May-09 14:45:53.391 [main] DEBUG nextflow.trace.ReportObserver - Execution report summary data:
+  [{"cpuUsage":null,"process":"getVersions","mem":null,"memUsage":null,"timeUsage":null,"vmem":null,"reads":null,"cpu":null,"time":null,"writes":null},{"cpuUsage":null,"process":"getParams","mem":null,"memUsage":null,"timeUsage":null,"vmem":null,"reads":null,"cpu":null,"time":null,"writes":null},{"cpuUsage":null,"process":"combineFastq","mem":null,"memUsage":null,"timeUsage":null,"vmem":null,"reads":null,"cpu":null,"time":null,"writes":null}]
+May-09 14:45:53.450 [SIGINT handler] INFO  nextflow.Session - Adieu
