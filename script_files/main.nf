@@ -52,10 +52,24 @@ process REMOVE_HIGH_N_SAMPLES {
     """
 }
 
-process ADD_NAME_INSIDE_FASTA {
+process CORRECT_FASTA {
 
     input:
     path in_fasta from n_removed_fasta_files_ch
+
+    output:
+    path "corrected_fasta_${in_fasta.name}" into coreccted_fasta_files_ch
+
+    script:
+    """
+    python ${params.script_files}/sequence_fix.py ${in_fasta} corrected_fasta_${in_fasta.name}
+    """
+}
+
+process ADD_NAME_INSIDE_FASTA {
+
+    input:
+    path in_fasta from coreccted_fasta_files_ch
 
     output:
     path "names_added_${in_fasta.name}" into name_added_fasta_files_ch
@@ -108,7 +122,7 @@ process MERGE_AND_EXTRACT_FASTA {
     cat single_fasta_files/*.fasta > "\${runname}_merged.fasta"
 
     # EXTRACT SEGMENTS INTO FILES
-    match_strings=("A_H1_NS" "A_H3_NS" "A_H3_MP" "A_H1_MP" "A_H3_NP" "A_H1_NP" "A_H3_PA" "A_H1_PA" "A_H3_PB1" "A_H1_PB1" "A_H3_PB2" "A_H1_PB2" "A_HA_H1" "A_HA_H10" "A_HA_H11" "A_HA_H13" "A_HA_H14" "A_HA_H15" "A_HA_H16" "A_HA_H2" "A_HA_H3" "A_HA_H4" "A_HA_H5" "A_HA_H6" "A_HA_H7" "A_HA_H8" "A_HA_H9" "A_NA_N1" "A_NA_N2" "A_NA_N3" "A_NA_N5" "A_NA_N6" "A_NA_N7" "A_NA_N8" "A_NA_N9" "B_MP" "B_VIC_HA" "B_VIC_NA")
+    match_strings=("A_H1_NS" "A_H3_NS" "A_XX_MP" "A_H1_MP" "A_H3_NP" "A_H1_NP" "A_H3_PA" "A_H1_PA" "A_H3_PB1" "A_H1_PB1" "A_H3_PB2" "A_H1_PB2" "A_HA_H1" "A_HA_H10" "A_HA_H11" "A_HA_H13" "A_HA_H14" "A_HA_H15" "A_HA_H16" "A_HA_H2" "A_HA_H3" "A_HA_H4" "A_HA_H5" "A_HA_H6" "A_HA_H7" "A_HA_H8" "A_HA_H9" "A_NA_N1" "A_NA_N2" "A_NA_N3" "A_NA_N5" "A_NA_N6" "A_NA_N7" "A_NA_N8" "A_NA_N9" "B_MP" "B_VIC_HA" "B_VIC_NA")
 
     for match_string in "\${match_strings[@]}"; do
         seqkit grep -r -p "\${match_string}\$" "\${runname}_merged.fasta" > "\${match_string}.fasta"
@@ -223,8 +237,6 @@ process ADD_SAMPLE_COLUMN_TO_TABLE {
 
 process MERGE_SUMMARY_FILE {
 
-    
-
     input:
     path csv_file from stat_summary_sample_ch.collect()
 
@@ -240,8 +252,6 @@ process MERGE_SUMMARY_FILE {
 }
 
 process UPDATE_SUMMARY_FILE {
-
-    
 
     input:
     path bam_folder from params.out_bam
@@ -274,8 +284,6 @@ process UPDATE_SUMMARY_FILE {
 
 process MERGE_STAT_SUMMARY {
 
-   
-
     input:
     path csv_file from stat_summary_updated_ch
 
@@ -295,8 +303,6 @@ process MERGE_STAT_SUMMARY {
 }
 
 process ADD_FRAGMENT_QUALITY_TO_LONG_SUMMARY {
-
-    
 
     input:
     path csv_file from stat_summary_updated_ch2.flatMap().filter { file -> file.name.endsWith('long_summary.csv') }
@@ -361,8 +367,10 @@ process CLEANUP_OUT_STAT_DIR {
     """
 }
 
-process TRANSLATE_FAST_FILES_TO_AMINOACID_NOTUPDATED {
+process TRANSLATE_FAST_FILES_TO_AMINOACID {
     publishDir params.out_mutation, mode: 'copy'
+
+    errorStrategy 'ignore'
 
     input:
     path fasta_file from merged_and_extracted_ch.flatten()
@@ -519,6 +527,8 @@ process APPEND_FLUSERVER_LIST_TO_MAIN_SUMMARY {
 
 process FIND_H1_CLADE {
 
+    errorStrategy 'ignore'
+
     input:
     path fasta_file from merged_and_extracted_ch.flatten().filter{ it.name == 'A_HA_H1.fasta' }
 
@@ -544,6 +554,8 @@ process FIND_H1_CLADE {
 
 process FIND_H3_CLADE {
 
+    errorStrategy 'ignore'
+
     input:
     path fasta_file from merged_and_extracted_ch2.flatten().filter{ it.name == 'A_HA_H3.fasta' }
 
@@ -567,6 +579,8 @@ process FIND_H3_CLADE {
 
 process FIND_VIC_CLADE { 
 
+    errorStrategy 'ignore'
+
     input:
     path fasta_file from merged_and_extracted_ch3.flatten().filter{ it.name == 'B_VIC_HA.fasta' }
 
@@ -589,7 +603,6 @@ process FIND_VIC_CLADE {
 
 process APPEND_CLADES_TO_MAIN_SUMMARY {
 
-    
     input:
     path h1_clade_csv from h1_clade_ch
     path h3_clade_csv from h3_clade_ch
