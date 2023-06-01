@@ -58,11 +58,11 @@ process CORRECT_FASTA {
     path in_fasta from n_removed_fasta_files_ch
 
     output:
-    path "corrected_fasta_${in_fasta.name}" into coreccted_fasta_files_ch
+    path "${in_fasta.name}" into coreccted_fasta_files_ch
 
     script:
     """
-    python ${params.script_files}/sequence_fix.py ${in_fasta} corrected_fasta_${in_fasta.name}
+    python ${params.script_files}/sequence_fix.py ${in_fasta} ${in_fasta.name}
     """
 }
 
@@ -427,15 +427,15 @@ process GENERATE_MUTATION_LIST {
 }
 
 process MERGE_MUTATION_LIST {
-    
-    
 
+    publishDir params.out_mutation, mode: 'copy'
+    
     input:
     path csv_file from mutation_singel_summary_ch.collect()
    
 
     output:
-    path "*.csv" into mutation_merged_summary_ch, mutation_merged_summary_ch2, mutation_merged_summary_ch3
+    path "*.csv" into mutation_merged_summary_ch, mutation_merged_summary_ch2, mutation_merged_summary_ch3, mutation_merged_summary_ch4, mutation_merged_summary_ch5, mutation_merged_summary_ch6
 
     script:
     """
@@ -501,6 +501,57 @@ process FIND_FLUSERVER_MUTATIONS {
     """
 }
 
+process FIND_NA_LOW_MUTATIONS {
+
+    input:
+    path csv_file from mutation_merged_summary_ch4
+
+    output:
+    path "${params.runname}_na_low_mutation.csv" into na_low_mutation_ch
+
+    script:
+    """
+    python3 "${params.script_files}/mutation_annotation.py" "${csv_file}" \
+        "${params.in_dataset}/RESITENCE_MUTATION/NA_LOW.csv" \
+        "${params.runname}_na_low_mutation.csv"  \
+        "NA_LOW"  \
+    """
+}
+
+process FIND_NA_MEDIUM_MUTATIONS {
+
+    input:
+    path csv_file from mutation_merged_summary_ch5
+
+    output:
+    path "${params.runname}_na_medium_mutation.csv" into na_medium_mutation_ch
+
+    script:
+    """
+    python3 "${params.script_files}/mutation_annotation.py" "${csv_file}" \
+        "${params.in_dataset}/RESITENCE_MUTATION/NA_MEDIUM.csv" \
+        "${params.runname}_na_medium_mutation.csv"  \
+        "NA_MEDIUM"  \
+    """
+}
+
+process FIND_NA_HIGH_MUTATIONS {
+
+    input:
+    path csv_file from mutation_merged_summary_ch6
+
+    output:
+    path "${params.runname}_na_high_mutation.csv" into na_high_mutation_ch
+
+    script:
+    """
+    python3 "${params.script_files}/mutation_annotation.py" "${csv_file}" \
+        "${params.in_dataset}/RESITENCE_MUTATION/NA_HIGH.csv" \
+        "${params.runname}_na_high_mutation.csv"  \
+        "NA_HIGH"  \
+    """
+}
+
 process APPEND_FLUSERVER_LIST_TO_MAIN_SUMMARY {
 
     
@@ -525,90 +576,129 @@ process APPEND_FLUSERVER_LIST_TO_MAIN_SUMMARY {
     """
 }
 
-process FIND_H1_CLADE {
+process APPEND_NA_LOW_LIST_TO_MAIN_SUMMARY {
 
-    errorStrategy 'ignore'
-
+    
     input:
-    path fasta_file from merged_and_extracted_ch.flatten().filter{ it.name == 'A_HA_H1.fasta' }
+    path csv_file from na_low_mutation_ch
+    path main_summary from mutation_fluserver_add_main_summary_ch
 
     output:
-    path "A_H1_HA_CLADE.csv" into h1_clade_ch
+    path "${params.runname}_long_quality_mutation_summary.csv" into mutation_na_low_add_main_summary_ch
 
     script:
     """
-    cat ${fasta_file}
-
-    mkdir -p nextclade_output
-    nextclade run \
-        --input-dataset ${params.in_dataset}/HA_NEXTCLADE/A_HA_H1 \
-        --output-all nextclade_output \
-        ${fasta_file}
-
-    python3 "${params.script_files}/clade_table_fix.py" nextclade_output/nextclade.csv A_H1_HA_CLADE.csv 
-
+    python3 "${params.script_files}/column_lookup_append.py"  \
+        "${main_summary}" \
+        "${csv_file}"  \
+        "${params.runname}_long_quality_mutation_summary.csv" \
+        "," \
+        "," \
+        "sample,Ref_Name" \
+        "sample,Ref_Name" \
+        "NA_LOW" \
     """
-
-
 }
 
-process FIND_H3_CLADE {
+process APPEND_NA_MEDIUM_LIST_TO_MAIN_SUMMARY {
 
-    errorStrategy 'ignore'
-
+    
     input:
-    path fasta_file from merged_and_extracted_ch2.flatten().filter{ it.name == 'A_HA_H3.fasta' }
+    path csv_file from na_medium_mutation_ch
+    path main_summary from mutation_na_low_add_main_summary_ch
 
     output:
-    path "A_H3_HA_CLADE.csv" into h3_clade_ch
+    path "${params.runname}_long_quality_mutation_summary.csv" into mutation_na_medium_add_main_summary_ch
 
     script:
     """
-    mkdir -p nextclade_output
-
-    nextclade run \
-        --input-dataset ${params.in_dataset}/HA_NEXTCLADE/A_HA_H3 \
-        --output-all nextclade_output \
-        ${fasta_file}
-
-    python3 "${params.script_files}/clade_table_fix.py" nextclade_output/nextclade.csv A_H3_HA_CLADE.csv 
-
+    python3 "${params.script_files}/column_lookup_append.py"  \
+        "${main_summary}" \
+        "${csv_file}"  \
+        "${params.runname}_long_quality_mutation_summary.csv" \
+        "," \
+        "," \
+        "sample,Ref_Name" \
+        "sample,Ref_Name" \
+        "NA_MEDIUM" \
     """
-
 }
 
-process FIND_VIC_CLADE { 
+process APPEND_NA_HIGH_LIST_TO_MAIN_SUMMARY {
 
-    errorStrategy 'ignore'
-
+    
     input:
-    path fasta_file from merged_and_extracted_ch3.flatten().filter{ it.name == 'B_VIC_HA.fasta' }
+    path csv_file from na_high_mutation_ch
+    path main_summary from mutation_na_medium_add_main_summary_ch
 
     output:
-    path "B_VIC_HA_CLADE.csv" into vic_clade_ch
+    path "${params.runname}_long_quality_mutation_summary.csv" into mutation_na_high_add_main_summary_ch
 
     script:
     """
-    mkdir -p nextclade_output
-    nextclade run \
-        --input-dataset ${params.in_dataset}/HA_NEXTCLADE/B_VIC \
-        --output-all nextclade_output \
-        ${fasta_file}
+    python3 "${params.script_files}/column_lookup_append.py"  \
+        "${main_summary}" \
+        "${csv_file}"  \
+        "${params.runname}_long_quality_mutation_summary.csv" \
+        "," \
+        "," \
+        "sample,Ref_Name" \
+        "sample,Ref_Name" \
+        "NA_HIGH" \
+    """
+}
 
-    python3 "${params.script_files}/clade_table_fix.py" nextclade_output/nextclade.csv B_VIC_HA_CLADE.csv 
+process FIND_CLADE {
+
+    publishDir params.out_stat, mode: 'copy'
+    
+    errorStrategy 'ignore'
+    
+    input:
+    path fasta_file from merged_and_extracted_ch.flatten()
+
+    output:
+    path "*_CLADE.csv" into clade_ch
+
+    script:
+    """
+    echo "${fasta_file.name}"
+
+    fasta_name="${fasta_file.name}"
+    if [[ "\${fasta_name}" == *HA_H1.fasta ]]; then
+        clade=A_HA_H1
+        clade_2=A_H1_HA
+    elif [[ "\${fasta_name}" == *VIC_HA.fasta ]]; then
+        clade=B_VIC
+        clade_2=B_VIC_HA
+    elif [[ "\${fasta_name}" == A_HA_H3.fasta ]]; then
+        clade=A_HA_H3
+        clade_2=A_H3_HA
+    else
+        clade=""
+        clade_2=""
+    fi
+
+    if [[ "\${clade}" != "" ]]; then
+        mkdir -p nextclade_output
+        nextclade run \
+            --input-dataset ${params.in_dataset}/HA_NEXTCLADE/\${clade} \
+            --output-all nextclade_output \
+            ${fasta_file}
+
+        python3 "${params.script_files}/clade_table_fix.py" nextclade_output/nextclade.csv \${clade_2}_CLADE.csv 
+
+    fi
 
     """
-
 }
+
 
 process APPEND_CLADES_TO_MAIN_SUMMARY {
 
     input:
-    path h1_clade_csv from h1_clade_ch
-    path h3_clade_csv from h3_clade_ch
-    path vic_clade_csv from vic_clade_ch
-
-    path "${params.runname}_long_quality_mutation_summary.csv" from mutation_fluserver_add_main_summary_ch
+    path clade_csv from clade_ch.collect()
+    path "${params.runname}_long_quality_mutation_summary.csv" from mutation_na_high_add_main_summary_ch
 
     output:
     path "${params.runname}_clade_summary.csv" into merged_clade_ch
@@ -616,9 +706,8 @@ process APPEND_CLADES_TO_MAIN_SUMMARY {
     script:
     """
     mkdir clade_files
-    cp -r ${h1_clade_csv} clade_files/
-    cp -r ${h3_clade_csv} clade_files/
-    cp -r ${vic_clade_csv} clade_files/
+
+    cp -r ${clade_csv} clade_files/
 
     python3 "${params.script_files}/table_merger.py" "CLADE.csv"  "${params.runname}_merged_clade.csv" "./"
 
@@ -712,8 +801,6 @@ process APPEND_CYTOSIN_RATIO_823_LIST_TO_MAIN_SUMMARY {
 
 process APPEND_THYMINE_RATIO_823_LIST_TO_MAIN_SUMMARY {
     
-    publishDir params.out_stat, mode: 'copy'
-    
     input:
     path csv_file from merged_depth_file_ch2
     path main_summary from summary_cytosin_ch
@@ -732,6 +819,24 @@ process APPEND_THYMINE_RATIO_823_LIST_TO_MAIN_SUMMARY {
         "sample,Ref_Name" \
         "sample,Ref_Name" \
         "thymine_ratio__823" \
+    """
+}
+
+process SUMMARY_FILTERING {
+    
+    publishDir params.out_stat, mode: 'copy'
+    
+    input:
+    path csv_file from summary_thymine_ch
+   
+    output:
+    path "${params.runname}_summary.csv" into summary_ch
+
+    script:
+    """
+    python3 "${params.script_files}/summary_filtering.py"  \
+        "${csv_file}" \
+        "${params.runname}_summary.csv"  \
     """
 }
 

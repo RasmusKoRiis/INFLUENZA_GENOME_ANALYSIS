@@ -41,6 +41,6 @@ for i, row in df2.iterrows():
         if len(matches) > 0:
             df2.at[i, lookup] = ';'.join(matches)
         else:
-            df2.at[i, lookup] = 'NO FLUSERVER MATCH'
+            df2.at[i, lookup] = 'NO MATCH'
 
 df2.to_csv(output_file, index=False)
