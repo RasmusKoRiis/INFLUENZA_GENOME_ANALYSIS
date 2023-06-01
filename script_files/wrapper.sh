@@ -57,6 +57,8 @@ if [ "$demultiplexing" == "TRUE" ]; then
   cd input_fastq
   python3 INFLUENZA_GENOME_ANALYSIS/script_files/rename_fastq_folders.py $input_fastq *csv
   echo "Demultiplexing and renaming done"
+else 
+  input_fastq=${run_folder}
 fi
 
 echo "The run folder is $run_folder"
