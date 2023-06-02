@@ -45,19 +45,21 @@ git clone https://github.com/RasmusKoRiis/INFLUENZA_GENOME_ANALYSIS.git
 #CHECK INPUT FOLDER
 if [ ! -d "$run_folder" ]; then
   echo "$run_folder does not exist, creating it and running rsync"
-  ip_address='XX'
+  ip_address='X'
   mkdir ${run_folder}_data
   cd ${run_folder}_data
   rsync -avr --exclude '*.fast5' grid@${ip_address}:/data/${run_folder}/* ./
-  find $basedir -type d -name "fastq_pass" -exec cp -R {}/* $basedir \; -exec mv {} $basedir/${run_folder}_fastq \;
+  cd $basedir
+  find $basedir -type d -name "fastq_pass" -exec cp -R {}/ $basedir \; -exec mv {} $basedir/${run_folder}_fastq \;
   cd $basedir
 fi
 
 #CHECK DEMULTIPLEX STATUS
 if [ "$demultiplexing" == "TRUE" ]; then
-  guppy_barcoder -i ${run_folder}_fastq -s input_fastq --barcode_kits INFLUENSA --enable_trim_barcodes
+  guppy_barcoder -i ${run_folder}_fastq/fastq_pass -s input_fastq --barcode_kits INFLUENSA --enable_trim_barcodes
+  rm -r guppy_barcoder-core-dump-db
   python3 INFLUENZA_GENOME_ANALYSIS/script_files/rename_fastq_folders.py input_fastq *csv
-  input_fastq=${basedir}/${input_fastq}
+  input_fastq=${basedir}/input_fastq
   echo "Demultiplexing and renaming done"
 else 
   input_fastq=${basedir}/${run_folder}
@@ -130,7 +132,7 @@ docker run --rm -it --name $container_name \
 cd $basedir
 cp -r $runname/results_docker/results $basedir
 cp -r $runname/results_docker/results/stats/"${run_folder}_summary.csv" $basedir
-rm -r INFLUENZA_GENOME_ANALYSIS
+#rm -r INFLUENZA_GENOME_ANALYSIS
 
 
 

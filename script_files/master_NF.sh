@@ -11,8 +11,6 @@ script="/app/script_files"
 runname=$(basename $startdir)
 runname2=$RUNNAME 
 
-echo $runname2
-
 cd $startdir
 
 result_folder="/app/results"
