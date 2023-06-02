@@ -49,26 +49,25 @@ if [ ! -d "$run_folder" ]; then
   mkdir ${run_folder}_data
   cd ${run_folder}_data
   rsync -avr --exclude '*.fast5' grid@${ip_address}:/data/${run_folder}/* ./
+  find $basedir -type d -name "fastq_pass" -exec cp -R {}/* $basedir \; -exec mv {} $basedir/${run_folder}_fastq \;
+  cd $basedir
 fi
 
 #CHECK DEMULTIPLEX STATUS
 if [ "$demultiplexing" == "TRUE" ]; then
-  guppy_barcoder -i ${run_folder} -s input_fastq --barcode_kits INFLUENSA --enable_trim_barcodes
-  cd input_fastq
-  python3 INFLUENZA_GENOME_ANALYSIS/script_files/rename_fastq_folders.py $input_fastq *csv
+  guppy_barcoder -i ${run_folder}_fastq -s input_fastq --barcode_kits INFLUENSA --enable_trim_barcodes
+  python3 INFLUENZA_GENOME_ANALYSIS/script_files/rename_fastq_folders.py input_fastq *csv
+  input_fastq=${basedir}/${input_fastq}
   echo "Demultiplexing and renaming done"
 else 
-  input_fastq=${run_folder}
+  input_fastq=${basedir}/${run_folder}
 fi
 
-echo "The run folder is $run_folder"
-input_fastq=input_fastq
+echo "The run folder is $input_fastq"
+#input_fastq=input_fastq
 
 #DOWNLOAD SCRIPT
 git clone https://github.com/RasmusKoRiis/INFLUENZA_GENOME_ANALYSIS.git
-
-mv $input_fastq INFLUENZA_GENOME_ANALYSIS
-mv *csv INFLUENZA_GENOME_ANALYSIS
 
 cd INFLUENZA_GENOME_ANALYSIS
 
@@ -93,20 +92,6 @@ mutation_folder="$result_folder/mutation"
 dataset_folder="$startdir/dataset"
 reference="$startdir/references"
 
-# COPY DEMULTIPLEXED FASTQ-FILES TO fastq-dir 
-cd $startdir
-mkdir -p fastq_dir
-find . -name "*.fastq" -exec cp {} fastq_dir/ \;
-fastq="$startdir/fastq_dir"
-
-cd fastq_dir
-for file in *.fastq
-do
-  dir="${file%.fastq}"
-  mkdir -p "$dir"
-  mv "$file" "$dir"
-done
-
 cd $startdir
 
 #PRE POCESSING
@@ -116,20 +101,17 @@ image_name_qa="new_influensa_pipeline_qa_v1.1"
 docker_file_qa="Dockerfile.QA"  
 
 # Building the Docker image for QA
-docker buildx build --platform linux/amd64 -t $image_name_qa --build-arg input_fastq=$fastq -f Dockerfile.QA .
-
-
+docker buildx build --platform linux/amd64 -t $image_name_qa --build-arg input_fastq=$input_fastq/ -f Dockerfile.QA .
 
 #CHECK IF IRMA SHOULD RUN
 
-
 # EPI2ME NEXTFLOW 
-nextflow run epi2me-labs/wf-flu -r v0.0.6 --fastq fastq_dir  --out_dir $result_folder/epi2me_wf_flu_output --min_qscore 14  --min_coverage 50 --reference "$startdir/references/epi2me/reference_epi2me_FULL_NAMES.fasta"
+nextflow run epi2me-labs/wf-flu -r v0.0.6 --fastq $input_fastq/  --out_dir $result_folder/epi2me_wf_flu_output --min_qscore 14  --min_coverage 50 --reference "$startdir/references/epi2me/reference_epi2me_FULL_NAMES.fasta"
 
 cd $startdir
 
 container_name="influenza_container"
-image_name="new_influensa_pipeline_v1.1"
+image_name="new_influensa_pipeline_v0.1"
 
 docker buildx build --platform linux/amd64 -t $image_name .
 

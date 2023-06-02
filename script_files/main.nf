@@ -823,18 +823,35 @@ process APPEND_THYMINE_RATIO_823_LIST_TO_MAIN_SUMMARY {
 }
 
 process SUMMARY_FILTERING {
+        
+    input:
+    path csv_file from summary_thymine_ch
+   
+    output:
+    path "${params.runname}_summary.csv" into summary_tmep_ch
+
+    script:
+    """
+    python3 "${params.script_files}/summary_filtering.py"  \
+        "${csv_file}" \
+        "${params.runname}_summary.csv"  \
+    """
+}
+
+
+process FINALIZING_SUMMARY {
     
     publishDir params.out_stat, mode: 'copy'
     
     input:
-    path csv_file from summary_thymine_ch
+    path csv_file from summary_tmep_ch
    
     output:
     path "${params.runname}_summary.csv" into summary_ch
 
     script:
     """
-    python3 "${params.script_files}/summary_filtering.py"  \
+    python3 "${params.script_files}/group_sample_summary.py"  \
         "${csv_file}" \
         "${params.runname}_summary.csv"  \
     """
