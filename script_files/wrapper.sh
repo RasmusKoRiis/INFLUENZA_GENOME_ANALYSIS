@@ -115,8 +115,6 @@ image_name="new_influensa_pipeline_v0.1"
 
 docker buildx build --platform linux/amd64 -t $image_name .
 
-echo $run_folder
-
 # Run the Docker container to execute the rest of the pipeline and copy the results
 docker run --rm -it --name $container_name \
   -v $startdir/results_docker:/results_docker \
