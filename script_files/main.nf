@@ -84,7 +84,7 @@ process ADD_NAME_INSIDE_FASTA {
     """
 }
 
-process MOVE_FASTA_FILES {
+process SAVE_FASTA_FILES {
     publishDir params.out_fasta, mode: 'copy'
 
     input:
@@ -136,7 +136,7 @@ process MERGE_AND_EXTRACT_FASTA {
     """
 }
 
-process MOVE_BAM_FILES {
+process SAVE_BAM_FILES {
 
     publishDir "${params.out_bam}", mode: 'copy'
 
@@ -152,7 +152,7 @@ process MOVE_BAM_FILES {
     """
 }
 
-process MOVE_BAI_FILES {
+process SAVE_BAI_FILES {
 
     publishDir "${params.out_bam}", mode: 'copy'
 
@@ -168,7 +168,7 @@ process MOVE_BAI_FILES {
     """
 }
 
-process MOVE_STAT_FILES {
+process SAVE_STAT_FILES {
     publishDir "${params.out_stat}/", mode: 'copy'
 
     input:
@@ -204,7 +204,6 @@ process ADD_SAMPLE_NAME_AND_MERGE_STAT {
 
 process GENERATE_STAT_SUMMARY {
 
-
     input:
     path bam_file from moved_bam_ch.flatMap().filter { it.name.endsWith('.bam') }
 
@@ -219,7 +218,7 @@ process GENERATE_STAT_SUMMARY {
 
 }
 
-process ADD_SAMPLE_COLUMN_TO_TABLE {
+process ADD_SAMPLE_COLUMN_TO_SUMMARY {
 
     input:
     path csv_file from stat_summary_ch
@@ -302,7 +301,7 @@ process MERGE_STAT_SUMMARY {
     """
 }
 
-process ADD_FRAGMENT_QUALITY_TO_LONG_SUMMARY {
+process ADD_FRAGMENT_QUALITY_TO_SUMMARY {
 
     input:
     path csv_file from stat_summary_updated_ch2.flatMap().filter { file -> file.name.endsWith('long_summary.csv') }
@@ -327,8 +326,6 @@ process ADD_FRAGMENT_QUALITY_TO_LONG_SUMMARY {
 }
 
 process SUBTYPE_B_FIX {
-
-    
 
     input:
     path quality_file from quality_long_summary_ch
@@ -443,7 +440,7 @@ process MERGE_MUTATION_LIST {
     """
 }
 
-process APPEND_MUTATION_LIST_TO_MAIN_SUMMARY{
+process APPEND_MUTATION_LIST_TO_SUMMARY{
     
     input:
     path csv_file from mutation_merged_summary_ch
@@ -466,7 +463,7 @@ process APPEND_MUTATION_LIST_TO_MAIN_SUMMARY{
     """
 }
 
-process ADD_HA2_MUTATION_LIST_TO_MAIN_SUMMARY {
+process ADD_HA2_MUTATION_LIST_TO_SUMMARY {
 
     input:
     path summary_file from mutation_add_main_summary_ch
@@ -552,9 +549,8 @@ process FIND_NA_HIGH_MUTATIONS {
     """
 }
 
-process APPEND_FLUSERVER_LIST_TO_MAIN_SUMMARY {
+process APPEND_FLUSERVER_LIST_TO_SUMMARY {
 
-    
     input:
     path csv_file from fluserver_mutation_ch
     path main_summary from mutation_HA2_add_main_summary_ch
@@ -576,7 +572,7 @@ process APPEND_FLUSERVER_LIST_TO_MAIN_SUMMARY {
     """
 }
 
-process APPEND_NA_LOW_LIST_TO_MAIN_SUMMARY {
+process APPEND_NA_LOW_LIST_TO_SUMMARY {
 
     
     input:
@@ -600,7 +596,7 @@ process APPEND_NA_LOW_LIST_TO_MAIN_SUMMARY {
     """
 }
 
-process APPEND_NA_MEDIUM_LIST_TO_MAIN_SUMMARY {
+process APPEND_NA_MEDIUM_LIST_TO_SUMMARY {
 
     
     input:
@@ -624,7 +620,7 @@ process APPEND_NA_MEDIUM_LIST_TO_MAIN_SUMMARY {
     """
 }
 
-process APPEND_NA_HIGH_LIST_TO_MAIN_SUMMARY {
+process APPEND_NA_HIGH_LIST_TO_SUMMARY {
 
     
     input:
@@ -694,7 +690,7 @@ process FIND_CLADE {
 }
 
 
-process APPEND_CLADES_TO_MAIN_SUMMARY {
+process APPEND_CLADES_TO_SUMMARY {
 
     input:
     path clade_csv from clade_ch.collect()
@@ -775,7 +771,7 @@ process MERGE_DEPTH_FILES {
 
 }
 
-process APPEND_CYTOSIN_RATIO_823_LIST_TO_MAIN_SUMMARY {
+process APPEND_CYTOSIN_RATIO_823_LIST_TO_SUMMARY {
 
     input:
     path csv_file from merged_depth_file_ch
@@ -799,7 +795,7 @@ process APPEND_CYTOSIN_RATIO_823_LIST_TO_MAIN_SUMMARY {
     """
 }
 
-process APPEND_THYMINE_RATIO_823_LIST_TO_MAIN_SUMMARY {
+process APPEND_THYMINE_RATIO_823_LIST_TO_SUMMARY {
     
     input:
     path csv_file from merged_depth_file_ch2
@@ -823,6 +819,8 @@ process APPEND_THYMINE_RATIO_823_LIST_TO_MAIN_SUMMARY {
 }
 
 process SUMMARY_FILTERING {
+
+    publishDir params.out_stat, mode: 'copy'
         
     input:
     path csv_file from summary_thymine_ch
@@ -838,24 +836,6 @@ process SUMMARY_FILTERING {
     """
 }
 
-
-process FINALIZING_SUMMARY {
-    
-    publishDir params.out_stat, mode: 'copy'
-    
-    input:
-    path csv_file from summary_tmep_ch
-   
-    output:
-    path "${params.runname}_summary.csv" into summary_ch
-
-    script:
-    """
-    python3 "${params.script_files}/group_sample_summary.py"  \
-        "${csv_file}" \
-        "${params.runname}_summary.csv"  \
-    """
-}
 
 
 

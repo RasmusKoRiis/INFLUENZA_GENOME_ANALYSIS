@@ -14,7 +14,9 @@ df_pivot = df.pivot(index='sample', columns='Ref_Name')
 df_pivot.columns = ['_'.join(col).rstrip('_') for col in df_pivot.columns.values]
 
 # List of columns that should be in the dataframe
-required_columns = ['Subtype', 'Matches', 'Avg_Depth_A_HA_H1', 'Avg_Depth_A_NA_N1', 'Avg_Depth_A_H1_MP', 'Avg_Depth_A_H1_NP',
+required_columns = ['Subtype', 
+                    'Matches', 
+                    'Avg_Depth_A_HA_H1', 'Avg_Depth_A_NA_N1', 'Avg_Depth_A_H1_MP', 'Avg_Depth_A_H1_NP',
                 'Thymine_ratio_823_N1','Cytosine_ratio_823_N1','Avg_Depth_A_H1_NS', 'Avg_Depth_A_H1_PA', 'Avg_Depth_A_H1_PB1', 'Avg_Depth_A_H1_PB2',
                 'Avg_Depth_A_HA_H3', 'Avg_Depth_A_NA_N2', 'Avg_Depth_A_H3_MP', 'Avg_Depth_A_H3_NP',
                 'Avg_Depth_A_H3_NS', 'Avg_Depth_A_H3_PA', 'Avg_Depth_A_H3_PB1', 'Avg_Depth_A_H3_PB2',
@@ -37,7 +39,6 @@ df_pivot = df_pivot.reset_index()
 
 # Find all columns containing 'Subtype'
 subtype_cols = [col for col in df_pivot.columns if 'Subtype' in col]
-
 
 # Merge columns containing 'Subtype'
 merged_subtype_col = df_pivot[subtype_cols].mode(axis=1)
@@ -166,7 +167,7 @@ column_names_map = {col: col.replace('Differences', 'Mutations') if 'Differences
 # use the rename method to change the column names
 df_pivot = df_pivot.rename(columns=column_names_map)
 
-# Rename COlumn
+# Rename Column
 df_pivot = df_pivot.rename(columns={'Matches': 'Fluserver_matches'})
 
 # clade_fix
