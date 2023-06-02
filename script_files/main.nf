@@ -10,6 +10,7 @@ params.out_mutation = ""
 params.in_dataset = ""
 params.script_files = ""
 params.runname = ""
+params.runname2 = ""
 params.reference = ""
 
 
@@ -833,6 +834,25 @@ process SUMMARY_FILTERING {
     python3 "${params.script_files}/summary_filtering.py"  \
         "${csv_file}" \
         "${params.runname}_summary.csv"  \
+    """
+}
+
+process FINALIZING_SUMMARY {
+    
+    publishDir params.out_stat, mode: 'copy'
+    
+    input:
+    path csv_file from summary_tmep_ch
+   
+    output:
+    path "${params.runname2}_summary.csv" into summary_ch
+
+    script:
+    """
+    python3 "${params.script_files}/group_sample_summary.py"  \
+        "${csv_file}" \
+        "${params.runname2}_summary.csv"  \
+        "${params.runname2}"  \
     """
 }
 

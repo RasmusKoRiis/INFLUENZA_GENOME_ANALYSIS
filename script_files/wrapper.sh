@@ -115,14 +115,25 @@ image_name="new_influensa_pipeline_v0.1"
 
 docker buildx build --platform linux/amd64 -t $image_name .
 
+echo $run_folder
+
 # Run the Docker container to execute the rest of the pipeline and copy the results
 docker run --rm -it --name $container_name \
   -v $startdir/results_docker:/results_docker \
+  -e RUNNAME=$run_folder \
   $image_name bash -c "script_files/master_NF.sh && cp -r /app/results /results_docker"
 
 
+
 # Copy the results from the Docker container to the local machine
-docker cp $container_name:/app/results $startdir/results_docker
+#docker cp $container_name:/app/results $startdir/results_docker
+
+#COpy and clean up folders
+cd $basedir
+cp -r $runname/results_docker/results $basedir
+cp -r $runname/results_docker/results/stats/"${run_folder}_summary.csv" $basedir
+rm -r INFLUENZA_GENOME_ANALYSIS
+
 
 
 

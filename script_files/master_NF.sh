@@ -9,6 +9,9 @@ date=$(date +"%Y-%m-%d_%H-%M-%S")
 startdir=$(pwd)
 script="/app/script_files"
 runname=$(basename $startdir)
+runname2=$RUNNAME 
+
+echo $runname2
 
 cd $startdir
 
@@ -36,9 +39,8 @@ NXF_VER=22.10.6 nextflow run "script_files/main.nf" \
     --in_dataset "$dataset_folder"\
     --reference "$reference"\
     --runname "$runname"\
+    --runname2 "$runname2"\
     --results "$result_folder"\
 
 
-#FINALIZIN§G SUMMARY
-#python3 "$script/group_sample_summary.py" "$stat_folder/"$runname"_long_quality_mutation_summary.csv" "$result_folder"/"$runname"_final.csv
 

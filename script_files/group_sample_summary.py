@@ -4,6 +4,11 @@ import numpy as np
 
 csv_file = sys.argv[1]
 output_file = sys.argv[2]
+runname = sys.argv[3]
+
+#csv_file = "/Users/rasmuskopperudriis/Coding/work_folder/test/INFLUENZA_GENOME_ANALYSIS/results_docker/results/stat/app_summary.csv"
+#output_file = "/Users/rasmuskopperudriis/Coding/work_folder/test/INFLUENZA_GENOME_ANALYSIS/results_docker/results/stat/summary.csv"
+#runname = "INFL01"
 
 df = pd.read_csv(csv_file)
 
@@ -15,15 +20,15 @@ df_pivot.columns = ['_'.join(col).rstrip('_') for col in df_pivot.columns.values
 
 # List of columns that should be in the dataframe
 required_columns = ['Subtype', 
-                    'Matches', 
-                    'Avg_Depth_A_HA_H1', 'Avg_Depth_A_NA_N1', 'Avg_Depth_A_H1_MP', 'Avg_Depth_A_H1_NP',
-                'Thymine_ratio_823_N1','Cytosine_ratio_823_N1','Avg_Depth_A_H1_NS', 'Avg_Depth_A_H1_PA', 'Avg_Depth_A_H1_PB1', 'Avg_Depth_A_H1_PB2',
-                'Avg_Depth_A_HA_H3', 'Avg_Depth_A_NA_N2', 'Avg_Depth_A_H3_MP', 'Avg_Depth_A_H3_NP',
+                    'FluserverV1', 
+                    'Avg_Depth_A_HA_H1', 'Avg_Depth_A_NA_N1', 'Avg_Depth_A_H1_MP', 'Avg_Depth_A_XX_NP',
+                'thymine_ratio_823_N1','cytosine_ratio_823_N1','Avg_Depth_A_H1_NS', 'Avg_Depth_A_H1_PA', 'Avg_Depth_A_H1_PB1', 'Avg_Depth_A_H1_PB2',
+                'Avg_Depth_A_HA_H3', 'Avg_Depth_A_NA_N2', 'Avg_Depth_A_H3_NP',
                 'Avg_Depth_A_H3_NS', 'Avg_Depth_A_H3_PA', 'Avg_Depth_A_H3_PB1', 'Avg_Depth_A_H3_PB2',
                 'Avg_Depth_B_VIC_HA', 'Avg_Depth_B_VIC_NA', 
-                'Differences_A_HA_H1', 'Differences_A_NA_N1', 'Differences_A_H1_MP', 'Differences_A_H1_NP',
+                'Differences_A_HA_H1', 'Differences_A_NA_N1', 'Differences_A_XX_MP', 'Differences_A_H1_NP',
                 'Differences_A_H1_NS', 'Differences_A_H1_PA', 'Differences_A_H1_PB1', 'Differences_A_H1_PB2',
-                'Differences_A_HA_H3', 'Differences_A_NA_N2', 'Differences_A_H3_MP', 'Differences_A_H3_NP',
+                'Differences_A_HA_H3', 'Differences_A_NA_N2', 'Differences_A_H3_NP',
                 'Differences_A_H3_NS', 'Differences_A_H3_PA', 'Differences_A_H3_PB1', 'Differences_A_H3_PB2',
                 'Differences_B_VIC_HA', 'Differences_B_VIC_NA']
 
@@ -52,16 +57,16 @@ df_pivot = df_pivot.drop(subtype_cols, axis=1)
 # Concatenate the original data with the new merged column
 df_pivot = pd.concat([df_pivot, merged_subtype_col], axis=1)
 
-#MATCHES
+#FluserverV1
 
 # Find all columns containing 'Matches'
-matches_cols = [col for col in df_pivot.columns if 'Matches' in col]
+matches_cols = [col for col in df_pivot.columns if 'FluserverV1' in col]
 
 # Merge columns containing 'Matches'
 merged_matches_col = df_pivot[matches_cols].mode(axis=1)
 
 # Rename the new column to 'Matches'
-merged_matches_col.columns = ['Matches']
+merged_matches_col.columns = ['FluserverV1']
 
 # Drop the original columns containing 'Matches'
 df_pivot = df_pivot.drop(matches_cols, axis=1)
@@ -132,29 +137,35 @@ df_pivot = df_pivot.drop(cyt_cols, axis=1)
 # Concatenate the original data with the new merged column
 df_pivot = pd.concat([df_pivot, merged_cyt_col], axis=1)
 
-print(df_pivot)
+
+#Add columns for runname and sample_ID
+df_pivot['RunName'] = runname
+df_pivot['SequenceID'] = df_pivot['RunName'].astype(str) + "_" + df_pivot['sample'].astype(str)
+
+
+
 
 # select only columns to keep - complete list
-df_pivot = df_pivot.loc[:, ['sample', 'Subtype', 'Matches', 'Clade','Avg_Depth_A_HA_H1', 'Avg_Depth_A_NA_N1', 'Avg_Depth_A_H1_MP', 'Avg_Depth_A_H1_NP',
+df_pivot = df_pivot.loc[:, ['SequenceID','RunName','sample', 'Subtype', 'FluserverV1', 'Clade','Avg_Depth_A_HA_H1', 'Avg_Depth_A_NA_N1', 'Avg_Depth_A_XX_MP', 'Avg_Depth_A_H1_NP',
                 'Thymine_ratio_823_N1','Cytosine_ratio_823_N1','Avg_Depth_A_H1_NS', 'Avg_Depth_A_H1_PA', 'Avg_Depth_A_H1_PB1', 'Avg_Depth_A_H1_PB2',
-                'Avg_Depth_A_HA_H3', 'Avg_Depth_A_NA_N2', 'Avg_Depth_A_H3_MP', 'Avg_Depth_A_H3_NP',
+                'Avg_Depth_A_HA_H3', 'Avg_Depth_A_NA_N2', 'Avg_Depth_A_H3_NP',
                 'Avg_Depth_A_H3_NS', 'Avg_Depth_A_H3_PA', 'Avg_Depth_A_H3_PB1', 'Avg_Depth_A_H3_PB2',
                 'Avg_Depth_B_VIC_HA', 'Avg_Depth_B_VIC_NA', 
-                'Differences_A_HA_H1', 'Differences_A_NA_N1', 'Differences_A_H1_MP', 'Differences_A_H1_NP',
+                'Differences_A_HA_H1', 'Differences_A_NA_N1', 'Differences_A_XX_MP', 'Differences_A_H1_NP',
                 'Differences_A_H1_NS', 'Differences_A_H1_PA', 'Differences_A_H1_PB1', 'Differences_A_H1_PB2',
-                'Differences_A_HA_H3', 'Differences_A_NA_N2', 'Differences_A_H3_MP', 'Differences_A_H3_NP',
+                'Differences_A_HA_H3', 'Differences_A_NA_N2', 'Differences_A_H3_NP',
                 'Differences_A_H3_NS', 'Differences_A_H3_PA', 'Differences_A_H3_PB1', 'Differences_A_H3_PB2',
                 'Differences_B_VIC_HA', 'Differences_B_VIC_NA']]
 
 # create a list of columns in the desired order
-new_order = ['sample', 'Subtype', 'Matches', 'Clade','Thymine_ratio_823_N1','Cytosine_ratio_823_N1','Avg_Depth_A_HA_H1', 'Avg_Depth_A_NA_N1', 'Avg_Depth_A_H1_MP', 'Avg_Depth_A_H1_NP',
+new_order = ['SequenceID','RunName','sample', 'Subtype', 'FluserverV1', 'Clade','Thymine_ratio_823_N1','Cytosine_ratio_823_N1','Avg_Depth_A_HA_H1', 'Avg_Depth_A_NA_N1', 'Avg_Depth_A_XX_MP', 'Avg_Depth_A_H1_NP',
              'Avg_Depth_A_H1_NS', 'Avg_Depth_A_H1_PA', 'Avg_Depth_A_H1_PB1', 'Avg_Depth_A_H1_PB2',
-             'Avg_Depth_A_HA_H3', 'Avg_Depth_A_NA_N2', 'Avg_Depth_A_H3_MP', 'Avg_Depth_A_H3_NP',
+             'Avg_Depth_A_HA_H3', 'Avg_Depth_A_NA_N2', 'Avg_Depth_A_H3_NP',
              'Avg_Depth_A_H3_NS', 'Avg_Depth_A_H3_PA', 'Avg_Depth_A_H3_PB1', 'Avg_Depth_A_H3_PB2',
              'Avg_Depth_B_VIC_HA', 'Avg_Depth_B_VIC_NA', 
-             'Differences_A_HA_H1', 'Differences_A_NA_N1', 'Differences_A_H1_MP', 'Differences_A_H1_NP',
+             'Differences_A_HA_H1', 'Differences_A_NA_N1', 'Differences_A_XX_MP', 'Differences_A_H1_NP',
              'Differences_A_H1_NS', 'Differences_A_H1_PA', 'Differences_A_H1_PB1', 'Differences_A_H1_PB2',
-             'Differences_A_HA_H3', 'Differences_A_NA_N2', 'Differences_A_H3_MP', 'Differences_A_H3_NP',
+             'Differences_A_HA_H3', 'Differences_A_NA_N2', 'Differences_A_H3_NP',
              'Differences_A_H3_NS', 'Differences_A_H3_PA', 'Differences_A_H3_PB1', 'Differences_A_H3_PB2',
              'Differences_B_VIC_HA', 'Differences_B_VIC_NA']
 
@@ -168,7 +179,7 @@ column_names_map = {col: col.replace('Differences', 'Mutations') if 'Differences
 df_pivot = df_pivot.rename(columns=column_names_map)
 
 # Rename Column
-df_pivot = df_pivot.rename(columns={'Matches': 'Fluserver_matches'})
+df_pivot = df_pivot.rename(columns={'FluserverV1': 'Fluserver_matches'})
 
 # clade_fix
 for index, row in df_pivot.iterrows():
