@@ -39,6 +39,7 @@ NXF_VER=22.10.6 nextflow run "script_files/main.nf" \
     --runname "$runname"\
     --runname2 "$runname2"\
     --results "$result_folder"\
+    --script_version "$INFLUENZA_V1_VERSION" \
 
 
 

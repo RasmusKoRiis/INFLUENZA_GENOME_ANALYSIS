@@ -6,8 +6,6 @@ from datetime import datetime
 # Get the current date and time
 start_time = datetime.now()
 
-print("Start time:", start_time)
-
 def add_missing_columns(df, required_columns):
     for col in required_columns:
         if not any(col in s for s in df.columns):
@@ -52,6 +50,7 @@ def process_dataframe(df, runname, required_columns, column_names_map, quality_c
     
     df['RunName'] = runname
     df['ScriptTimestamp'] = start_time
+    df['ScriptVersion'] = script_version
     df['SampleApprovalStatus'] = ''
     df['SequenceID'] = df['RunName'].astype(str) + "_" + df['sample'].astype(str)
 
@@ -112,7 +111,8 @@ def main(csv_file, output_file, runname):
                         'Differences_B_VIC_NA',
                         'ScriptTimestamp',
                         'SampleApprovalStatus',
-                        'Quality']
+                        'Quality',
+                        'ScriptVersion']
  
     column_names_map = {
         'SequenceID': 'SequenceID',
@@ -163,7 +163,8 @@ def main(csv_file, output_file, runname):
         'Differences_B_VIC_NA': 'Mutations B VIC NA',
         'ScriptTimestamp': 'Script Timestamp',
         'SampleApprovalStatus': 'Sample Approval Status',
-        'Quality' : 'Quality'
+        'Quality' : 'Quality',
+        'ScriptVersion' : 'Script Version'
     }
 
     quality_columns = ['H1', 'H3', 'H5', 'H9', 'N1', 'N2', 'B']
@@ -176,5 +177,6 @@ if __name__ == "__main__":
     csv_file = sys.argv[1]
     output_file = sys.argv[2]
     runname = sys.argv[3]
+    script_version = sys.argv[4]
     main(csv_file, output_file, runname)
 

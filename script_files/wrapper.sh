@@ -2,6 +2,9 @@
 #Pipline for generation of Influenza A + B whole genome sequences, 
 #including analysis producing mutation calling, vaccine-contamination protocols and more....
 
+export INFLUENZA_V1_VERSION="1.0"
+export LAB_PROTOCOL=""
+
 #COMMAND LINE OPTIONS
 while getopts ":i:dh" opt; do
   case ${opt} in
@@ -78,6 +81,7 @@ date=$(date +"%Y-%m-%d_%H-%M-%S")
 startdir=$(pwd)
 script="$startdir/script_files"
 runname=$(basename $startdir)
+script_name=
 
 #FOLDER FOR RESULTS AND SEQUENCES
 mkdir results
@@ -120,7 +124,7 @@ docker buildx build --platform linux/amd64 -t $image_name .
 # Run the Docker container to execute the rest of the pipeline and copy the results
 docker run --rm -it --name $container_name \
   -v $startdir/results_docker:/results_docker \
-  -e RUNNAME=$run_folder \
+  -e RUNNAME=$run_folder -e INFLUENZA_V1_VERSION=INFLUENZA_V1_VERSION  \
   $image_name bash -c "script_files/master_NF.sh && cp -r /app/results /results_docker"
 
 

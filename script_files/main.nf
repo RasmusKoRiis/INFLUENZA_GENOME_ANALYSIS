@@ -11,6 +11,7 @@ params.in_dataset = ""
 params.script_files = ""
 params.runname = ""
 params.runname2 = ""
+params.script_version = ""
 params.reference = ""
 
 
@@ -853,6 +854,7 @@ process FINALIZING_SUMMARY {
         "${csv_file}" \
         "${params.runname2}_summary.csv"  \
         "${params.runname2}"  \
+        "${params.script_version}"  \
     """
 }
 
