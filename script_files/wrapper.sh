@@ -128,14 +128,10 @@ docker run --rm -it --name $container_name \
   $image_name bash -c "script_files/master_NF.sh && cp -r /app/results /results_docker"
 
 
-
-# Copy the results from the Docker container to the local machine
-#docker cp $container_name:/app/results $startdir/results_docker
-
-#COpy and clean up folders
+#Copy and clean up folders
 cd $basedir
 cp -r $runname/results_docker/results $basedir
-cp -r $runname/results_docker/results/stats/"${run_folder}_summary.csv" $basedir
+cp results/stats/*_summary.csv $basedir
 #rm -r INFLUENZA_GENOME_ANALYSIS
 
 
