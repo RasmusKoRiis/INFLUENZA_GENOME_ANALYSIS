@@ -727,7 +727,7 @@ process APPEND_CLADES_TO_SUMMARY {
 process GENERATE_DEPTH_FILES {
 
     errorStrategy 'ignore'
-    
+
     input:
     path bam_file from moved_bam_ch2
 
@@ -841,6 +841,8 @@ process SUMMARY_FILTERING {
 }
 
 process FINALIZING_SUMMARY {
+
+    errorStrategy 'ignore'
     
     publishDir params.out_stat, mode: 'copy'
     
