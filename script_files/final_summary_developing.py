@@ -19,9 +19,14 @@ def add_missing_columns(df, required_columns):
 def merge_and_rename_cols(df, search_str, new_col_name):
     cols = [col for col in df.columns if search_str in col]
     merged_col = df[cols].mode(axis=1)
-    merged_col.columns = [new_col_name]
+    print(merged_col.head())
+    print(merged_col.columns)
+
+    # If more than one mode, write 'MIXED' in the cell
+    merged_col = merged_col.apply(lambda row: 'MIXED' if row.count() > 1 else row[0], axis=1)
+    
     df = df.drop(cols, axis=1)
-    df = pd.concat([df, merged_col], axis=1)
+    df = pd.concat([df, merged_col.rename(new_col_name)], axis=1)
     return df
 
 def rename_columns(df, column_names_map):
@@ -175,7 +180,7 @@ def main(csv_file, output_file, runname):
     df.to_csv(output_file, index=False)
 
 if __name__ == "__main__":
-    csv_file = "/Users/rasmuskopperudriis/Coding/work_folder/test/results/stat/app_summary.csv"
-    output_file = "/Users/rasmuskopperudriis/Coding/work_folder/test/test.csv"
+    csv_file = "/Users/rasmuskopperudriis/Downloads/app_summary.csv"
+    output_file = "/Users/rasmuskopperudriis/Coding/work_folder/test/test02.csv"
     runname = "INFL01"
     main(csv_file, output_file, runname)
