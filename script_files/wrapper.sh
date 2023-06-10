@@ -112,7 +112,7 @@ docker buildx build --platform linux/amd64 -t $image_name_qa --build-arg input_f
 #CHECK IF IRMA SHOULD RUN
 
 # EPI2ME NEXTFLOW 
-nextflow run epi2me-labs/wf-flu -r v0.0.6 --fastq $input_fastq/  --out_dir $result_folder/epi2me_wf_flu_output --min_qscore 14  --min_coverage 50 --reference "$startdir/references/epi2me/reference_epi2me_FULL_NAMES.fasta"
+nextflow run epi2me-labs/wf-flu -r v0.0.6 --fastq $input_fastq/  --out_dir $result_folder/epi2me_wf_flu_output --min_qscore 10  --min_coverage 50 --reference "$startdir/references/epi2me/reference_epi2me_FULL_NAMES.fasta" --downsample  300
 
 cd $startdir
 
