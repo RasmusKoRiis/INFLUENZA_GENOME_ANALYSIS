@@ -15,6 +15,5 @@ df = df[df['Mapped_Reads'] >= 15]
 # Save the filtered DataFrame to a new csv file
 df.to_csv(output_file, index=False)
 
-
 # Save the final dataframe to a CSV file
 df.to_csv(output_file, index=False)

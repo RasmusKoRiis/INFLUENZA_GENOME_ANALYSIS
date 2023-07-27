@@ -117,7 +117,7 @@ nextflow run epi2me-labs/wf-flu -r v0.0.6 --fastq $input_fastq/  --out_dir $resu
 cd $startdir
 
 container_name="influenza_container"
-image_name="new_influensa_pipeline_v0.1"
+image_name="new_influensa_pipeline_v0.2"
 
 docker buildx build --platform linux/amd64 -t $image_name .
 
