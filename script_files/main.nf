@@ -122,7 +122,7 @@ process MERGE_AND_EXTRACT_FASTA {
 
     # MERGING FASTA FILES
     cat single_fasta_files/*.fasta > "\${runname}_merged.fa"
-    cat single_fasta_files/*.fasta > "\${runname}.fa"
+    cat single_fasta_files/*.fasta > "\${runname}.fasta"
 
     # EXTRACT SEGMENTS INTO FILES
     match_strings=("A_H1_NS" "A_H3_NS" "A_XX_MP" "A_H1_MP" "A_H3_NP" "A_H1_NP" "A_H3_PA" "A_H1_PA" "A_H3_PB1" "A_H1_PB1" "A_H3_PB2" "A_H1_PB2" "A_H1_HA" "A_HA_H10" "A_HA_H11" "A_HA_H13" "A_HA_H14" "A_HA_H15" "A_HA_H16" "A_HA_H2" "A_HA_H3" "A_HA_H4" "A_HA_H5" "A_HA_H6" "A_HA_H7" "A_HA_H8" "A_HA_H9" "A_NA_N1" "A_NA_N2" "A_NA_N3" "A_NA_N5" "A_NA_N6" "A_NA_N7" "A_NA_N8" "A_NA_N9" "B_MP" "B_VIC_HA" "B_VIC_NA")
