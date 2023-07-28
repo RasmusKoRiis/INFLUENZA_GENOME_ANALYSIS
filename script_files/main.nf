@@ -664,7 +664,7 @@ process FIND_CLADE {
 
     fasta_name="${fasta_file.name}"
     if [[ "\${fasta_name}" == *H1_HA.fasta ]]; then
-        clade=A_HA_H1
+        clade=A_H1_HA
         clade_2=A_H1_HA
     elif [[ "\${fasta_name}" == *VIC_HA.fasta ]]; then
         clade=B_VIC
