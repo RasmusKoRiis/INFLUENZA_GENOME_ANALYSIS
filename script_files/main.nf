@@ -23,7 +23,7 @@ log.info """\
     script: ${params.script_files}
     fasta_out: ${params.out_fasta}
     mutation_out: ${params.out_mutation}
-    runname: ${params.runname}
+    runname: ${params.runname2}
     """.stripIndent()
 
 Channel
@@ -135,6 +135,9 @@ process MERGE_AND_EXTRACT_FASTA {
 
     # REMOVE MERGED FASTA FILE
     rm "\${runname}_merged.fasta"
+
+    #MERGE ALL FASTA FILES
+    cat "*fasta" "${params.runname2}.fa"
     """
 }
 
