@@ -33,7 +33,7 @@ for col in range(3, 8):
 
 
 # Filter out rows that don't have 'A_NA_N1' in the first column
-df = df[df.iloc[:, 0] == 'A_NA_N1']
+df = df[df.iloc[:, 0] == 'A_N1_NA']
 
 cols_to_convert = ["adenine", "thymine", "cytosine", "guanine"]
 df[cols_to_convert] = df[cols_to_convert].astype(float)
