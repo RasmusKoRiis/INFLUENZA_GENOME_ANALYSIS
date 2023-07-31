@@ -40,14 +40,49 @@ def check_frameshift(seq):
         return 'N.A.'
 
 def process_differences(row):
-    if row['Frameshift/Poor Seq'] == 'N.A':
-        return row['Differences']
-    
-    xs_count = sum([1 for x in row['Differences'].split(';') if 'X' in x])
-    if xs_count > 20:
-        return 'Pos. FS ' + str(row['Frameshift/Poor Seq'])
+    if 'FRAMESHIFT' in row['Frameshift/Poor Seq']:
+       return row['Frameshift/Poor Seq']
     else:
         return row['Differences']
+    
+    #xs_count = sum([1 for x in row['Differences'].split(';') if 'X' in x])
+    #if xs_count > 20:
+    #    return 'Pos. FS ' + str(row['Frameshift/Poor Seq'])
+    #else:
+    #    return row['Differences']
+
+def find_frameshift(reference, seq):
+    # Align the sequences
+    aligner = PairwiseAligner()
+    aligner.mode = 'global'
+    aligner.open_gap_score = -10
+    alignments = aligner.align(reference, seq)
+    
+    # Get the alignment with the highest score
+    best_alignment = max(alignments)
+    
+    ref_aligned = best_alignment[0]
+    seq_aligned = best_alignment[1]
+    
+        # Find frameshift
+    consecutive_divergences = 0
+    frameshift_detected = False
+    start_divergence_position = None
+    for i, (ref_aa, seq_aa) in enumerate(zip(ref_aligned, seq_aligned)):
+        if ref_aa != seq_aa:
+            if consecutive_divergences == 0:
+                start_divergence_position = i
+            consecutive_divergences += 1
+            if consecutive_divergences > 5:
+                frameshift_detected = True
+                break
+        else:
+            consecutive_divergences = 0
+    
+    if frameshift_detected:
+        return 'FRAMESHIFT POS: ' + str(int(start_divergence_position) + 1)
+    else:
+        return None
 
 
 sequences = []
@@ -58,6 +93,7 @@ for ref in SeqIO.parse(reference_file, 'fasta'):
         sequence = Seq(str(record.seq))
         differences = find_differences(reference, sequence)
         frameshift = check_frameshift(str(sequence))
+        frameshift2 = find_frameshift(reference, sequence)
         sequences.append({'ID': record.id, 'Differences': differences, 'Frameshift/Poor Seq': frameshift})
 
 # Create a DataFrame from the sequences
