@@ -115,7 +115,7 @@ process MERGE_AND_EXTRACT_FASTA {
 
     output:
     path "*.fasta" into merged_and_extracted_ch, merged_and_extracted_ch2, merged_and_extracted_ch3
-    path "*.fa" into merged_fasta.sh
+    path "*.fa" into merged_fasta_ch
 
     script:
     """
