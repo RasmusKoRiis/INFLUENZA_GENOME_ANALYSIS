@@ -669,7 +669,7 @@ process FIND_CLADE {
     elif [[ "\${fasta_name}" == *VIC_HA.fasta ]]; then
         clade=B_VIC
         clade_2=B_VIC_HA
-    elif [[ "\${fasta_name}" == A_HA_H3.fasta ]]; then
+    elif [[ "\${fasta_name}" == A_H3_HA.fasta ]]; then
         clade=A_H3_HA
         clade_2=A_HA_H3
     else
@@ -862,6 +862,25 @@ process FINALIZING_SUMMARY {
     """
 }
 
+process FASTA_FILE {
+
+    errorStrategy 'ignore'
+    
+    publishDir params.out_fasta, mode: 'copy'
+    
+    input:
+    path fasta_file from merged_fasta_ch
+   
+    output:
+    path "${params.runname2}.fasta" into final_fasta_ch
+
+    script:
+    """
+    python3 "${params.script_files}/final_fasta.py"  \
+        "${fasta_file}" \
+        "${params.runname2}.fasta"  
+    """
+}
 
 
 
