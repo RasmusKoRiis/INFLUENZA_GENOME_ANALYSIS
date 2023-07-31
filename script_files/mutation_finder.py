@@ -40,7 +40,7 @@ def check_frameshift(seq):
         return 'N.A.'
 
 def process_differences(row):
-    if 'FRAMESHIFT' in row['Frameshift/Poor Seq']:
+    if 'FRAMESHIFT' in str(row['Frameshift/Poor Seq']).upper().strip():
        return row['Frameshift/Poor Seq']
     else:
         return row['Differences']
@@ -94,7 +94,7 @@ for ref in SeqIO.parse(reference_file, 'fasta'):
         differences = find_differences(reference, sequence)
         frameshift = check_frameshift(str(sequence))
         frameshift2 = find_frameshift(reference, sequence)
-        sequences.append({'ID': record.id, 'Differences': differences, 'Frameshift/Poor Seq': frameshift})
+        sequences.append({'ID': record.id, 'Differences': differences, 'Frameshift/Poor Seq': frameshift2})
 
 # Create a DataFrame from the sequences
 df = pd.DataFrame(sequences)
