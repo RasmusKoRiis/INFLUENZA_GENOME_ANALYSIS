@@ -29,7 +29,7 @@ def convert_header_no_spaces(header):
     region_number = code_to_number.get(region, "")
     
     # Constructing the new header without spaces
-    new_header = f">{id_part}|{region_number}-{region}|{parts[-2]}"
+    new_header = f"{id_part}|{region_number}-{region}|{parts[-2]}"
     
     return new_header
 
