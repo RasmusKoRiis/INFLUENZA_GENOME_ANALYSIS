@@ -115,6 +115,7 @@ process MERGE_AND_EXTRACT_FASTA {
 
     output:
     path "*.fasta" into merged_and_extracted_ch, merged_and_extracted_ch2, merged_and_extracted_ch3
+    path "*.fa" into merged_fasta.sh
 
     script:
     """
@@ -122,7 +123,7 @@ process MERGE_AND_EXTRACT_FASTA {
 
     # MERGING FASTA FILES
     cat single_fasta_files/*.fasta > "\${runname}_merged.fa"
-    cat single_fasta_files/*.fasta > "single_fasta_files/\${runname}.fasta"
+    
 
     # EXTRACT SEGMENTS INTO FILES
     match_strings=("A_H1_NS" "A_H3_NS" "A_XX_MP" "A_H1_MP" "A_H3_NP" "A_H1_NP" "A_H3_PA" "A_H1_PA" "A_H3_PB1" "A_H1_PB1" "A_H3_PB2" "A_H1_PB2" "A_H1_HA" "A_H10_HA" "A_H11_HA" "A_H13_HA" "A_H14_HA" "A_H15_HA" "A_H16_HA" "A_H2_HA" "A_H3_HA" "A_H4_HA" "A_H5_HA" "A_H6_HA" "A_H7_HA" "A_H8_HA" "A_H9_HA" "A_N1_NA" "A_N2_NA" "A_N3_NA" "A_N5_NA" "A_N6_NA" "A_N7_NA" "A_N8_NA" "A_N9_NA" "B_MP" "B_VIC_HA" "B_VIC_NA")
@@ -669,8 +670,8 @@ process FIND_CLADE {
         clade=B_VIC
         clade_2=B_VIC_HA
     elif [[ "\${fasta_name}" == A_HA_H3.fasta ]]; then
-        clade=A_HA_H3
-        clade_2=A_H3_HA
+        clade=A_H3_HA
+        clade_2=A_HA_H3
     else
         clade=""
         clade_2=""
