@@ -31,13 +31,23 @@ RUN conda install -y -c bioconda pysam
 # Install nanoplot
 RUN conda install -c bioconda nanoplot
 
+#install samtools
+RUN conda install -c bioconda samtools 
+
+#install minimap2
+RUN conda install -c bioconda minimap2 
+
+#install bbmap 
+RUN conda install -c bioconda bbmap
+
 # Install chopper
 RUN wget https://github.com/wdecoster/chopper/releases/download/v0.5.0/chopper-linux.zip \
     && unzip chopper-linux.zip -d /usr/local/bin/ \
     && chmod +x /usr/local/bin/chopper
 
-
-
+#Install Nextflow
+RUN wget -qO- https://get.nextflow.io/ | bash \
+    && mv nextflow /usr/local/bin/
 
 # Set the working directory
 WORKDIR /app
@@ -46,6 +56,8 @@ WORKDIR /app
 COPY script_files /app/script_files
 COPY references /app/references
 COPY dataset /app/dataset
+COPY input_fastq_processed /app/input_fastq_processed
+
 #COPY results /app/results
 
 

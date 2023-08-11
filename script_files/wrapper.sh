@@ -69,12 +69,12 @@ else
 fi
 
 echo "The run folder is $input_fastq"
-#input_fastq=input_fastq
 
-#DOWNLOAD SCRIPT
-git clone https://github.com/RasmusKoRiis/INFLUENZA_GENOME_ANALYSIS.git
-
+cp -a $input_fastq INFLUENZA_GENOME_ANALYSIS
 cd INFLUENZA_GENOME_ANALYSIS
+mv $input_fastq input_fastq_processed
+input_fastq_processed=input_fastq_processed
+
 
 #TECHNICAL INFO OF PIPLINE
 date=$(date +"%Y-%m-%d_%H-%M-%S")
@@ -100,24 +100,52 @@ reference="$startdir/references"
 
 cd $startdir
 
+
 #PRE POCESSING
 
 # Build the QA-Docker image
-image_name_qa="new_influensa_pipeline_qa_v1.1"
-docker_file_qa="Dockerfile.QA"  
+image_name_qa="new_influensa_pipeline_qa_v1_3"
+container_name_qa="influenza_qa_container_v0_1"
+docker_file_qa="Dockerfile.qa"  
 
 # Building the Docker image for QA
-docker buildx build --platform linux/amd64 -t $image_name_qa --build-arg input_fastq=$input_fastq/ -f Dockerfile.QA .
+docker buildx build --platform linux/amd64 -t $image_name_qa -f Dockerfile.qa .
+
+docker run --rm -it --name $container_name_qa \
+  -v $startdir/qa_docker:/qa_docker \
+  -e RUNNAME=$run_folder -e INFLUENZA_V1_VERSION=INFLUENZA_V1_VERSION \
+  $image_name_qa bash -c "script_files/master_QA.sh && cp -r /app /qa_docker"
+
+mkdir "$startdir/output_fastq_cleaned"
+fastq_out_cleaned="$startdir/output_fastq_cleaned"
+
+mv $startdir/qa_docker/app/output_fastq_cleaned/*fastq $fastq_out_cleaned
+
+cd $fastq_out_cleaned
+
+for file in *_cleaned.fastq; do
+    # Remove '_cleaned' from the filename
+    new_file="${file/_cleaned/}"
+
+    # Create a directory named after the new file without '.fastq' extension
+    mkdir "${new_file%.fastq}"
+
+    # Rename the file and move it to the new directory
+    mv "$file" "${new_file%.fastq}/$new_file"
+done
+
+cd $startdir
+
 
 #CHECK IF IRMA SHOULD RUN
 
 # EPI2ME NEXTFLOW 
-nextflow run epi2me-labs/wf-flu -r v0.0.6 --fastq $input_fastq/  --out_dir $result_folder/epi2me_wf_flu_output --min_qscore 10  --min_coverage 50 --reference "$startdir/references/epi2me/reference_epi2me_FULL_NAMES.fasta" --downsample  300
+nextflow run epi2me-labs/wf-flu -r v0.0.6 --fastq $fastq_out_cleaned/  --out_dir $result_folder/epi2me_wf_flu_output --min_qscore 10  --min_coverage 50 --reference "$startdir/references/epi2me/reference_epi2me_FULL_NAMES.fasta" --downsample  300
 
 cd $startdir
 
 container_name="influenza_container"
-image_name="new_influensa_pipeline_v0.2"
+image_name="new_influensa_pipeline_v0.3"
 
 docker buildx build --platform linux/amd64 -t $image_name .
 

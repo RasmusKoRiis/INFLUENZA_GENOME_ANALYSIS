@@ -29,7 +29,6 @@ RUN conda install -y -c bioconda pysam
 RUN conda install -c bioconda -y nextalign
 
 # Install Nextflow
-
 # Download and install the specified version of Nextflow
 RUN wget -qO- https://get.nextflow.io/ | bash \
     && mv nextflow /usr/local/bin/
