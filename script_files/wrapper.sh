@@ -106,7 +106,7 @@ cd $startdir
 # Build the QA-Docker image
 image_name_qa="new_influensa_pipeline_qa_v1_3"
 container_name_qa="influenza_qa_container_v0_1"
-docker_file_qa="Dockerfile.qa"  
+docker_file_qa="Dockerfile.QA"  
 
 # Building the Docker image for QA
 docker buildx build --platform linux/amd64 -t $image_name_qa -f Dockerfile.qa .
