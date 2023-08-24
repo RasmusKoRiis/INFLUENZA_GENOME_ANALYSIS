@@ -8,7 +8,7 @@ def remove_dashes(fasta_in, fasta_out):
     sequences = list(SeqIO.parse(fasta_in, "fasta"))
     
     for seq in sequences:
-        seq.seq = seq.seq.ungap("å")
+        seq.seq = seq.seq.ungap("-")
     
     print(fasta_out)
         
@@ -16,3 +16,4 @@ def remove_dashes(fasta_in, fasta_out):
 
 # Call the function with your input and output file paths
 remove_dashes(input_file, output_file)
+S
