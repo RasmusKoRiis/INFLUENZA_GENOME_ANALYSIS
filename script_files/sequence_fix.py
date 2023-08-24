@@ -16,4 +16,3 @@ def remove_dashes(fasta_in, fasta_out):
 
 # Call the function with your input and output file paths
 remove_dashes(input_file, output_file)
-S
