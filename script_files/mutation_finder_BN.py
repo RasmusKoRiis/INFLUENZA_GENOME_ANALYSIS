@@ -16,7 +16,7 @@ def find_differences(reference, seq):
     # Align the sequences
     aligner = PairwiseAligner()
     aligner.mode = 'global'
-    aligner.open_gap_score = -10
+    aligner.open_gap_score = -2
     alignments = aligner.align(reference, seq)
     
     # Get the alignment with the highest score
