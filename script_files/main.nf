@@ -382,7 +382,7 @@ process TRANSLATE_FAST_FILES_TO_AMINOACID {
     fasta_folder="${params.out_fasta}"
 
     segment_name=\$(basename "${fasta_file}" .fasta)
-    seqkit grep -r -p "\$segment_name" "${params.reference}/epi2me/reference_epi2me_FULL_NAMES.fasta" > "\${segment_name}_temp.fasta"
+    seqkit grep -r -p "\$segment_name" "${params.reference}/epi2me/reference_epi2me_FULL_NAMES_mutations.fasta" > "\${segment_name}_temp.fasta"
 
     nextalign run \
     --input-ref="\${segment_name}_temp.fasta" \
