@@ -8,7 +8,7 @@ def remove_dashes(fasta_in, fasta_out):
     sequences = list(SeqIO.parse(fasta_in, "fasta"))
     
     for seq in sequences:
-        seq.seq = seq.seq.ungap("-")
+        seq.seq = seq.seq.ungap("å")
     
     print(fasta_out)
         
