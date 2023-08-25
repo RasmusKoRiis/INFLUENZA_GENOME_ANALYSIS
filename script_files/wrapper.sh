@@ -109,7 +109,7 @@ container_name_qa="influenza_qa_container_v0_1"
 docker_file_qa="Dockerfile.QA"  
 
 # Building the Docker image for QA
-docker buildx build --platform linux/amd64 -t $image_name_qa -f Dockerfile.qa .
+docker buildx build --platform linux/amd64 -t $image_name_qa -f Dockerfile.QA .
 
 docker run --rm -it --name $container_name_qa \
   -v $startdir/qa_docker:/qa_docker \
