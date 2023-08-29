@@ -12,6 +12,9 @@ log.info """\
 fastq_files_ch = Channel.fromPath("${params.in_fastq}/*.fastq")
 
 process REMOVE_DOUBLE_ALIGNES_READS {
+
+    errorStrategy 'ignore'
+    
     publishDir params.out_fastq, mode: 'copy'
 
     input:
