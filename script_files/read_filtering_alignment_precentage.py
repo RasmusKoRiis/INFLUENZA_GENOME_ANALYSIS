@@ -13,7 +13,7 @@ def proportion_aligned(cigar_tuples):
     total_bases = sum(length for op, length in cigar_tuples if op != 5)  # H=5 (hard clip) is excluded
     return aligned_bases / total_bases
 
-def filter_reads(input_file, output_file, threshold=0.90):
+def filter_reads(input_file, output_file, threshold=0.10):
     """Filter reads from an input BAM file and write to an output BAM file."""
     with pysam.AlignmentFile(input_file, "rb") as infile, pysam.AlignmentFile(output_file, "wb", header=infile.header) as outfile:
         for read in infile:
