@@ -7,10 +7,10 @@ output_file = sys.argv[2]
 def remove_dashes(fasta_in, fasta_out):
     sequences = list(SeqIO.parse(fasta_in, "fasta"))
     
-    for seq in sequences:
-        seq.seq = seq.seq.ungap("-")
+    #for seq in sequences:
+        #seq.seq = seq.seq.ungap("-")
     
-    print(fasta_out)
+    #print(fasta_out)
         
     SeqIO.write(sequences, fasta_out, "fasta")
 
