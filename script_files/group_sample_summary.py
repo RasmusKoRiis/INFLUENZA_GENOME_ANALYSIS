@@ -6,6 +6,16 @@ from datetime import datetime
 # Get the current date and time
 start_time = datetime.now()
 
+def add_average_depth_columns(df):
+    ha_columns = [col for col in df.columns if 'Average Depth' in col and 'HA' in col]
+    na_columns = [col for col in df.columns if 'Average Depth' in col and 'NA' in col]
+
+    df['Average Depth HA'] = df[ha_columns].max(axis=1)
+    df['Average Depth NA'] = df[na_columns].max(axis=1)
+
+    return df
+
+
 def add_missing_columns(df, required_columns):
     for col in required_columns:
         if not any(col in s for s in df.columns):
@@ -64,12 +74,7 @@ def process_dataframe(df, runname, required_columns, column_names_map, quality_c
     df = df.loc[:, list(column_names_map.keys())]
     df = rename_columns(df, column_names_map)
 
-    # Adding functionality to calculate maximum for 'Average Depth HA' and 'Average Depth NA'
-    ha_columns = [col for col in df.columns if 'Average Depth' in col and 'HA' in col]
-    na_columns = [col for col in df.columns if 'Average Depth' in col and 'NA' in col]
 
-    df['Average Depth HA'] = df[ha_columns].max(axis=1)
-    df['Average Depth NA'] = df[na_columns].max(axis=1)
     
     return df
 
@@ -100,7 +105,10 @@ def main(csv_file, output_file, runname):
                         'Avg_Depth_A_H3_PB2',
                         'Avg_Depth_A_H5_HA',  
                         'Avg_Depth_A_H9_HA',
-                        'Avg_Depth_A_H7_HA',  
+                        'Avg_Depth_A_H5_NA',  
+                        'Avg_Depth_A_H9_NA',
+                        'Avg_Depth_A_H7_HA',
+                        'Avg_Depth_A_H7_NA',   
                         'Avg_Depth_B_VIC_HA', 
                         'Avg_Depth_B_VIC_NA', 
                         'Differences_A_H1_HA', 
@@ -120,6 +128,8 @@ def main(csv_file, output_file, runname):
                         'Differences_A_H3_PB2',
                         'Differences_A_H5_HA',  
                         'Differences_A_H9_HA',
+                        'Differences_A_H5_NA',  
+                        'Differences_A_H9_NA',
                         'Differences_A_H7_HA',  
                         'Differences_B_VIC_HA', 
                         'Differences_B_VIC_NA',
@@ -154,7 +164,10 @@ def main(csv_file, output_file, runname):
         'Avg_Depth_A_H3_PB2': 'Average Depth A H3 PB2',
         'Avg_Depth_A_H5_HA': 'Average Depth A HA H5',  
         'Avg_Depth_A_H9_HA': 'Average Depth A HA H9',
-        'Avg_Depth_A_H7_HA': 'Average Depth A HA H7',  
+        'Avg_Depth_A_H7_HA': 'Average Depth A HA H7',
+        'Avg_Depth_A_H5_NA': 'Average Depth A NA H5',  
+        'Avg_Depth_A_H9_NA': 'Average Depth A NA H9',
+        'Avg_Depth_A_H7_NA': 'Average Depth A NA H7',   
         'Avg_Depth_B_VIC_HA': 'Average Depth B VIC HA',
         'Avg_Depth_B_VIC_NA': 'Average Depth B VIC NA',
         'Differences_A_H1_HA': 'Mutations A H1 HA',
@@ -174,7 +187,10 @@ def main(csv_file, output_file, runname):
         'Differences_A_H3_PB2': 'Mutations A H3 PB2',
         'Differences_A_H5_HA': 'Mutations A H5 HA',  
         'Differences_A_H9_HA': 'Mutations A H9 HA',
-        'Differences_A_H7_HA': 'Mutations A H7 HA',   
+        'Differences_A_H7_HA': 'Mutations A H7 HA',
+        'Differences_A_H5_NA': 'Mutations A H5 NA',  
+        'Differences_A_H9_NA': 'Mutations A H9 NA',
+        'Differences_A_H7_NA': 'Mutations A H7 NA',    
         'Differences_B_VIC_HA': 'Mutations B VIC HA',
         'Differences_B_VIC_NA': 'Mutations B VIC NA',
         'ScriptTimestamp': 'Script Timestamp',
@@ -186,6 +202,8 @@ def main(csv_file, output_file, runname):
     quality_columns = ['H1', 'H3', 'H5', 'H9', 'N1', 'N2', 'B']
     
     df = process_dataframe(df, runname, required_columns, column_names_map, quality_columns)
+
+    df = add_average_depth_columns(df)
     
     df.to_csv(output_file, index=False)
 
