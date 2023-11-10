@@ -878,7 +878,11 @@ process FASTA_FILE {
     """
     python3 "${params.script_files}/final_fasta.py"  \
         "${fasta_file}" \
-        "${params.runname2}.fasta"  
+        "${params.runname2}.fa"
+    
+    sed '/^>/ s/MP/M/g' "${params.runname2}.fa" > "${params.runname2}.fasta"
+
+    
     """
 }
 
