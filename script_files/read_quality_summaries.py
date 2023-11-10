@@ -3,44 +3,36 @@ import pandas as pd
 import numpy as np
 import sys
 
-bam_file = sys.argv[1]
-stats_file = sys.argv[2]
+bam_file_path = sys.argv[1]
+stats_file_path = sys.argv[2]
 output_file_sample = sys.argv[3]
 output_file_summary = sys.argv[4]
 
-# Open the BAM file and extract the read IDs
-bam_file = pysam.AlignmentFile(bam_file, 'rb')
+# Open the BAM file
+bam_file = pysam.AlignmentFile(bam_file_path, 'rb')
 
 # Read the statistics file into a DataFrame
-stats_file = pd.read_csv(stats_file, sep='\t')
+stats_file = pd.read_csv(stats_file_path, sep='\t')
 
-# Add a new column for the reference
-stats_file['reference'] = ''
+# Initialize a dictionary to store reference names for each read ID
+reference_dict = {}
 
-# Loop through the reads in the BAM file and update the reference column with the reference name
-for read in bam_file.fetch():
+# Iterate through the reads in the BAM file and store the reference names in the dictionary
+for read in bam_file:
     if not read.is_unmapped:
-        ref_name = read.reference_name
-        read_id = read.query_name
-        stats_file.loc[stats_file['read_id'] == read_id, 'reference'] = ref_name
+        reference_dict[read.query_name] = read.reference_name
+
 # Close the BAM file
 bam_file.close()
 
+# Map the reference names to the DataFrame using the dictionary
+stats_file['reference'] = stats_file['read_id'].map(reference_dict).fillna('not_mapped')
+
 # Calculate the mean quality and read count for each reference
-quality_summary = stats_file.groupby(['reference']).agg({'mean_quality': np.mean, 'sample_name': 'first', 'read_id': 'count'})
+quality_summary = stats_file.groupby('reference').agg({'mean_quality': np.mean, 'sample_name': 'first', 'read_id': 'count'}).rename(columns={'read_id': 'count_reads'}).reset_index()
 
-# Rename the reads column to count_reads
-quality_summary = quality_summary.rename(columns={'read_id': 'count_reads'})
+# Save the updated statistics file and the summary
+stats_file.to_csv(output_file_sample, sep='\t', index=False)
+quality_summary.to_csv(output_file_summary, sep='\t', index=False)
 
-# Reset the index to turn the 'reference' column into a regular column
-quality_summary = quality_summary.reset_index()
-
-# Fill empty cells in the reference column with "not_mapped"
-quality_summary['reference'] = quality_summary['reference'].fillna('not_mapped')
-
-# Print the result
-print(quality_summary)
-
-# Save the updated statistics file
-stats_file.to_csv(output_file_sample, sep='\t')
-quality_summary.to_csv(output_file_summary, sep='\t')
+print("Processing complete. Files saved.")
