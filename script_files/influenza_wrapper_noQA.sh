@@ -150,10 +150,7 @@ cd $basedir
 cp -r $runname/results_docker/results $basedir
 cp results/stat/*_summary.csv $basedir
 
-cd /mnt/N/Virologi/NGS/1-NGS-Analyser/1-Rutine/2-Resultater/Influensa/3-Summary/Ses2324/results
-echo ngs3 | sudo cp -r $basedir/results /mnt/N/Virologi/NGS/1-NGS-Analyser/1-Rutine/2-Resultater/Influensa/3-Summary/Ses2324/results
-cd /mnt/N/Virologi/NGS/1-NGS-Analyser/1-Rutine/2-Resultater/Influensa/3-Summary/Ses2324/powerBI
-echo ngs3 | sudo cp $basedir/results/stat/*_summary.csv /mnt/N/Virologi/NGS/1-NGS-Analyser/1-Rutine/2-Resultater/Influensa/3-Summary/Ses2324/powerBI
+
 
 #rm -r INFLUENZA_GENOME_ANALYSIS
 
