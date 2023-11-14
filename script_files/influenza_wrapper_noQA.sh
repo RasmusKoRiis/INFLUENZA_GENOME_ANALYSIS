@@ -55,13 +55,13 @@ if [ ! -d "$run_folder" ]; then
   cd "$basedir"  # Make sure to return to the initial directory
 
   # Locate the fastq_pass directory nested inside ${run_folder}_data
-  fastq_pass_dir=$(find "${run_folder}_data" -type d -name 'fastq_pass' -print -quit)
+  fastq_pass_dir=$(find "$(pwd)/${run_folder}_data" -type d -name 'fastq_pass' -print -quit)
   if [[ -n "$fastq_pass_dir" ]]; then
     mv "$fastq_pass_dir" "$basedir/"
   fi
 else 
   echo "fastq_pass directory found"
-  fastq_pass_dir=$(find "${run_folder}" -type d -name 'fastq_pass' -print -quit)
+  fastq_pass_dir=$(find "$(pwd)/${run_folder}" -type d -name 'fastq_pass' -print -quit)
 fi
 
 echo "The run folder is $fastq_pass_dir"
@@ -88,11 +88,7 @@ python3 INFLUENZA_GENOME_ANALYSIS/script_files/rename_fastq_folders.py $fastq_pa
 
 find "$fastq_pass_dir" -type f -or -type d -name "*barcode*" -exec rm -rf {} \;
 find "$fastq_pass_dir" -type f -or -type d -name "*unclassified*" -exec rm -rf {} \;
-#cp -a $fastq_pass_dir INFLUENZA_GENOME_ANALYSIS 
 cd INFLUENZA_GENOME_ANALYSIS
-#mv $fastq_pass_dir input_fastq_processed
-#input_fastq_processed=input_fastq_processed
-
 
 #TECHNICAL INFO OF PIPLINE
 date=$(date +"%Y-%m-%d_%H-%M-%S")
@@ -118,23 +114,13 @@ reference="$startdir/references"
 
 cd $startdir
 
-
-#PRE POCESSING
-
-# Build the QA-Docker image
-image_name_qa="new_influensa_pipeline_qa_v1_3"
-container_name_qa="influenza_qa_container_v0_1"
-docker_file_qa="Dockerfile.QA"  
-
-#CHECK IF IRMA SHOULD RUN
-
 # EPI2ME NEXTFLOW 
 nextflow run epi2me-labs/wf-flu -r v0.0.6 --fastq $fastq_pass_dir/  --out_dir $result_folder/epi2me_wf_flu_output --min_qscore 10  --min_coverage 50 --reference "$startdir/references/epi2me/reference_epi2me_FULL_NAMES.fasta" 
 
 cd $startdir
 
 container_name="influenza_container"
-image_name="new_influensa_pipeline_v0.4"
+image_name="new_influensa_pipeline_v0.5"
 
 docker buildx build --platform linux/amd64 -t $image_name .
 
@@ -148,8 +134,8 @@ docker run --rm -it --name $container_name \
 #Copy and clean up folders
 cd $basedir
 cp -r $runname/results_docker/results $basedir
-cp results/stat/*_summary.csv $basedir
-
+mv results "${run_folder}_results"
+cp "${run_folder}_results"/stat/"${run_folder}_summary.csv" $basedir
 
 
 #rm -r INFLUENZA_GENOME_ANALYSIS
