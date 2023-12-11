@@ -54,6 +54,27 @@ def classify_quality(df, quality_columns):
     
     return df
 
+def add_mutation_columns(df):
+    # Identify HA and NA mutation columns
+    ha_mutation_cols = [col for col in df.columns if 'Mutations' in col and 'HA' in col]
+    na_mutation_cols = [col for col in df.columns if 'Mutations' in col and 'NA' in col]
+
+    # Function to aggregate mutations
+    def aggregate_mutations(row, cols):
+        mutations = row[cols].dropna()
+        if len(mutations) > 1:
+            return 'Mixed'
+        elif len(mutations) == 1:
+            return mutations.iloc[0]
+        else:
+            return np.nan
+
+    # Apply the function to each row
+    df['Mutations HA'] = df.apply(lambda row: aggregate_mutations(row, ha_mutation_cols), axis=1)
+    df['Mutations NA'] = df.apply(lambda row: aggregate_mutations(row, na_mutation_cols), axis=1)
+
+    return df
+
 def process_dataframe(df, runname, required_columns, column_names_map, quality_columns):
     df = add_missing_columns(df, required_columns)
     
@@ -73,8 +94,6 @@ def process_dataframe(df, runname, required_columns, column_names_map, quality_c
 
     df = df.loc[:, list(column_names_map.keys())]
     df = rename_columns(df, column_names_map)
-
-
     
     return df
 
@@ -205,6 +224,8 @@ def main(csv_file, output_file, runname):
     df = process_dataframe(df, runname, required_columns, column_names_map, quality_columns)
 
     df = add_average_depth_columns(df)
+
+    df = add_mutation_columns(df)
     
     df.to_csv(output_file, index=False)
 
