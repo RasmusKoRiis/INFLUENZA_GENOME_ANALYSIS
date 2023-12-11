@@ -56,8 +56,8 @@ def classify_quality(df, quality_columns):
 
 def add_mutation_columns(df):
     # Identify HA and NA mutation columns
-    ha_mutation_cols = [col for col in df.columns if 'Differences' in col and 'HA' in col]
-    na_mutation_cols = [col for col in df.columns if 'Differences' in col and 'NA' in col]
+    ha_mutation_cols = [col for col in df.columns if 'Mutations' in col and 'HA' in col]
+    na_mutation_cols = [col for col in df.columns if 'Mutations' in col and 'NA' in col]
 
     # Function to aggregate mutations
     def aggregate_mutations(row, cols):
@@ -91,9 +91,6 @@ def process_dataframe(df, runname, required_columns, column_names_map, quality_c
     df['SequenceID'] = df['RunName'].astype(str) + "_" + df['sample'].astype(str)
 
     df = classify_quality(df, quality_columns)
-
-    # Add new mutation columns
-    df = add_mutation_columns(df)
 
     df = df.loc[:, list(column_names_map.keys())]
     df = rename_columns(df, column_names_map)
@@ -229,6 +226,8 @@ def main(csv_file, output_file, runname):
     df = process_dataframe(df, runname, required_columns, column_names_map, quality_columns)
 
     df = add_average_depth_columns(df)
+
+    df = add_mutation_columns(df)
     
     df.to_csv(output_file, index=False)
 
