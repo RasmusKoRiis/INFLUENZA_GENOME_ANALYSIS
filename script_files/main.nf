@@ -375,7 +375,7 @@ process TRANSLATE_FAST_FILES_TO_AMINOACID {
     path fasta_file from merged_and_extracted_ch.flatten()
 
     output:
-    path "*translation.fasta" into translated_fasta_ch
+    path "*translation.fasta" into translated_fasta_ch, translated_fasta_ch2
 
     script:
     """
@@ -420,6 +420,28 @@ process GENERATE_MUTATION_LIST {
     segment=\$(basename "${fasta_file}" .translation.fasta)
     reference="${params.reference}/epi2me/singel_files/"\$segment"_amino.fasta"
     output_file="\$segment.csv"
+
+    python3 "${params.script_files}/mutation_finder.py" ${fasta_file} "\$reference" "\$segment" "\$output_file"
+    """
+}
+
+process GENERATE_MUTATION_LIST_VACCINE {
+
+    publishDir params.out_stat, mode: 'copy'
+    
+    input:
+    path fasta_file from translated_fasta_ch2.collect().flatten()
+
+
+    output:
+    path "*.csv" into mutation_vaccine_singel_summary_ch
+
+    script:
+    """
+    fasta_name=\$(basename ${fasta_file} .translation.fasta)
+    segment=\$(basename "${fasta_file}" .translation.fasta)
+    reference="${params.reference}/epi2me/vaccine/"\$segment"_amino.fasta"
+    output_file=""\$segment"_vaccine.csv"
 
     python3 "${params.script_files}/mutation_finder.py" ${fasta_file} "\$reference" "\$segment" "\$output_file"
     """
