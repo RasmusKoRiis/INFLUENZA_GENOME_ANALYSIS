@@ -83,7 +83,7 @@ done
 cd "$basedir" 
 
 #RENAME FASTQ FOLDERS
-python3 INFLUENZA_GENOME_ANALYSIS/script_files/rename_fastq_folders.py $fastq_pass_dir *csv
+#python3 INFLUENZA_GENOME_ANALYSIS/script_files/rename_fastq_folders.py $fastq_pass_dir *csv
 
 
 find "$fastq_pass_dir" -type f -or -type d -name "*barcode*" -exec rm -rf {} \;
@@ -137,11 +137,5 @@ cp -r $runname/results_docker/results $basedir
 mv results "${run_folder}_results"
 cp "${run_folder}_results"/stat/"${run_folder}_summary.csv" $basedir
 
-cd /mnt/N/Virologi/NGS/1-NGS-Analyser/1-Rutine/2-Resultater/Influensa/3-Summary/Ses2324/results
-echo ngs3 | sudo cp -r $basedir/${run_folder}_results /mnt/N/Virologi/NGS/1-NGS-Analyser/1-Rutine/2-Resultater/Influensa/3-Summary/Ses2324/results
-cd /mnt/N/Virologi/NGS/1-NGS-Analyser/1-Rutine/2-Resultater/Influensa/3-Summary/Ses2324/powerBI
-echo ngs3 | sudo cp $basedir/${run_folder}_results/stat/*_summary.csv /mnt/N/Virologi/NGS/1-NGS-Analyser/1-Rutine/2-Resultater/Influensa/3-Summary/Ses2324/powerBI
-cd /mnt/N/Virologi/NGS/1-NGS-Analyser/1-Rutine/2-Resultater/Influensa/2-RåData
-echo ngs3 | sudo cp -avr $basedir/${run_folder}_data /mnt/N/Virologi/NGS/1-NGS-Analyser/1-Rutine/2-Resultater/Influensa/2-RåData
 
 
