@@ -436,6 +436,8 @@ process GENERATE_MUTATION_LIST_VACCINE {
     output:
     path "*.csv" into mutation_vaccine_singel_summary_ch
 
+    errorStrategy 'ignore'
+
     script:
     """
     fasta_name=\$(basename ${fasta_file} .translation.fasta)
