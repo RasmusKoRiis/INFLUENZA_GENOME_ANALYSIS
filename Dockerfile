@@ -22,7 +22,10 @@ ENV PATH="/miniconda/bin:${PATH}"
 RUN conda update -y conda
 
 # Install Python packages
-RUN conda install -y -c conda-forge pandas matplotlib seaborn biopython=1.81
+RUN conda install -y -c conda-forge pandas
+RUN conda install -y -c conda-forge matplotlib
+RUN conda install -y -c conda-forge seaborn
+RUN conda install -y -c conda-forge biopython=1.81
 RUN conda install -y -c bioconda pysam
 
 # Install nextalign
