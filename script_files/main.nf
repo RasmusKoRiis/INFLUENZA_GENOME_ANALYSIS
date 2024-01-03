@@ -458,7 +458,7 @@ process MERGE_MUTATION_LIST {
    
 
     output:
-    path "*.csv" into mutation_merged_summary_ch, mutation_merged_summary_ch2, mutation_merged_summary_ch3, mutation_merged_summary_ch4, mutation_merged_summary_ch5, mutation_merged_summary_ch6
+    path "*.csv" into mutation_merged_summary_ch, mutation_merged_summary_ch2, mutation_merged_summary_ch3, mutation_merged_summary_ch4, mutation_merged_summary_ch5, mutation_merged_summary_ch6, mutation_merged_summary_ch7
 
     script:
     """
@@ -546,7 +546,7 @@ process FIND_PA_MUTATIONS {
     publishDir params.out_mutation, mode: 'copy'
 
     input:
-    path csv_file from mutation_merged_summary_ch4
+    path csv_file from mutation_merged_summary_ch7
 
     output:
     path "${params.runname}_pa__mutation.csv" into pa_mutation_ch
@@ -557,6 +557,23 @@ process FIND_PA_MUTATIONS {
         "${params.in_dataset}/RESITENCE_MUTATION/PA_RES.csv" \
         "${params.runname}_pa_mutation.csv"  \
         "PA"  \
+    """
+}
+
+process FIND_NA_LOW_MUTATIONS {
+
+    input:
+    path csv_file from mutation_merged_summary_ch4
+
+    output:
+    path "${params.runname}_na_low_mutation.csv" into na_low_mutation_ch
+
+    script:
+    """
+    python3 "${params.script_files}/mutation_annotation.py" "${csv_file}" \
+        "${params.in_dataset}/RESITENCE_MUTATION/NA_LOW.csv" \
+        "${params.runname}_na_low_mutation.csv"  \
+        "NA_LOW"  \
     """
 }
 
