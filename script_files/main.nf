@@ -475,7 +475,7 @@ process MERGE_MUTATION_LIST_VACCINE {
    
 
     output:
-    path "*.csv" into mutation_merged_summary_vaccine_ch, 
+    path "*.csv" into mutation_merged_summary_vaccine_ch 
 
     script:
     """
