@@ -466,6 +466,23 @@ process MERGE_MUTATION_LIST {
     """
 }
 
+process MERGE_MUTATION_LIST_VACCINE {
+
+    publishDir params.out_mutation, mode: 'copy'
+    
+    input:
+    path csv_file from mutation_vaccine_singel_summary_ch.collect()
+   
+
+    output:
+    path "*.csv" into mutation_merged_summary_vaccine_ch, 
+
+    script:
+    """
+    python3 "${params.script_files}/table_merger.py" "csv" "${params.runname}_merged_mutation_vaccine.csv" "./"
+    """
+}
+
 process APPEND_MUTATION_LIST_TO_SUMMARY{
     
     input:
@@ -690,12 +707,15 @@ process FIND_CLADE {
     if [[ "\${fasta_name}" == *H1_HA.fasta ]]; then
         clade=A_H1_HA
         clade_2=A_H1_HA
+        nextclade=flu_h1n1pdm_ha
     elif [[ "\${fasta_name}" == *VIC_HA.fasta ]]; then
         clade=B_VIC
         clade_2=B_VIC_HA
+        nextclade=flu_vic_ha 
     elif [[ "\${fasta_name}" == A_H3_HA.fasta ]]; then
         clade=A_H3_HA
         clade_2=A_HA_H3
+        nextclade=flu_h3n2_ha 
     else
         clade=""
         clade_2=""
@@ -703,14 +723,19 @@ process FIND_CLADE {
 
     if [[ "\${clade}" != "" ]]; then
         mkdir -p nextclade_output
+        nextclade dataset get --name "\${nextclade}" --output-dir \${nextclade}_nextclade_dataset
         nextclade run \
-            --input-dataset ${params.in_dataset}/HA_NEXTCLADE/\${clade} \
+            --input-dataset \${nextclade}_nextclade_dataset \
             --output-all nextclade_output \
             ${fasta_file}
+
+
 
         python3 "${params.script_files}/clade_table_fix.py" nextclade_output/nextclade.csv \${clade_2}_CLADE.csv 
 
     fi
+
+    echo "--input-dataset ${params.in_dataset}/HA_NEXTCLADE/\${clade}"
 
     """
 }
