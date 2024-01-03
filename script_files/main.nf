@@ -541,20 +541,22 @@ process FIND_FLUSERVER_MUTATIONS {
     """
 }
 
-process FIND_NA_LOW_MUTATIONS {
+process FIND_PA_MUTATIONS {
+
+    publishDir params.out_mutation, mode: 'copy'
 
     input:
     path csv_file from mutation_merged_summary_ch4
 
     output:
-    path "${params.runname}_na_low_mutation.csv" into na_low_mutation_ch
+    path "${params.runname}_pa__mutation.csv" into pa_mutation_ch
 
     script:
     """
     python3 "${params.script_files}/mutation_annotation.py" "${csv_file}" \
-        "${params.in_dataset}/RESITENCE_MUTATION/NA_LOW.csv" \
-        "${params.runname}_na_low_mutation.csv"  \
-        "NA_LOW"  \
+        "${params.in_dataset}/RESITENCE_MUTATION/PA_RES.csv" \
+        "${params.runname}_pa_mutation.csv"  \
+        "PA"  \
     """
 }
 
