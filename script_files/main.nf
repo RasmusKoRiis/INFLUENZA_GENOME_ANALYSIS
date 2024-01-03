@@ -556,7 +556,7 @@ process FIND_PA_MUTATIONS {
     python3 "${params.script_files}/mutation_annotation.py" "${csv_file}" \
         "${params.in_dataset}/RESITENCE_MUTATION/PA_RES.csv" \
         "${params.runname}_pa_mutation.csv"  \
-        "PA"  \
+        "PA_mutations"  \
     """
 }
 
