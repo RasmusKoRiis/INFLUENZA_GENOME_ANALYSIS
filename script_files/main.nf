@@ -549,7 +549,7 @@ process FIND_PA_MUTATIONS {
     path csv_file from mutation_merged_summary_ch7
 
     output:
-    path "${params.runname}_pa__mutation.csv" into pa_mutation_ch
+    path "${params.runname}_pa_mutation.csv" into pa_mutation_ch
 
     script:
     """
