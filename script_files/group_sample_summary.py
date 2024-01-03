@@ -226,13 +226,27 @@ def main(csv_file, output_file, runname):
     df = add_average_depth_columns(df)
 
     df = add_mutation_columns(df)
+
+    mutation_csv = pd.read_csv(mutation_file)
+
+    mutation_vaccine_HA = mutation_csv[mutation_csv['Ref_Name'].str.contains('HA')]
+    mutation_vaccine_NA = mutation_csv[mutation_csv['Ref_Name'].str.contains('NA')]
+
+    pivoted_df1_HA = mutation_vaccine_HA.groupby('sample')['Differences'].apply(';'.join).reset_index().rename(columns={'Differences': 'Vaccine Mutations HA'})
+    pivoted_df1_NA = mutation_vaccine_NA.groupby('sample')['Differences'].apply(';'.join).reset_index().rename(columns={'Differences': 'Vaccine Mutations NA'})
+
+    merged_df = pd.merge(pivoted_df1_HA, pivoted_df1_NA, on='sample', how='outer')
+    merged_df = merged_df.rename(columns={'sample': 'Sample'})
+
+    final_merge = pd.merge(df, merged_df, on='Sample', how='outer')
     
-    df.to_csv(output_file, index=False)
+    final_merge.to_csv(output_file, index=False)
 
 if __name__ == "__main__":
     csv_file = sys.argv[1]
     output_file = sys.argv[2]
     runname = sys.argv[3]
     script_version = sys.argv[4]
+    mutation_file = sys.argv[5]
     main(csv_file, output_file, runname)
 
