@@ -239,7 +239,11 @@ def main(csv_file, output_file, runname):
     merged_df = merged_df.rename(columns={'sample': 'Sample'})
 
     final_merge = pd.merge(df, merged_df, on='Sample', how='outer')
-    
+
+    final_merge['H1 NA Resistance'] = final_merge['Fluserver Mutations'].apply(lambda x: 'S110;I117;E119Q136;R152;D199;I223;S247;H275;R293;N295;I427;I436;P458;I223' if x == 'NO MATCH' else x)
+    final_merge['H3 NA Resistance'] = final_merge['Fluserver Mutations'].apply(lambda x: 'E119;Q136;I222;R224;N245;K249;E276;R292;N294;N329;S334;R371' if x == 'NO MATCH' else x)
+    final_merge['BVIC NA Resistance'] = final_merge['Fluserver Mutations'].apply(lambda x: 'H101;G104;E105;G108;E117;H134;H134;Q138;P139;G140;Y142;G145;N151;K152;N169;D197;A200;I221;A245;S246;G247;H273;R292;N294;K360;I361;R374;A395;L396;G407;D432;H439;H439;M464' if x == 'NO MATCH' else x)
+
     final_merge.to_csv(output_file, index=False)
 
 if __name__ == "__main__":
