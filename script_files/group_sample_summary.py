@@ -325,7 +325,7 @@ def main(csv_file, output_file, runname):
             return 'AARS' if row['Fluserver Mutations'] == 'NO MATCH' else 'Review'
         return ''
     
-    final_merge['H1 =PA Resistance Status'] = final_merge.apply(calculate_h1_pa_resistance_status, axis=1)
+    final_merge['H1 PA Resistance Status'] = final_merge.apply(calculate_h1_pa_resistance_status, axis=1)
 
     def calculate_h3_pa_resistance_status(row):
         if row['Subtype'] == 'H3N2':
