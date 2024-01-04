@@ -94,8 +94,6 @@ def process_dataframe(df, runname, required_columns, column_names_map, quality_c
 
     df = df.loc[:, list(column_names_map.keys())]
     df = rename_columns(df, column_names_map)
-
-
     
     return df
 
@@ -228,13 +226,90 @@ def main(csv_file, output_file, runname):
     df = add_average_depth_columns(df)
 
     df = add_mutation_columns(df)
+
+
+    # Add vaccine mutations to summary file
+    mutation_csv = pd.read_csv(mutation_file)
+
+    mutation_vaccine_HA = mutation_csv[mutation_csv['Ref_Name'].str.contains('HA')]
+    mutation_vaccine_NA = mutation_csv[mutation_csv['Ref_Name'].str.contains('NA')]
+
+    pivoted_df1_HA = mutation_vaccine_HA.groupby('sample')['Differences'].apply(';'.join).reset_index().rename(columns={'Differences': 'Vaccine Mutations HA'})
+    pivoted_df1_NA = mutation_vaccine_NA.groupby('sample')['Differences'].apply(';'.join).reset_index().rename(columns={'Differences': 'Vaccine Mutations NA'})
+
+    merged_df = pd.merge(pivoted_df1_HA, pivoted_df1_NA, on='sample', how='outer')
+    merged_df = merged_df.rename(columns={'sample': 'Sample'})
+
+    final_merge = pd.merge(df, merged_df, on='Sample', how='outer')
+
+
+    # Add NA resistance mutation interpetations to summary file
+
+    def calculate_h1_na_resistance(row):
+        if row['Subtype'] == 'H1N1':
+            return 'S110;I117;E119Q136;R152;D199;I223;S247;H275;R293;N295;I427;I436;P458;I223' if row['Fluserver Mutations'] == 'NO MATCH' else row['Fluserver Mutations']
+        return ''
     
-    df.to_csv(output_file, index=False)
+    final_merge['H1 NA Resistance'] = final_merge.apply(calculate_h1_na_resistance, axis=1)
+    
+    def calculate_h3_na_resistance(row):
+        if row['Subtype'] == 'H3N2':
+            return 'E119;Q136;I222;R224;N245;K249;E276;R292;N294;N329;S334;R371' if row['Fluserver Mutations'] == 'NO MATCH' else row['Fluserver Mutations']
+        return ''
+    
+    final_merge['H3 NA Resistance'] = final_merge.apply(calculate_h3_na_resistance, axis=1)
+    
+    def calculate_bvic_na_resistance(row):
+        if row['Subtype'] == 'B_Victoria':
+            return 'H101;G104;E105;G108;E117;H134;H134;Q138;P139;G140;Y142;G145;N151;K152;N169;D197;A200;I221;A245;S246;G247;H273;R292;N294;K360;I361;R374;A395;L396;G407;D432;H439;H439;M464' if row['Fluserver Mutations'] == 'NO MATCH' else row['Fluserver Mutations']
+        return ''
+
+    final_merge['BVIC NA Resistance'] = final_merge.apply(calculate_bvic_na_resistance, axis=1)
+
+
+    #final_merge['H1 NA Resistance'] = final_merge['Fluserver Mutations'].apply(lambda x: 'S110;I117;E119Q136;R152;D199;I223;S247;H275;R293;N295;I427;I436;P458;I223' if x == 'NO MATCH' else x)
+    #final_merge['H3 NA Resistance'] = final_merge['Fluserver Mutations'].apply(lambda x: 'E119;Q136;I222;R224;N245;K249;E276;R292;N294;N329;S334;R371' if x == 'NO MATCH' else x)
+    #final_merge['BVIC NA Resistance'] = final_merge['Fluserver Mutations'].apply(lambda x: 'H101;G104;E105;G108;E117;H134;H134;Q138;P139;G140;Y142;G145;N151;K152;N169;D197;A200;I221;A245;S246;G247;H273;R292;N294;K360;I361;R374;A395;L396;G407;D432;H439;H439;M464' if x == 'NO MATCH' else x)
+
+    # Add PA resistance mutation interpetations to summary file
+    pa_mutation_csv = pd.read_csv(mutation_pa)
+
+    mutation_vaccine_PA = pa_mutation_csv[pa_mutation_csv['Ref_Name'].str.contains('PA')]
+    pivoted_df1_PA = mutation_vaccine_PA.groupby('sample')['PA_mutations'].apply(';'.join).reset_index().rename(columns={'PA_mutations': 'PA Resistance Mutations'})
+    pivoted_df1_PA = pivoted_df1_PA.rename(columns={'sample': 'Sample'})
+
+    final_merge = pd.merge(final_merge, pivoted_df1_PA, on='Sample', how='outer')
+
+    print(final_merge)
+    
+    def calculate_h1_pa_resistance(row):
+        if row['Subtype'] == 'H1N1':
+            return 'E23;K34;A36;A37;I38;119;E198;E199' if row['PA Resistance Mutations'] == 'NO MATCH' else row['PA Resistance Mutations']
+        return ''
+    
+    final_merge['H1N1 PA Resistance'] = final_merge.apply(calculate_h1_pa_resistance, axis=1)
+
+    def calculate_h3_pa_resistance(row):
+        if row['Subtype'] == 'H3N2':
+            return 'E23;K34;A36;A37;I38;119;E198;E199' if row['PA Resistance Mutations'] == 'NO MATCH' else row['PA Resistance Mutations']
+        return ''
+    
+    final_merge['H3N2 PA Resistance'] = final_merge.apply(calculate_h3_pa_resistance, axis=1)
+
+    #final_merge['HA PA Resistance'] = final_merge['PA Resistance Mutations'].apply(lambda x: 'E23;K34;A36;A37;I38;119;E198;E199' if x == 'NO MATCH' else x)
+
+    
+
+    # FINAL OUTPUT
+
+    final_merge.to_csv(output_file, index=False)
 
 if __name__ == "__main__":
-    csv_file = sys.argv[1]
-    output_file = sys.argv[2]
-    runname = sys.argv[3]
-    script_version = sys.argv[4]
+    csv_file = '/Users/rasmuskopperudriis/Coding/work_folder/runfolder/INF055_results/stat/app_summary.csv'
+    output_file = '/Users/rasmuskopperudriis/Coding/work_folder/runfolder/INF055_results/result.csv'
+    runname = '55'
+    script_version = 'V.1'
+    mutation_file = '/Users/rasmuskopperudriis/Coding/work_folder/runfolder/INF055_results/mutation/app_merged_mutation_vaccine.csv'
+    mutation_pa = '/Users/rasmuskopperudriis/Coding/work_folder/runfolder/INF055_results/mutation/app_pa_mutation.csv'
     main(csv_file, output_file, runname)
 

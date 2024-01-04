@@ -267,7 +267,29 @@ def main(csv_file, output_file, runname):
     final_merge['BVIC NA Resistance'] = final_merge.apply(calculate_bvic_na_resistance, axis=1)
 
 
-    #final_merge['H1 NA Resistance'] = final_merge['Fluserver Mutations'].apply(lambda x: 'S110;I117;E119Q136;R152;D199;I223;S247;H275;R293;N295;I427;I436;P458;I223' if x == 'NO MATCH' else x)
+    def calculate_h1_na_resistance_status(row):
+        if row['Subtype'] == 'H1N1':
+            return 'AANI' if row['Fluserver Mutations'] == 'NO MATCH' else 'Review'
+        return ''
+    
+    final_merge['H1 NA Resistance Status'] = final_merge.apply(calculate_h1_na_resistance_status, axis=1)
+
+    def calculate_h3_na_resistance_status(row):
+        if row['Subtype'] == 'H3N2':
+            return 'AANI' if row['Fluserver Mutations'] == 'NO MATCH' else 'Review'
+        return ''
+    
+    final_merge['H3 NA Resistance Status'] = final_merge.apply(calculate_h3_na_resistance_status, axis=1)
+
+    def calculate_bvic_na_resistance_status(row):
+        if row['Subtype'] == 'B_Victoria':
+            return 'AANI' if row['Fluserver Mutations'] == 'NO MATCH' else 'Review'
+        return ''
+    
+    final_merge['BVIC NA Resistance Status'] = final_merge.apply(calculate_bvic_na_resistance_status, axis=1)
+
+
+    #final_merge['H1 NA Resistance Status'] = final_merge['Fluserver Mutations'].apply(lambda x: 'AANI' if x == 'NO MATCH' else 'Review')
     #final_merge['H3 NA Resistance'] = final_merge['Fluserver Mutations'].apply(lambda x: 'E119;Q136;I222;R224;N245;K249;E276;R292;N294;N329;S334;R371' if x == 'NO MATCH' else x)
     #final_merge['BVIC NA Resistance'] = final_merge['Fluserver Mutations'].apply(lambda x: 'H101;G104;E105;G108;E117;H134;H134;Q138;P139;G140;Y142;G145;N151;K152;N169;D197;A200;I221;A245;S246;G247;H273;R292;N294;K360;I361;R374;A395;L396;G407;D432;H439;H439;M464' if x == 'NO MATCH' else x)
 
@@ -279,20 +301,38 @@ def main(csv_file, output_file, runname):
     pivoted_df1_PA = pivoted_df1_PA.rename(columns={'sample': 'Sample'})
 
     final_merge = pd.merge(final_merge, pivoted_df1_PA, on='Sample', how='outer')
+
+    print(final_merge)
     
     def calculate_h1_pa_resistance(row):
         if row['Subtype'] == 'H1N1':
-            return 'E23;K34;A36;A37;I38;119;E198;E199' if row['PA_mutations'] == 'NO MATCH' else row['PA_mutations']
+            return 'E23;K34;A36;A37;I38;119;E198;E199' if row['PA Resistance Mutations'] == 'NO MATCH' else row['PA Resistance Mutations']
         return ''
     
     final_merge['H1N1 PA Resistance'] = final_merge.apply(calculate_h1_pa_resistance, axis=1)
 
     def calculate_h3_pa_resistance(row):
         if row['Subtype'] == 'H3N2':
-            return 'E23;K34;A36;A37;I38;119;E198;E199' if row['PA_mutations'] == 'NO MATCH' else row['PA_mutations']
+            return 'E23;K34;A36;A37;I38;119;E198;E199' if row['PA Resistance Mutations'] == 'NO MATCH' else row['PA Resistance Mutations']
         return ''
     
     final_merge['H3N2 PA Resistance'] = final_merge.apply(calculate_h3_pa_resistance, axis=1)
+
+
+
+    def calculate_h1_pa_resistance_status(row):
+        if row['Subtype'] == 'H1N1':
+            return 'AARS' if row['Fluserver Mutations'] == 'NO MATCH' else 'Review'
+        return ''
+    
+    final_merge['H1 NA Resistance Status'] = final_merge.apply(calculate_h1_pa_resistance_status, axis=1)
+
+    def calculate_h3_pa_resistance_status(row):
+        if row['Subtype'] == 'H3N2':
+            return 'AARS' if row['Fluserver Mutations'] == 'NO MATCH' else 'Review'
+        return ''
+    
+    final_merge['H3 NA Resistance Status'] = final_merge.apply(calculate_h3_pa_resistance_status, axis=1)
 
     #final_merge['HA PA Resistance'] = final_merge['PA Resistance Mutations'].apply(lambda x: 'E23;K34;A36;A37;I38;119;E198;E199' if x == 'NO MATCH' else x)
 
