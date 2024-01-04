@@ -1,4 +1,4 @@
 ##gff-version 3
 ##sequence-region MW626062.1 1 1752
 MW626062.1	feature	gene	46	1077	.	+	.	gene_name="B_VIC_HA"
-MW626062.1	feature	gene	1078	1746	.	+	.	gene_name="B_VIC_HA2"
+

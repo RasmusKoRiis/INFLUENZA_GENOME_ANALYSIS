@@ -917,6 +917,7 @@ process FINALIZING_SUMMARY {
     input:
     path csv_file from summary_tmep_ch
     path mutation_file from mutation_merged_summary_vaccine_ch
+    path pa_mutations from pa_mutation_ch
    
     output:
     path "${params.runname2}_summary.csv" into summary_ch
@@ -929,6 +930,7 @@ process FINALIZING_SUMMARY {
         "${params.runname2}"  \
         "${params.script_version}"  \
         "${mutation_file}" \
+        "${pa_mutations}" \
     """
 }
 
