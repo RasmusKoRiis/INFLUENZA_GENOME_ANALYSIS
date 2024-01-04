@@ -288,6 +288,14 @@ def main(csv_file, output_file, runname):
     
     final_merge['BVIC NA Resistance Status'] = final_merge.apply(calculate_bvic_na_resistance_status, axis=1)
 
+    def add_NA_status(row):
+        values = [row['H1 NA Resistance Status'], row['H3 NA Resistance Status'], row['BVIC NA Resistance Status']]
+        non_empty_values = sum(1 for value in values if pd.notna(value) and value != '')
+    
+        return 'Review' if non_empty_values >= 2 else next((value for value in values if pd.notna(value) and value != ''), '')
+
+    final_merge['NA Resistance Status'] = final_merge.apply(add_NA_status, axis=1)
+
 
     #final_merge['H1 NA Resistance Status'] = final_merge['Fluserver Mutations'].apply(lambda x: 'AANI' if x == 'NO MATCH' else 'Review')
     #final_merge['H3 NA Resistance'] = final_merge['Fluserver Mutations'].apply(lambda x: 'E119;Q136;I222;R224;N245;K249;E276;R292;N294;N329;S334;R371' if x == 'NO MATCH' else x)
@@ -333,6 +341,15 @@ def main(csv_file, output_file, runname):
         return ''
     
     final_merge['H3 PA Resistance Status'] = final_merge.apply(calculate_h3_pa_resistance_status, axis=1)
+
+
+    def add_PA_status(row):
+        values = [row['H1 PA Resistance Status'], row['H3 PA Resistance Status']]
+        non_empty_values = sum(1 for value in values if pd.notna(value) and value != '')
+    
+        return 'Review' if non_empty_values >= 2 else next((value for value in values if pd.notna(value) and value != ''), '')
+
+    final_merge['PA Resistance Status'] = final_merge.apply(add_NA_status, axis=1)
 
     #final_merge['HA PA Resistance'] = final_merge['PA Resistance Mutations'].apply(lambda x: 'E23;K34;A36;A37;I38;119;E198;E199' if x == 'NO MATCH' else x)
 
