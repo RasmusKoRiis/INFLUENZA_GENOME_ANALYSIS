@@ -325,14 +325,14 @@ def main(csv_file, output_file, runname):
             return 'AARS' if row['Fluserver Mutations'] == 'NO MATCH' else 'Review'
         return ''
     
-    final_merge['H1 NA Resistance Status'] = final_merge.apply(calculate_h1_pa_resistance_status, axis=1)
+    final_merge['H1 =PA Resistance Status'] = final_merge.apply(calculate_h1_pa_resistance_status, axis=1)
 
     def calculate_h3_pa_resistance_status(row):
         if row['Subtype'] == 'H3N2':
             return 'AARS' if row['Fluserver Mutations'] == 'NO MATCH' else 'Review'
         return ''
     
-    final_merge['H3 NA Resistance Status'] = final_merge.apply(calculate_h3_pa_resistance_status, axis=1)
+    final_merge['H3 PA Resistance Status'] = final_merge.apply(calculate_h3_pa_resistance_status, axis=1)
 
     #final_merge['HA PA Resistance'] = final_merge['PA Resistance Mutations'].apply(lambda x: 'E23;K34;A36;A37;I38;119;E198;E199' if x == 'NO MATCH' else x)
 
