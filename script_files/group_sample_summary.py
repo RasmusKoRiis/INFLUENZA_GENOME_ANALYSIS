@@ -279,7 +279,26 @@ def main(csv_file, output_file, runname):
     pivoted_df1_PA = pivoted_df1_PA.rename(columns={'sample': 'Sample'})
 
     final_merge = pd.merge(final_merge, pivoted_df1_PA, on='Sample', how='outer')
-    final_merge['HA PA Resistance'] = final_merge['PA Resistance Mutations'].apply(lambda x: 'E23;K34;A36;A37;I38;119;E198;E199' if x == 'NO MATCH' else x)
+    
+    def calculate_h1_pa_resistance(row):
+        if row['Subtype'] == 'H1N1':
+            return 'E23;K34;A36;A37;I38;119;E198;E199' if row['PA_mutations'] == 'NO MATCH' else row['PA_mutations']
+        return ''
+    
+    final_merge['H1N1 PA Resistance'] = final_merge.apply(calculate_h1_pa_resistance, axis=1)
+
+    def calculate_h3_pa_resistance(row):
+        if row['Subtype'] == 'H3N2':
+            return 'E23;K34;A36;A37;I38;119;E198;E199' if row['PA_mutations'] == 'NO MATCH' else row['PA_mutations']
+        return ''
+    
+    final_merge['H3N2 PA Resistance'] = final_merge.apply(calculate_h3_pa_resistance, axis=1)
+
+    #final_merge['HA PA Resistance'] = final_merge['PA Resistance Mutations'].apply(lambda x: 'E23;K34;A36;A37;I38;119;E198;E199' if x == 'NO MATCH' else x)
+
+    
+
+    # FINAL OUTPUT
 
     final_merge.to_csv(output_file, index=False)
 
