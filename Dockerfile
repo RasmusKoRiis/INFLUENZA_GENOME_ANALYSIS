@@ -71,8 +71,8 @@ RUN git clone https://github.com/genome/bam-readcount.git && \
 WORKDIR /app
 
 # Copy the script and reference files into the container
-COPY script_files /app/script_files
 COPY references /app/references
+COPY script_files /app/script_files
 COPY dataset /app/dataset
 COPY results /app/results
 
