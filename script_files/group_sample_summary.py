@@ -297,6 +297,15 @@ def main(csv_file, output_file, runname):
     final_merge['NA Resistance Status'] = final_merge.apply(add_NA_status, axis=1)
 
 
+    def add_NA_resistance_mutation_list(row):
+        values = [row['H1 NA Resistance'], row['H3 NA Resistance'], row['BVIC NA Resistance']]
+        non_empty_values = sum(1 for value in values if pd.notna(value) and value != '')
+    
+        return 'Review' if non_empty_values >= 2 else next((value for value in values if pd.notna(value) and value != ''), '')
+    
+    final_merge['NA Resistance Mutations'] = final_merge.apply(add_NA_resistance_mutation_list, axis=1)
+
+
     #final_merge['H1 NA Resistance Status'] = final_merge['Fluserver Mutations'].apply(lambda x: 'AANI' if x == 'NO MATCH' else 'Review')
     #final_merge['H3 NA Resistance'] = final_merge['Fluserver Mutations'].apply(lambda x: 'E119;Q136;I222;R224;N245;K249;E276;R292;N294;N329;S334;R371' if x == 'NO MATCH' else x)
     #final_merge['BVIC NA Resistance'] = final_merge['Fluserver Mutations'].apply(lambda x: 'H101;G104;E105;G108;E117;H134;H134;Q138;P139;G140;Y142;G145;N151;K152;N169;D197;A200;I221;A245;S246;G247;H273;R292;N294;K360;I361;R374;A395;L396;G407;D432;H439;H439;M464' if x == 'NO MATCH' else x)
@@ -327,7 +336,6 @@ def main(csv_file, output_file, runname):
     final_merge['H3N2 PA Resistance'] = final_merge.apply(calculate_h3_pa_resistance, axis=1)
 
 
-
     def calculate_h1_pa_resistance_status(row):
         if row['Subtype'] == 'H1N1':
             return 'AARS' if row['Fluserver Mutations'] == 'NO MATCH' else 'Review'
@@ -349,7 +357,16 @@ def main(csv_file, output_file, runname):
     
         return 'Review' if non_empty_values >= 2 else next((value for value in values if pd.notna(value) and value != ''), '')
 
-    final_merge['PA Resistance Status'] = final_merge.apply(add_NA_status, axis=1)
+    final_merge['PA Resistance Status'] = final_merge.apply(add_PA_status, axis=1)
+
+
+    def add_PA_resistance_mutation_list(row):
+        values = [row['H1N1 PA Resistance'], row['H3N2 PA Resistance']]
+        non_empty_values = sum(1 for value in values if pd.notna(value) and value != '')
+    
+        return 'Review' if non_empty_values >= 2 else next((value for value in values if pd.notna(value) and value != ''), '')
+    
+    final_merge['PA Resistance Mutations'] = final_merge.apply(add_PA_resistance_mutation_list, axis=1)
 
     #final_merge['HA PA Resistance'] = final_merge['PA Resistance Mutations'].apply(lambda x: 'E23;K34;A36;A37;I38;119;E198;E199' if x == 'NO MATCH' else x)
 
