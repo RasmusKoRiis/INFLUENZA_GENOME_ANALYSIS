@@ -114,7 +114,7 @@ process MERGE_AND_EXTRACT_FASTA {
     path in_fasta from singel_fasta_ch
 
     output:
-    path "*.fasta" into merged_and_extracted_ch, merged_and_extracted_ch2, merged_and_extracted_ch3
+    path "*.fasta" into merged_and_extracted_ch, merged_and_extracted_ch2, merged_and_extracted_ch3, , merged_and_extracted_ch4
     path "*.fa" into merged_fasta_ch
 
     script:
@@ -956,6 +956,30 @@ process FASTA_FILE {
 
     
     """
+}
+
+process FIND_COVERAGE {
+
+    errorStrategy 'ignore'
+    
+    publishDir params.out_mutation, mode: 'copy'
+    
+    input:
+    path fasta_file from merged_and_extracted_ch4
+
+    output: 
+    path "*.csv" into coverage_ch
+
+    script:
+    """
+
+    fasta_name=\$(basename ${fasta_file} .draft.consensus.fasta)
+
+    python3 "${params.script_files}/coverage_finder.py"  \
+        "${fasta_file}" \
+        "${params.fasta_name}_coverage.csv"  \
+    """    
+    
 }
 
 

@@ -367,7 +367,6 @@ def main(csv_file, output_file, runname):
     
     final_merge['PA Resistance Mutations'] = final_merge.apply(add_PA_resistance_mutation_list, axis=1)
 
-    #final_merge['HA PA Resistance'] = final_merge['PA Resistance Mutations'].apply(lambda x: 'E23;K34;A36;A37;I38;119;E198;E199' if x == 'NO MATCH' else x)
 
     
 
