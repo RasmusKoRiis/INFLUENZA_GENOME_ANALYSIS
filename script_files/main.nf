@@ -93,7 +93,7 @@ process SAVE_FASTA_FILES {
     path in_fasta from name_added_fasta_files_ch.toList()
 
     output:
-    path "single_fasta_files" into singel_fasta_ch
+    path "single_fasta_files" into singel_fasta_ch, singel_fasta_ch2
 
     script:
     """
@@ -959,12 +959,11 @@ process FASTA_FILE {
 
 process FIND_COVERAGE {
 
-    errorStrategy 'ignore'
     
     publishDir params.out_mutation, mode: 'copy'
     
     input:
-    path fasta_file from merged_and_extracted_ch4
+    path fasta_file from singel_fasta_ch2
 
     output: 
     path "*.csv" into coverage_ch
