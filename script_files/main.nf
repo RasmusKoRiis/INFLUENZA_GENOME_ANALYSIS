@@ -114,7 +114,7 @@ process MERGE_AND_EXTRACT_FASTA {
     path in_fasta from singel_fasta_ch
 
     output:
-    path "*.fasta" into merged_and_extracted_ch, merged_and_extracted_ch2, merged_and_extracted_ch3, , merged_and_extracted_ch4
+    path "*.fasta" into merged_and_extracted_ch, merged_and_extracted_ch2, merged_and_extracted_ch3, merged_and_extracted_ch4
     path "*.fa" into merged_fasta_ch
 
     script:
@@ -134,7 +134,6 @@ process MERGE_AND_EXTRACT_FASTA {
 
     # REMOVE EMPTY FASTA FILES
     find . -name "*.fasta" -type f -size 0 -delete
-
     """
 }
 
