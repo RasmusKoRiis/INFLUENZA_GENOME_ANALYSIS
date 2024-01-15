@@ -1000,7 +1000,7 @@ process MERGE_COVERAGE {
 
     # Concatenate the content of all files
     for file in ${fasta_file}; do
-        cat $file >> merged.csv
+        cat \${file} >> merged.csv
     done
     """
 }
