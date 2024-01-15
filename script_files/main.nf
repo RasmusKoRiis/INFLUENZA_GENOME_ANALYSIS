@@ -971,6 +971,7 @@ process FIND_COVERAGE {
     script:
     """
     fasta_file_name=\$(basename ${fasta_file} .fasta)
+    fasta_file_name=$(echo "\${fasta_file_name}" | cut -d '_' -f 4,5)
 
     python3 "${params.script_files}/coverage_finder.py"  \
             ${fasta_file} \
@@ -996,11 +997,11 @@ process MERGE_COVERAGE {
     script:
     """
     # Define the header
-    echo "Sample,HA,NA,PA,coverage status,average coverage" > merged.csv
+    echo "Sample,coverage status,average coverage" > merged.csv
 
     # Concatenate the content of all files
-    for file in ${fasta_file}; do
-        cat \${file} >> merged.csv
+    for file in ${fasta_files}; do
+        tail -n +2 \${file} >> merged.csv
     done
     """
 }

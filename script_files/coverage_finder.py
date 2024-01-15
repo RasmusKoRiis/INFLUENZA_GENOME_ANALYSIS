@@ -62,6 +62,8 @@ for segment in ['HA', 'NA', 'PA']:
     if segment not in df_pivot.columns:
         df_pivot[segment] = None
 
+df_pivot = df_pivot.drop(['HA', 'NA', 'PA'], axis=1)
+
 # Save DataFrame to CSV file
 df_pivot.to_csv(output)
 
