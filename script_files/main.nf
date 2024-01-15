@@ -996,10 +996,16 @@ process MERGE_COVERAGE {
 
     script:
     """
-    fasta_file_name=\$(basename ${fasta_file} .fasta)
+    
+   
+    head -1 $(ls -1 ${fasta_file} | head -1) > coveage_merged.csv
 
+  
+    for file in ${fasta_file}; do
+        tail -n +2 $file >> coverage.csv
+    done
 
-
+   
     """
     
 }
