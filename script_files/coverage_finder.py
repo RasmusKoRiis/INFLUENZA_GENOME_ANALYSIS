@@ -35,7 +35,7 @@ for record in SeqIO.parse(fasta_file, "fasta"):
 df = pd.DataFrame(data)
 
 # Filter rows where 'id' does not contain 'PA', 'NA', or 'HA'
-df_filtered = df[df['id'].str.contains('PA|NA|HA')]
+df_filtered = df[df['id'].str.contains('HA|NA|PA')]
 
 # Pivot table to have one row per sample and separate columns for each 'id'
 df_pivot = df_filtered.pivot(index='Sample', columns='id', values='coverage')

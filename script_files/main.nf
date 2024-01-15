@@ -985,30 +985,26 @@ process FIND_COVERAGE {
 
 process MERGE_COVERAGE {
 
-    
     publishDir params.out_mutation, mode: 'copy'
     
     input:
     path fasta_file from ncoverage_ch.collect()
 
     output: 
-    path "*.csv" into merged_coverage_ch
+    path "merged.csv" into merged_coverage_ch
 
     script:
     """
-    
-   
-    head -1 $(ls -1 ${fasta_file} | head -1) > coveage_merged.csv
+    # Define the header
+    echo "Sample,HA,NA,PA,coverage status,average coverage" > merged.csv
 
-  
+    # Concatenate the content of all files
     for file in ${fasta_file}; do
-        tail -n +2 $file >> coverage.csv
+        cat $file >> merged.csv
     done
-
-   
     """
-    
 }
+
 
 
 
