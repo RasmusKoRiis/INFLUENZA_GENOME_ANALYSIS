@@ -47,6 +47,21 @@ df_pivot['coverage status'] = df_pivot.apply(lambda row: 'fail' if any(row < 90)
 coverage_columns = df_pivot.columns[df_pivot.columns != 'coverage status']
 df_pivot['average coverage'] = df_pivot[coverage_columns].mean(axis=1)
 
+
+# Rename columns that contain 'HA', 'NA', 'PA'
+for col in df_pivot.columns:
+    if 'HA' in col:
+        df_pivot.rename(columns={col: 'HA'}, inplace=True)
+    elif 'NA' in col:
+        df_pivot.rename(columns={col: 'NA'}, inplace=True)
+    elif 'PA' in col:
+        df_pivot.rename(columns={col: 'PA'}, inplace=True)
+
+# Add 'HA', 'NA', 'PA' columns if they are missing
+for segment in ['HA', 'NA', 'PA']:
+    if segment not in df_pivot.columns:
+        df_pivot[segment] = None
+
 # Save DataFrame to CSV file
 df_pivot.to_csv(output)
 

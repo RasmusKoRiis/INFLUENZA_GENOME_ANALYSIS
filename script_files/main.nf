@@ -970,11 +970,7 @@ process FIND_COVERAGE {
 
     script:
     """
-    echo ${fasta_file}
-    cat ${fasta_file}
-
     fasta_file_name=\$(basename ${fasta_file} .fasta)
-    echo "\${fasta_file_name}"
 
     python3 "${params.script_files}/coverage_finder.py"  \
             ${fasta_file} \
@@ -982,6 +978,27 @@ process FIND_COVERAGE {
 
     
     cat "\${fasta_file_name}_coverage.csv"
+
+    """
+    
+}
+
+process MERGE_COVERAGE {
+
+    
+    publishDir params.out_mutation, mode: 'copy'
+    
+    input:
+    path fasta_file from ncoverage_ch.collect()
+
+    output: 
+    path "*.csv" into merged_coverage_ch
+
+    script:
+    """
+    fasta_file_name=\$(basename ${fasta_file} .fasta)
+
+
 
     """
     
