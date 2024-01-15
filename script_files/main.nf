@@ -970,8 +970,11 @@ process FIND_COVERAGE {
 
     script:
     """
+    echo ${fasta_folder}
     cd ${fasta_folder}
+    echo *
     cat *.fasta > "merged.fasta"
+    cat merged.fasta
     
     python3 "${params.script_files}/coverage_finder.py"  \
             "merged.fasta" \
