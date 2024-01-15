@@ -74,7 +74,7 @@ process ADD_NAME_INSIDE_FASTA {
     path in_fasta from coreccted_fasta_files_ch
 
     output:
-    path "names_added_${in_fasta.name}" into name_added_fasta_files_ch
+    path "names_added_${in_fasta.name}" into name_added_fasta_files_ch, name_added_fasta_files_ch2
 
     script:
     """
@@ -963,22 +963,26 @@ process FIND_COVERAGE {
     publishDir params.out_mutation, mode: 'copy'
     
     input:
-    path fasta_folder from singel_fasta_ch2
+    path fasta_file from name_added_fasta_files_ch2
 
     output: 
     path "*.csv" into coverage_ch
 
     script:
     """
-    echo ${fasta_folder}
-    cd ${fasta_folder}
-    echo *
-    cat *.fasta > "merged.fasta"
-    cat merged.fasta
-    
+    echo ${fasta_file}
+    cat ${fasta_file}
+
+    fasta_file_name=\$(basename ${fasta_file} .fasta)
+
     python3 "${params.script_files}/coverage_finder.py"  \
-            "merged.fasta" \
-            "merged_coverage.csv"  \
+            ${fasta_file} \
+            "${fasta_file_name}_coverage.csv"  \
+
+    
+    cat "${fasta_file_name}_coverage.csv"
+
+
     """
     
 }
