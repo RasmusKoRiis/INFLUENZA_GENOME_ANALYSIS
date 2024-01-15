@@ -970,12 +970,12 @@ process FIND_COVERAGE {
 
     script:
     """
-    for fasta_file in ${fasta_folder}; do
-        fasta_name=\$(basename ${fasta_file} .draft.consensus.fasta)
-        echo "Processing: \${fasta_name}"
-        python3 "${params.script_files}/coverage_finder.py"  \
-            "${fasta_file}" \
-            "${params.fasta_name}_coverage.csv"  \
+    cd ${fasta_folder}
+    cat *.fasta > "merged.fasta"
+    
+    python3 "${params.script_files}/coverage_finder.py"  \
+            "merged.fasta" \
+            "merged_coverage.csv"  \
     """
     
 }
