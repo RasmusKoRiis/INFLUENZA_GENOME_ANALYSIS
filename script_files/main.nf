@@ -974,14 +974,14 @@ process FIND_COVERAGE {
     cat ${fasta_file}
 
     fasta_file_name=\$(basename ${fasta_file} .fasta)
+    echo "\${fasta_file_name}"
 
     python3 "${params.script_files}/coverage_finder.py"  \
             ${fasta_file} \
-            "${fasta_file_name}_coverage.csv"  \
+            "\${fasta_file_name}_coverage.csv"  \
 
     
-    cat "${fasta_file_name}_coverage.csv"
-
+    cat "\${fasta_file_name}_coverage.csv"
 
     """
     
