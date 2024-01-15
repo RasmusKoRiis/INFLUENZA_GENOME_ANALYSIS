@@ -963,20 +963,20 @@ process FIND_COVERAGE {
     publishDir params.out_mutation, mode: 'copy'
     
     input:
-    path fasta_file from singel_fasta_ch2
+    path fasta_folder from singel_fasta_ch2
 
     output: 
     path "*.csv" into coverage_ch
 
     script:
     """
-
-    fasta_name=\$(basename ${fasta_file} .draft.consensus.fasta)
-
-    python3 "${params.script_files}/coverage_finder.py"  \
-        "${fasta_file}" \
-        "${params.fasta_name}_coverage.csv"  \
-    """    
+    for fasta_file in ${fasta_folder}; do
+        fasta_name=\$(basename ${fasta_file} .draft.consensus.fasta)
+        echo "Processing: \${fasta_name}"
+        python3 "${params.script_files}/coverage_finder.py"  \
+            "${fasta_file}" \
+            "${params.fasta_name}_coverage.csv"  \
+    """
     
 }
 
