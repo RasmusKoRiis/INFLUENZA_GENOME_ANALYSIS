@@ -375,6 +375,11 @@ def main(csv_file, output_file, runname):
     final_merge = pd.merge(final_merge,coverage_csv, on='Sample', how='outer')
     final_merge = final_merge[final_merge['average coverage'] >= 90]
 
+    # Add subtype columns to summary file
+    subtype_csv = pd.read_csv(subtype_file)
+    final_merge = pd.merge(final_merge,coverage_csv, on='Sample', how='outer')
+    final_merge = final_merge.replace("VICVIC", "B/Victoria")
+
     # FINAL OUTPUT
 
     final_merge.to_csv(output_file, index=False)
@@ -387,5 +392,6 @@ if __name__ == "__main__":
     mutation_file = sys.argv[5]
     mutation_pa = sys.argv[6]
     coverage_file = sys.argv[7]
+    subtype_file = sys.argv[8]
     main(csv_file, output_file, runname)
 

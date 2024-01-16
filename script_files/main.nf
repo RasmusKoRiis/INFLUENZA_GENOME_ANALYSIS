@@ -983,13 +983,13 @@ process MERGE_COVERAGE {
 
 process SUBTYPE_FINDER {
 
-    publishDir params.out_mutation, mode: 'copy'
+    errorStrategy 'ignore'
     
     input:
     path fasta_file from name_added_fasta_files_ch3
 
     output: 
-    path "*.csv" into syuptype_ch
+    path "*.csv" into subtype_ch
 
     script:
     """
@@ -1017,6 +1017,31 @@ process SUBTYPE_FINDER {
     """
 }
 
+
+process MERGE_SUBTYPE {
+
+    errorStrategy 'ignore'
+    
+    input:
+    path fasta_files from subtype_ch.collect()
+
+    output: 
+    path "merged.csv" into merged_subtype_ch
+
+    script:
+    """
+    # Define the header
+    echo "Sample,blast subtype" > merged.csv
+
+    # Concatenate the content of all files
+    for file in ${fasta_files}; do
+        cat \${file} >> merged.csv
+    done
+    """
+}
+
+
+
 process FINALIZING_SUMMARY {
 
     errorStrategy 'ignore'
@@ -1028,6 +1053,7 @@ process FINALIZING_SUMMARY {
     path mutation_file from mutation_merged_summary_vaccine_ch
     path pa_mutations from pa_mutation_ch
     path coverage_file from merged_coverage_ch
+    path subtype_file from merged_subtype_ch
     
    
     output:
@@ -1043,6 +1069,7 @@ process FINALIZING_SUMMARY {
         "${mutation_file}" \
         "${pa_mutations}" \
         "${coverage_file}" \
+        "${subtype_file}" \
     """
 }
 
