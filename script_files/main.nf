@@ -1026,16 +1026,16 @@ process MERGE_SUBTYPE {
     path fasta_files from subtype_ch.collect()
 
     output: 
-    path "merged.csv" into merged_subtype_ch
+    path "*.csv" into merged_subtype_ch
 
     script:
     """
     # Define the header
-    echo "Sample,blast subtype" > merged.csv
+    echo "Sample,blast subtype" > merged_subtype.csv
 
     # Concatenate the content of all files
     for file in ${fasta_files}; do
-        cat \${file} >> merged.csv
+        cat \${file} >> merged_subtype.csv
     done
     """
 }
