@@ -74,7 +74,7 @@ process ADD_NAME_INSIDE_FASTA {
     path in_fasta from coreccted_fasta_files_ch
 
     output:
-    path "names_added_${in_fasta.name}" into name_added_fasta_files_ch, name_added_fasta_files_ch2
+    path "names_added_${in_fasta.name}" into name_added_fasta_files_ch, name_added_fasta_files_ch2, name_added_fasta_files_ch3
 
     script:
     """
@@ -935,7 +935,6 @@ process FASTA_FILE {
 process FIND_COVERAGE {
 
     
-    publishDir params.out_mutation, mode: 'copy'
     
     input:
     path fasta_file from name_added_fasta_files_ch2
@@ -962,7 +961,7 @@ process FIND_COVERAGE {
 
 process MERGE_COVERAGE {
 
-    publishDir params.out_mutation, mode: 'copy'
+    errorStrategy 'ignore'
     
     input:
     path fasta_files from coverage_ch.collect()
@@ -979,6 +978,27 @@ process MERGE_COVERAGE {
     for file in ${fasta_files}; do
         tail -n +2 \${file} >> merged.csv
     done
+    """
+}
+
+process SUBTYPE_FINDER {
+
+    publishDir params.out_mutation, mode: 'copy'
+    
+    input:
+    path fasta_files from name_added_fasta_files_ch3
+
+    output: 
+    path "*.tsv" into merged_coverage_ch
+
+    script:
+    """
+    ha_database="${params.reference}/epi2me/vaccine/"\$segment"_amino.fasta"
+    fasta_file_name=\$(basename ${fasta_file} .draft.consensus.fasta)
+    fasta_file_name=\$(echo "\${fasta_file_name}" | cut -d '_' -f 5,6)
+
+    blastn -query $fasta_files -subject \${ha_database} -outfmt 6 -max_target_seqs 3 > "\${fasta_file_name}"_ha.tsv"
+    
     """
 }
 
