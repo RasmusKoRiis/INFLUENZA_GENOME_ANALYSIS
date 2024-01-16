@@ -66,6 +66,10 @@ RUN git clone https://github.com/genome/bam-readcount.git && \
     rm -rf bin/bam-readcount
 
 
+# Install blastn
+RUN conda install bioconda::blast
+
+
 
 # Set the working directory
 WORKDIR /app

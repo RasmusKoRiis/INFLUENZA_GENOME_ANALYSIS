@@ -993,11 +993,12 @@ process SUBTYPE_FINDER {
 
     script:
     """
-    ha_database="${params.reference}/epi2me/vaccine/"\$segment"_amino.fasta"
+    ha_database="${params.reference}/human_HA.fasta"
+    seqkit grep -r -i -p "HA" ${fasta_file} > ha.fasta
     fasta_file_name=\$(basename ${fasta_file} .draft.consensus.fasta)
     fasta_file_name=\$(echo "\${fasta_file_name}" | cut -d '_' -f 5,6)
 
-    blastn -query $fasta_files -subject \${ha_database} -outfmt 6 -max_target_seqs 3 > "\${fasta_file_name}"_ha.tsv"
+    blastn -query \$ha.fasta -subject \${ha_database} -outfmt 6 -max_target_seqs 3 > "\${fasta_file_name}"_ha.tsv"
     
     """
 }
