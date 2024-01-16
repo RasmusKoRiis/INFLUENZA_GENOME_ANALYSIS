@@ -998,7 +998,7 @@ process SUBTYPE_FINDER {
     fasta_file_name=\$(basename ${fasta_file} .draft.consensus.fasta)
     fasta_file_name=\$(echo "\${fasta_file_name}" | cut -d '_' -f 5,6)
 
-    blastn -query \$ha.fasta -subject \${ha_database} -outfmt 6 -max_target_seqs 3 > "\${fasta_file_name}"_ha.tsv"
+    blastn -query \$ha.fasta -subject \${ha_database} -outfmt 6 -max_target_seqs 3 > "\${fasta_file_name}_ha.tsv"
     
     """
 }
