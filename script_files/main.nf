@@ -986,7 +986,7 @@ process SUBTYPE_FINDER {
     publishDir params.out_mutation, mode: 'copy'
     
     input:
-    path fasta_files from name_added_fasta_files_ch3
+    path fasta_file from name_added_fasta_files_ch3
 
     output: 
     path "*.tsv" into syuptype_ch
