@@ -1000,8 +1000,6 @@ process SUBTYPE_FINDER {
 
     seqkit grep -r -i -p "HA" ${fasta_file} > "\${fasta_file_name}_ha.fasta"
 
-    cat single_fasta_files/*.fasta > "\${runname}_merged.fa"
-
     blastn -query "\${fasta_file_name}_ha.fasta" -subject \${ha_database} -outfmt 6 -max_target_seqs 3 > "\${fasta_file_name}_ha.tsv"
     
     """
