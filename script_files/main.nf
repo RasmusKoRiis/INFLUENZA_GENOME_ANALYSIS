@@ -1003,10 +1003,10 @@ process SUBTYPE_FINDER {
     seqkit grep -r -i -p "NA" ${fasta_file} > "\${fasta_file_name}_na.fasta"
 
     blastn -query "\${fasta_file_name}_ha.fasta" -subject \${ha_database} -outfmt 6 -max_target_seqs 3 > "\${fasta_file_name}_ha.tsv"
-    subtype_ha=\$(awk -F '\t' '{split(\$2,a,\"_\"); print a[2]}' "ha_\${fasta_file_name}.tsv" | head -n 1)
+    subtype_ha=\$(awk -F '\t' '{split(\$2,a,\"_\"); print a[2]}' "\${fasta_file_name}_ha.tsv" | head -n 1)
     
     blastn -query "\${fasta_file_name}_na.fasta" -subject \${na_database} -outfmt 6 -max_target_seqs 3 > "\${fasta_file_name}_na.tsv"
-    subtype_na=\$(awk -F '\t' '{split(\$2,a,\"_\"); print a[2]}' "na_\${fasta_file_name}.tsv" | head -n 1)
+    subtype_na=\$(awk -F '\t' '{split(\$2,a,\"_\"); print a[2]}' "\${fasta_file_name}_na.tsv" | head -n 1)
 
     subtype="\${fasta_file_name},\$subtype_ha\$subtype_na"
     
