@@ -338,14 +338,14 @@ def main(csv_file, output_file, runname):
 
     def calculate_h1_pa_resistance_status(row):
         if row['Subtype'] == 'H1N1':
-            return 'AARS' if row['Fluserver Mutations'] == 'NO MATCH' else 'Review'
+            return 'AARS' if row['PA Resistance Mutations'] == 'NO MATCH' else 'Review'
         return ''
     
     final_merge['H1 PA Resistance Status'] = final_merge.apply(calculate_h1_pa_resistance_status, axis=1)
 
     def calculate_h3_pa_resistance_status(row):
         if row['Subtype'] == 'H3N2':
-            return 'AARS' if row['Fluserver Mutations'] == 'NO MATCH' else 'Review'
+            return 'AARS' if row['PA Resistance Mutations'] == 'NO MATCH' else 'Review'
         return ''
     
     final_merge['H3 PA Resistance Status'] = final_merge.apply(calculate_h3_pa_resistance_status, axis=1)
@@ -370,7 +370,10 @@ def main(csv_file, output_file, runname):
 
     #final_merge['HA PA Resistance'] = final_merge['PA Resistance Mutations'].apply(lambda x: 'E23;K34;A36;A37;I38;119;E198;E199' if x == 'NO MATCH' else x)
 
-    
+    # Add coverage columns to summary file
+    coverage_csv = pd.read_csv(coverage_file)
+    final_merge = pd.merge(final_merge,coverage_csv, on='Sample', how='outer')
+    final_merge = final_merge[final_merge['average coverage'] >= 90]
 
     # FINAL OUTPUT
 
@@ -383,5 +386,6 @@ if __name__ == "__main__":
     script_version = sys.argv[4]
     mutation_file = sys.argv[5]
     mutation_pa = sys.argv[6]
+    coverage_file = sys.argv[7]
     main(csv_file, output_file, runname)
 

@@ -917,6 +917,7 @@ process FINALIZING_SUMMARY {
     path csv_file from summary_tmep_ch
     path mutation_file from mutation_merged_summary_vaccine_ch
     path pa_mutations from pa_mutation_ch
+    path coverage_file from merged_coverage_ch
    
     output:
     path "${params.runname2}_summary.csv" into summary_ch
@@ -930,6 +931,7 @@ process FINALIZING_SUMMARY {
         "${params.script_version}"  \
         "${mutation_file}" \
         "${pa_mutations}" \
+        "${coverage_file}" \
     """
 }
 
@@ -970,7 +972,7 @@ process FIND_COVERAGE {
 
     script:
     """
-    fasta_file_name=\$(basename ${fasta_file} .fasta)
+    fasta_file_name=\$(basename ${fasta_file} .draft.consensus.fasta)
     fasta_file_name=\$(echo "\${fasta_file_name}" | cut -d '_' -f 5,6)
 
     python3 "${params.script_files}/coverage_finder.py"  \

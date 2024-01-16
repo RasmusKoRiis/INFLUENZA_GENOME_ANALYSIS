@@ -25,6 +25,8 @@ def add_missing_columns(df, required_columns):
 def merge_and_rename_cols(df, search_str, new_col_name):
     cols = [col for col in df.columns if search_str in col]
     merged_col = df[cols].mode(axis=1)
+    print(merged_col.head())
+    print(merged_col.columns)
 
     # If more than one mode, write 'MIXED' in the cell
     merged_col = merged_col.apply(lambda row: 'MIXED' if row.count() > 1 else row[0], axis=1)
@@ -317,6 +319,7 @@ def main(csv_file, output_file, runname):
 
     final_merge = pd.merge(final_merge, pivoted_df1_PA, on='Sample', how='outer')
 
+    print(final_merge)
     
     def calculate_h1_pa_resistance(row):
         if row['Subtype'] == 'H1N1':
@@ -325,7 +328,6 @@ def main(csv_file, output_file, runname):
     
     final_merge['H1N1 PA Resistance'] = final_merge.apply(calculate_h1_pa_resistance, axis=1)
 
-
     def calculate_h3_pa_resistance(row):
         if row['Subtype'] == 'H3N2':
             return 'E23;K34;A36;A37;I38;119;E198;E199' if row['PA Resistance Mutations'] == 'NO MATCH' else row['PA Resistance Mutations']
@@ -333,7 +335,6 @@ def main(csv_file, output_file, runname):
     
     final_merge['H3N2 PA Resistance'] = final_merge.apply(calculate_h3_pa_resistance, axis=1)
 
-    print(final_merge)
 
     def calculate_h1_pa_resistance_status(row):
         if row['Subtype'] == 'H1N1':
@@ -367,13 +368,16 @@ def main(csv_file, output_file, runname):
     
     final_merge['PA Resistance Mutations'] = final_merge.apply(add_PA_resistance_mutation_list, axis=1)
 
+    #final_merge['HA PA Resistance'] = final_merge['PA Resistance Mutations'].apply(lambda x: 'E23;K34;A36;A37;I38;119;E198;E199' if x == 'NO MATCH' else x)
 
-    
+    # Add coverage columns to summary file
+    coverage_csv = pd.read_csv(coverage_file)
+    final_merge = pd.merge(final_merge,coverage_csv, on='Sample', how='outer')
+    final_merge = final_merge[final_merge['average coverage'] >= 90]
 
     # FINAL OUTPUT
 
     final_merge.to_csv(output_file, index=False)
-    
     
 
 if __name__ == "__main__":
@@ -382,7 +386,9 @@ if __name__ == "__main__":
     runname = '55'
     script_version = 'V.1'
     mutation_file = '/Users/rasmuskopperudriis/Coding/work_folder/runfolder/INF055_results/mutation/app_merged_mutation_vaccine.csv'
-    mutation_pa = '/Users/rasmuskopperudriis/Coding/work_folder/runfolder/INF055_results/mutation/app_pa_mutation copy.csv'
+    mutation_pa = '/Users/rasmuskopperudriis/Coding/work_folder/runfolder/INF055_results/mutation/app_pa_mutation.csv'
+    coverage_file = '/Users/rasmuskopperudriis/Coding/work_folder/runfolder/INF055_results/mutation/merged.csv'
+
     main(csv_file, output_file, runname)
 
 
