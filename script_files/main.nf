@@ -989,7 +989,7 @@ process SUBTYPE_FINDER {
     path fasta_files from name_added_fasta_files_ch3
 
     output: 
-    path "*.tsv" into merged_coverage_ch
+    path "*.tsv" into syuptype_ch
 
     script:
     """
