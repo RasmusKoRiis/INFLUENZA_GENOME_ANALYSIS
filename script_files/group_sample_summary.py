@@ -377,7 +377,7 @@ def main(csv_file, output_file, runname):
 
     # Add subtype columns to summary file
     subtype_csv = pd.read_csv(subtype_file)
-    final_merge = pd.merge(final_merge,coverage_csv, on='Sample', how='outer')
+    final_merge = pd.merge(final_merge,subtype_csv , on='Sample', how='outer')
     final_merge = final_merge.replace("VICVIC", "B/Victoria")
 
     # FINAL OUTPUT
