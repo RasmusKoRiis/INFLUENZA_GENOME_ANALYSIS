@@ -989,18 +989,30 @@ process SUBTYPE_FINDER {
     path fasta_file from name_added_fasta_files_ch3
 
     output: 
-    path "*.tsv" into syuptype_ch
+    path "*.csv" into syuptype_ch
 
     script:
     """
     ha_database="${params.reference}/human_HA.fasta"
+    na_database="${params.reference}/human_NA.fasta"
     
     fasta_file_name=\$(basename ${fasta_file} .draft.consensus.fasta)
     fasta_file_name=\$(echo "\${fasta_file_name}" | cut -d '_' -f 5,6)
 
     seqkit grep -r -i -p "HA" ${fasta_file} > "\${fasta_file_name}_ha.fasta"
+    seqkit grep -r -i -p "NA" ${fasta_file} > "\${fasta_file_name}_na.fasta"
 
     blastn -query "\${fasta_file_name}_ha.fasta" -subject \${ha_database} -outfmt 6 -max_target_seqs 3 > "\${fasta_file_name}_ha.tsv"
+    subtype_ha=\$(awk -F '\t' '{split(\$2,a,\"_\"); print a[2]}' "ha_\${fasta_file_name}.tsv" | head -n 1)
+    
+    blastn -query "\${fasta_file_name}_na.fasta" -subject \${na_database} -outfmt 6 -max_target_seqs 3 > "\${fasta_file_name}_na.tsv"
+    subtype_na=\$(awk -F '\t' '{split(\$2,a,\"_\"); print a[2]}' "na_\${fasta_file_name}.tsv" | head -n 1)
+
+    subtype="\${fasta_file_name},\$subtype_ha\$subtype_na"
+    
+
+    echo \$subtype > "\${fasta_file_name}_subtype.csv"
+
     
     """
 }
