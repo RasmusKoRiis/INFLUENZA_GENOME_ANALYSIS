@@ -989,7 +989,7 @@ process MERGE_COVERAGE {
     publishDir params.out_mutation, mode: 'copy'
     
     input:
-    path fasta_file from coverage_ch.collect()
+    path fasta_files from coverage_ch.collect()
 
     output: 
     path "merged.csv" into merged_coverage_ch
