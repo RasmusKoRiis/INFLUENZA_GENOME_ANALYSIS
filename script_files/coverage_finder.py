@@ -5,6 +5,7 @@ import sys
 
 fasta = sys.argv[1]
 output = sys.argv[2]
+name = sys.argv[3]
 
 # Function to calculate coverage
 def calculate_coverage(sequence):
@@ -29,7 +30,7 @@ data = []
 # Parse each record in the FASTA file
 for record in SeqIO.parse(fasta_file, "fasta"):
     coverage = calculate_coverage(str(record.seq))
-    data.append({'id': record.id, 'coverage': coverage, 'Sample': sample_name})
+    data.append({'id': record.id, 'coverage': coverage, 'Sample': name})
 
 # Create DataFrame
 df = pd.DataFrame(data)
