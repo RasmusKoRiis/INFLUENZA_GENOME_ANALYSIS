@@ -907,33 +907,6 @@ process SUMMARY_FILTERING {
     """
 }
 
-process FINALIZING_SUMMARY {
-
-    errorStrategy 'ignore'
-    
-    publishDir params.out_stat, mode: 'copy'
-    
-    input:
-    path csv_file from summary_tmep_ch
-    path mutation_file from mutation_merged_summary_vaccine_ch
-    path pa_mutations from pa_mutation_ch
-    path coverage_file from merged_coverage_ch
-   
-    output:
-    path "${params.runname2}_summary.csv" into summary_ch
-
-    script:
-    """
-    python3 "${params.script_files}/group_sample_summary.py"  \
-        "${csv_file}" \
-        "${params.runname2}_summary.csv"  \
-        "${params.runname2}"  \
-        "${params.script_version}"  \
-        "${mutation_file}" \
-        "${pa_mutations}" \
-        "${coverage_file}" \
-    """
-}
 
 process FASTA_FILE {
 
@@ -1008,6 +981,36 @@ process MERGE_COVERAGE {
     done
     """
 }
+
+process FINALIZING_SUMMARY {
+
+    errorStrategy 'ignore'
+    
+    publishDir params.out_stat, mode: 'copy'
+    
+    input:
+    path csv_file from summary_tmep_ch
+    path mutation_file from mutation_merged_summary_vaccine_ch
+    path pa_mutations from pa_mutation_ch
+    path coverage_file from merged_coverage_ch
+    
+   
+    output:
+    path "${params.runname2}_summary.csv" into summary_ch
+
+    script:
+    """
+    python3 "${params.script_files}/group_sample_summary.py"  \
+        "${csv_file}" \
+        "${params.runname2}_summary.csv"  \
+        "${params.runname2}"  \
+        "${params.script_version}"  \
+        "${mutation_file}" \
+        "${pa_mutations}" \
+        "${coverage_file}" \
+    """
+}
+
 
 
 
