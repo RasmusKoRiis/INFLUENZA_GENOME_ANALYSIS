@@ -971,7 +971,7 @@ process FIND_COVERAGE {
     script:
     """
     fasta_file_name=\$(basename ${fasta_file} .fasta)
-    fasta_file_name=$(echo "\${fasta_file_name}" | cut -d '_' -f 4,5)
+    fasta_file_name=\$(echo "\${fasta_file_name}" | cut -d '_' -f 4,5)
 
     python3 "${params.script_files}/coverage_finder.py"  \
             ${fasta_file} \
