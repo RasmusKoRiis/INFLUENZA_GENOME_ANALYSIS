@@ -934,7 +934,7 @@ process FASTA_FILE {
 
 process FIND_COVERAGE {
 
-    
+    errorStrategy 'ignore'
     
     input:
     path fasta_file from name_added_fasta_files_ch2
