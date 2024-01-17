@@ -373,7 +373,6 @@ def main(csv_file, output_file, runname):
     # Add coverage columns to summary file
     coverage_csv = pd.read_csv(coverage_file)
     final_merge = pd.merge(final_merge,coverage_csv, on='Sample', how='outer')
-    final_merge = final_merge[final_merge['average coverage'] >= 90]
 
     # Add subtype columns to summary file
     subtype_csv = pd.read_csv(subtype_file)
@@ -381,6 +380,7 @@ def main(csv_file, output_file, runname):
     final_merge = final_merge.replace("VICVIC", "B/Victoria")
 
     # FINAL OUTPUT
+    final_merge = final_merge[final_merge['average coverage'] >= 90]
 
     final_merge.to_csv(output_file, index=False)
 
