@@ -227,20 +227,39 @@ def main(csv_file, output_file, runname):
 
     df = add_mutation_columns(df)
 
+    
+
 
     # Add vaccine mutations to summary file
     mutation_csv = pd.read_csv(mutation_file)
 
+    
+
     mutation_vaccine_HA = mutation_csv[mutation_csv['Ref_Name'].str.contains('HA')]
     mutation_vaccine_NA = mutation_csv[mutation_csv['Ref_Name'].str.contains('NA')]
 
-    pivoted_df1_HA = mutation_vaccine_HA.groupby('sample')['Differences'].apply(';'.join).reset_index().rename(columns={'Differences': 'Vaccine Mutations HA'})
-    pivoted_df1_NA = mutation_vaccine_NA.groupby('sample')['Differences'].apply(';'.join).reset_index().rename(columns={'Differences': 'Vaccine Mutations NA'})
+   
+    #NEW CODE
+    pivoted_df1_HA = mutation_vaccine_HA.groupby('sample')['Differences']\
+    .apply(lambda x: ';'.join(x.dropna().astype(str))).reset_index()\
+    .rename(columns={'Differences': 'Vaccine Mutations HA'})
+
+    pivoted_df1_NA = mutation_vaccine_NA.groupby('sample')['Differences']\
+    .apply(lambda x: ';'.join(x.dropna().astype(str))).reset_index()\
+    .rename(columns={'Differences': 'Vaccine Mutations NA'})
+
+    #NEW CODE
+
+    print(pivoted_df1_HA)
 
     merged_df = pd.merge(pivoted_df1_HA, pivoted_df1_NA, on='sample', how='outer')
     merged_df = merged_df.rename(columns={'sample': 'Sample'})
 
+    
+
     final_merge = pd.merge(df, merged_df, on='Sample', how='outer')
+
+
 
 
     # Add NA resistance mutation interpetations to summary file
@@ -323,14 +342,14 @@ def main(csv_file, output_file, runname):
     
     def calculate_h1_pa_resistance(row):
         if row['Subtype'] == 'H1N1':
-            return 'E23;K34;A36;A37;I38;119;E198;E199' if row['PA Resistance Mutations'] == 'NO MATCH' else row['PA Resistance Mutations']
+            return 'E23;K34;A36;A37;I38;E119;E198;E199' if row['PA Resistance Mutations'] == 'NO MATCH' else row['PA Resistance Mutations']
         return ''
     
     final_merge['H1N1 PA Resistance'] = final_merge.apply(calculate_h1_pa_resistance, axis=1)
 
     def calculate_h3_pa_resistance(row):
         if row['Subtype'] == 'H3N2':
-            return 'E23;K34;A36;A37;I38;119;E198;E199' if row['PA Resistance Mutations'] == 'NO MATCH' else row['PA Resistance Mutations']
+            return 'L28;E23;K34;A36;A37;I38;E119;E198;E199' if row['PA Resistance Mutations'] == 'NO MATCH' else row['PA Resistance Mutations']
         return ''
     
     final_merge['H3N2 PA Resistance'] = final_merge.apply(calculate_h3_pa_resistance, axis=1)
@@ -345,7 +364,7 @@ def main(csv_file, output_file, runname):
 
     def calculate_h3_pa_resistance_status(row):
         if row['Subtype'] == 'H3N2':
-            return 'AARS' if row['PA Resistance Mutations'] == 'NO MATCH' else 'Review'
+            return 'AANS' if row['PA Resistance Mutations'] == 'NO MATCH' else 'Review'
         return ''
     
     final_merge['H3 PA Resistance Status'] = final_merge.apply(calculate_h3_pa_resistance_status, axis=1)
@@ -368,27 +387,31 @@ def main(csv_file, output_file, runname):
     
     final_merge['PA Resistance Mutations'] = final_merge.apply(add_PA_resistance_mutation_list, axis=1)
 
-    #final_merge['HA PA Resistance'] = final_merge['PA Resistance Mutations'].apply(lambda x: 'E23;K34;A36;A37;I38;119;E198;E199' if x == 'NO MATCH' else x)
 
     # Add coverage columns to summary file
     coverage_csv = pd.read_csv(coverage_file)
     final_merge = pd.merge(final_merge,coverage_csv, on='Sample', how='outer')
-    final_merge = final_merge[final_merge['average coverage'] >= 90]
+
+    # Add subtype columns to summary file
+    subtype_csv = pd.read_csv(subtype_file)
+    final_merge = pd.merge(final_merge,subtype_csv , on='Sample', how='outer')
+    final_merge = final_merge.replace("VICVIC", "B/Victoria")
 
     # FINAL OUTPUT
+    final_merge = final_merge[final_merge['average coverage'] >= 90]
 
     final_merge.to_csv(output_file, index=False)
     
 
 if __name__ == "__main__":
-    csv_file = '/Users/rasmuskopperudriis/Coding/work_folder/runfolder/INF055_results/stat/app_summary.csv'
-    output_file = '/Users/rasmuskopperudriis/Coding/work_folder/runfolder/INF055_results/result.csv'
-    runname = '55'
+    csv_file = '/Users/rasmuskopperudriis/Downloads/merge/app_summary.csv'
+    output_file = '/Users/rasmuskopperudriis/Downloads/merge/result.csv'
+    runname = 'INF062'
     script_version = 'V.1'
-    mutation_file = '/Users/rasmuskopperudriis/Coding/work_folder/runfolder/INF055_results/mutation/app_merged_mutation_vaccine.csv'
-    mutation_pa = '/Users/rasmuskopperudriis/Coding/work_folder/runfolder/INF055_results/mutation/app_pa_mutation.csv'
-    coverage_file = '/Users/rasmuskopperudriis/Coding/work_folder/runfolder/INF055_results/mutation/merged.csv'
-
+    mutation_file = '/Users/rasmuskopperudriis/Downloads/merge/app_merged_mutation_vaccine.csv'
+    mutation_pa = '/Users/rasmuskopperudriis/Downloads/merge/app_pa_mutation.csv'
+    coverage_file = '/Users/rasmuskopperudriis/Downloads/merge/merged.csv'
+    subtype_file = '/Users/rasmuskopperudriis/Downloads/merge/merged_subtype.csv'
     main(csv_file, output_file, runname)
 
 
