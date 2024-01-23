@@ -349,7 +349,7 @@ def main(csv_file, output_file, runname):
 
     def calculate_h3_pa_resistance(row):
         if row['Subtype'] == 'H3N2':
-            return 'L28;E23;K34;A36;A37;I38;E119;E198;E199' if row['PA Resistance Mutations'] == 'NO MATCH' else row['PA Resistance Mutations']
+            return 'E23;L28;K34;A36;A37;I38;E119;E198;E199' if row['PA Resistance Mutations'] == 'NO MATCH' else row['PA Resistance Mutations']
         return ''
     
     final_merge['H3N2 PA Resistance'] = final_merge.apply(calculate_h3_pa_resistance, axis=1)
@@ -357,7 +357,7 @@ def main(csv_file, output_file, runname):
 
     def calculate_h1_pa_resistance_status(row):
         if row['Subtype'] == 'H1N1':
-            return 'AARS' if row['PA Resistance Mutations'] == 'NO MATCH' else 'Review'
+            return 'AANS' if row['PA Resistance Mutations'] == 'NO MATCH' else 'Review'
         return ''
     
     final_merge['H1 PA Resistance Status'] = final_merge.apply(calculate_h1_pa_resistance_status, axis=1)
@@ -396,6 +396,7 @@ def main(csv_file, output_file, runname):
     subtype_csv = pd.read_csv(subtype_file)
     final_merge = pd.merge(final_merge,subtype_csv , on='Sample', how='outer')
     final_merge = final_merge.replace("VICVIC", "B/Victoria")
+    final_merge = final_merge.replace("VIC", "B/Victoria")
 
     # FINAL OUTPUT
     final_merge = final_merge[final_merge['average coverage'] >= 90]

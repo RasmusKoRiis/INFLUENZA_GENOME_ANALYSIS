@@ -936,7 +936,7 @@ process FIND_COVERAGE {
 
     errorStrategy 'ignore'
 
-    publishDir params.out_mutations, mode: 'copy'
+    publishDir params.out_mutation, mode: 'copy'
     
     input:
     path fasta_file from name_added_fasta_files_ch2
@@ -965,7 +965,7 @@ process MERGE_COVERAGE {
 
     errorStrategy 'ignore'
 
-    publishDir params.out_mutations, mode: 'copy'
+    publishDir params.out_mutation, mode: 'copy'
     
     input:
     path fasta_files from coverage_ch.collect()
@@ -989,7 +989,7 @@ process SUBTYPE_FINDER {
 
     errorStrategy 'ignore'
 
-    publishDir params.out_mutations, mode: 'copy'
+    publishDir params.out_mutation, mode: 'copy'
     
     input:
     path fasta_file from name_added_fasta_files_ch3
@@ -1028,7 +1028,7 @@ process MERGE_SUBTYPE {
 
     errorStrategy 'ignore'
 
-    publishDir params.out_mutations, mode: 'copy'
+    publishDir params.out_mutation, mode: 'copy'
     
     input:
     path fasta_files from subtype_ch.collect()
