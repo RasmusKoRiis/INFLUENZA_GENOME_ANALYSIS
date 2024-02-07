@@ -48,7 +48,7 @@ git clone https://github.com/RasmusKoRiis/INFLUENZA_GENOME_ANALYSIS.git
 #CHECK INPUT FOLDER
 if [ ! -d "$run_folder" ]; then
   echo "$run_folder does not exist, creating it and running rsync"
-  ip_address='10.202.194.4'
+  ip_address='X'
   mkdir "${run_folder}_data"
   cd "${run_folder}_data"
   rsync -avr --exclude '*.fast5' grid@${ip_address}:/data/${run_folder}/* ./
