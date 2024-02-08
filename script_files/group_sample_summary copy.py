@@ -88,7 +88,8 @@ def process_dataframe(df, runname, required_columns, column_names_map, quality_c
     df['ScriptTimestamp'] = start_time
     df['ScriptVersion'] = script_version
     df['SampleApprovalStatus'] = ''
-    df['SequenceID'] = df['RunName'].astype(str) + "_" + df['sample'].astype(str)
+    #df['SequenceID'] = df['RunName'].astype(str) + "_" + df['sample'].astype(str)
+    df['SequenceID'] = df['sample'].astype(str)
 
     df = classify_quality(df, quality_columns)
 
@@ -266,21 +267,21 @@ def main(csv_file, output_file, runname):
 
     def calculate_h1_na_resistance(row):
         if row['Subtype'] == 'H1N1':
-            return 'S110;I117;E119Q136;R152;D199;I223;S247;H275;R293;N295;I427;I436;P458;I223' if row['Fluserver Mutations'] == 'NO MATCH' else row['Fluserver Mutations']
+            return 'S110;I117;E119;Q136;G147;R152;D199;I223;S247;H275;R293;N295;Q313;I427;I436;P458' if row['Fluserver Mutations'] == 'NO MATCH' else row['Fluserver Mutations']
         return ''
     
     final_merge['H1 NA Resistance'] = final_merge.apply(calculate_h1_na_resistance, axis=1)
     
     def calculate_h3_na_resistance(row):
         if row['Subtype'] == 'H3N2':
-            return 'E119;Q136;I222;R224;N245;K249;E276;R292;N294;N329;S334;R371' if row['Fluserver Mutations'] == 'NO MATCH' else row['Fluserver Mutations']
+            return 'E119;Q136;T148;D151;I222;R224;N245;N245-;A246-;T247-;G248-;K249-;A250-;K249;E276;R292;N294;N329;S331;S334;R371;Q391' if row['Fluserver Mutations'] == 'NO MATCH' else row['Fluserver Mutations']
         return ''
     
     final_merge['H3 NA Resistance'] = final_merge.apply(calculate_h3_na_resistance, axis=1)
     
     def calculate_bvic_na_resistance(row):
         if row['Subtype'] == 'B_Victoria':
-            return 'H101;G104;E105;G108;E117;H134;H134;Q138;P139;G140;Y142;G145;N151;K152;N169;D197;A200;I221;A245;S246;G247;H273;R292;N294;K360;I361;R374;A395;L396;G407;D432;H439;H439;M464' if row['Fluserver Mutations'] == 'NO MATCH' else row['Fluserver Mutations']
+            return 'H101;G104;E105;T106;G108;E117;H134;Q138;P139;G140;Y142;N144;G145;T146;R150;N151;K152;P165;N169;K186;D197;A200;I221;A245;S246;G247;I262;H273;R292;N294;K360;I361;R374;A395;L396;G407;D432;H439;M464' if row['Fluserver Mutations'] == 'NO MATCH' else row['Fluserver Mutations']
         return ''
 
     final_merge['BVIC NA Resistance'] = final_merge.apply(calculate_bvic_na_resistance, axis=1)
@@ -349,7 +350,7 @@ def main(csv_file, output_file, runname):
 
     def calculate_h3_pa_resistance(row):
         if row['Subtype'] == 'H3N2':
-            return 'L28;E23;K34;A36;A37;I38;E119;E198;E199' if row['PA Resistance Mutations'] == 'NO MATCH' else row['PA Resistance Mutations']
+            return 'E23;L28;K34;A36;A37;I38;E119;E198;E199' if row['PA Resistance Mutations'] == 'NO MATCH' else row['PA Resistance Mutations']
         return ''
     
     final_merge['H3N2 PA Resistance'] = final_merge.apply(calculate_h3_pa_resistance, axis=1)
@@ -357,7 +358,7 @@ def main(csv_file, output_file, runname):
 
     def calculate_h1_pa_resistance_status(row):
         if row['Subtype'] == 'H1N1':
-            return 'AARS' if row['PA Resistance Mutations'] == 'NO MATCH' else 'Review'
+            return 'AANS' if row['PA Resistance Mutations'] == 'NO MATCH' else 'Review'
         return ''
     
     final_merge['H1 PA Resistance Status'] = final_merge.apply(calculate_h1_pa_resistance_status, axis=1)
@@ -396,22 +397,49 @@ def main(csv_file, output_file, runname):
     subtype_csv = pd.read_csv(subtype_file)
     final_merge = pd.merge(final_merge,subtype_csv , on='Sample', how='outer')
     final_merge = final_merge.replace("VICVIC", "B/Victoria")
+    final_merge = final_merge.replace("VIC", "B/Victoria")
 
     # FINAL OUTPUT
-    final_merge = final_merge[final_merge['average coverage'] >= 90]
+    #final_merge = final_merge[final_merge['average coverage'] >= 90]
+
+    samplesheet = pd.read_csv(samplesheet_file)
+    new_rows = []  # List to hold new rows to be appended
+
+    for index, row in samplesheet.iterrows():
+        sample_id = row['sampleid']
+    
+    # Check if the sampleid exactly matches any SequenceID in final_merge
+        if sample_id not in final_merge['SequenceID'].values:
+            new_row = {'SequenceID': sample_id}
+            new_rows.append(new_row)
+
+# Append all new rows at once for better performance
+    if new_rows:  # Only append if there are new rows to add
+        new_rows_df = pd.DataFrame(new_rows)
+        final_merge = pd.concat([final_merge, new_rows_df], ignore_index=True)
+
+    final_merge['Mutations HA'] = final_merge['Mutations HA'].fillna(0)
+    final_merge['Mutations NA'] = final_merge['Mutations NA'].fillna(0)
+    final_merge['Subtype'] = final_merge['Subtype'].fillna('Feilet')
+    final_merge['Clade'] = final_merge['Clade'].fillna('Feilet')
+    final_merge['blast subtype'] = final_merge['blast subtype'].fillna('Feilet')
+    final_merge['Run Name'] = final_merge['Run Name'].fillna(runname)
+
+
 
     final_merge.to_csv(output_file, index=False)
     
 
 if __name__ == "__main__":
-    csv_file = '/Users/rasmuskopperudriis/Downloads/merge/app_summary.csv'
-    output_file = '/Users/rasmuskopperudriis/Downloads/merge/result.csv'
+    csv_file = '/Users/rasmuskopperudriis/Coding/work_folder/runfolder/inf/INF056_results/stat/app_summary.csv'
+    output_file = '/Users/rasmuskopperudriis/Coding/work_folder/runfolder/inf/INF056_results/stat/result.csv'
     runname = 'INF062'
     script_version = 'V.1'
-    mutation_file = '/Users/rasmuskopperudriis/Downloads/merge/app_merged_mutation_vaccine.csv'
-    mutation_pa = '/Users/rasmuskopperudriis/Downloads/merge/app_pa_mutation.csv'
-    coverage_file = '/Users/rasmuskopperudriis/Downloads/merge/merged.csv'
-    subtype_file = '/Users/rasmuskopperudriis/Downloads/merge/merged_subtype.csv'
+    mutation_file = '/Users/rasmuskopperudriis/Coding/work_folder/runfolder/inf/INF056_results/mutation/app_merged_mutation_vaccine.csv'
+    mutation_pa = '/Users/rasmuskopperudriis/Coding/work_folder/runfolder/inf/INF056_results/mutation/app_pa_mutation.csv'
+    coverage_file = '/Users/rasmuskopperudriis/Coding/work_folder/runfolder/inf/INF056_results/mutation/merged.csv'
+    subtype_file = '/Users/rasmuskopperudriis/Coding/work_folder/runfolder/inf/INF056_results/mutation/merged_subtype.csv'
+    samplesheet_file = '/Users/rasmuskopperudriis/Coding/work_folder/runfolder/inf/INF056_results/samplesheet.csv'
     main(csv_file, output_file, runname)
 
 
