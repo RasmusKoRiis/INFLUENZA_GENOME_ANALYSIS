@@ -48,7 +48,7 @@ Channel
 process SAMPLESHEET {
 
     input:
-    path samplesheet from fsamplesheet_ch
+    path samplesheet from samplesheet_ch
 
     output:
     path "samplesheet.csv" into samplesheet_comma_ch
