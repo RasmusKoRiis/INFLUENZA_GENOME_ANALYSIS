@@ -10,7 +10,7 @@ startdir=$(pwd)
 script="/app/script_files"
 runname=$(basename $startdir)
 runname2=$RUNNAME 
-samplesheet="/app/results/samplesheet.csv"
+
 
 cd $startdir
 
@@ -21,6 +21,7 @@ stat_folder="$result_folder/stat"
 mutation_folder="$result_folder/mutation"
 dataset_folder="/app/dataset"
 reference="/app/references"
+samplesheet="$result_folder/samplesheet.csv"
 
 
 #PLANNED NEXTFLOW IMPLEMENTATION
@@ -40,8 +41,9 @@ NXF_VER=22.10.6 nextflow run "script_files/main.nf" \
     --runname "$runname"\
     --runname2 "$runname2"\
     --results "$result_folder"\
+    --samplesheet "$samplesheet"\
     --script_version "$INFLUENZA_V1_VERSION" \
-    --samplesheet "$samplesheet"
+   
 
 
 

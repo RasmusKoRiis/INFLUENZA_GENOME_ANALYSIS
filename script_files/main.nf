@@ -41,7 +41,7 @@ Channel
     .fromPath(params.in_stat + "/*.{stats,txt,csv}")
     .set { stat_files_ch }
 Channel
-    .fromPath(params.samplesheet + "/samplesheet.csv")
+    .fromPath(params.samplesheet )
     .set { samplesheet_ch }
 
 
