@@ -45,21 +45,6 @@ Channel
     .set { samplesheet_ch }
 
 
-process SAMPLESHEET {
-
-    input:
-    path samplesheet from samplesheet_ch
-
-    output:
-    path "samplesheet.csv" into samplesheet_comma_ch
-
-    script:
-    """
-    sed 's/\t/,/g' ${samplesheet} > samplesheet.csv
-    """
-}
-
-
 process REMOVE_HIGH_N_SAMPLES {
 
     input:
@@ -1100,6 +1085,7 @@ process FINALIZING_SUMMARY {
         "${pa_mutations}" \
         "${coverage_file}" \
         "${subtype_file}" \
+        "${samplesheet}" \
     """
 }
 
