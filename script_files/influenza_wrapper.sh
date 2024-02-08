@@ -45,6 +45,8 @@ basedir=$(pwd)
 #DOWNLOAD SCRIPT
 git clone https://github.com/RasmusKoRiis/INFLUENZA_GENOME_ANALYSIS.git
 
+cp *csv INFLUENZA_GENOME_ANALYSIS
+
 #CHECK INPUT FOLDER
 if [ ! -d "$run_folder" ]; then
   echo "$run_folder does not exist, creating it and running rsync"
@@ -118,6 +120,7 @@ cd $startdir
 nextflow run epi2me-labs/wf-flu -r v0.0.6 --fastq $fastq_pass_dir/  --out_dir $result_folder/epi2me_wf_flu_output --min_qscore 10  --min_coverage 50 --reference "$startdir/references/epi2me/reference_epi2me_FULL_NAMES.fasta" 
 
 cd $startdir
+cp *csv results
 
 container_name="influenza_container"
 image_name="new_influensa_pipeline_v0.5"
@@ -128,7 +131,7 @@ docker buildx build --platform linux/amd64 -t $image_name .
 docker run --rm -it --name $container_name \
   -v $startdir/results_docker:/results_docker \
   -e RUNNAME=$run_folder -e INFLUENZA_V1_VERSION=INFLUENZA_V1_VERSION  \
-  $image_name bash -c "script_files/master_NF.sh && cp -r /app/results /results_docker"
+  $image_name bash -c "script_files/master_NF.sh && cp -r /app/results /results_docker" 
 
 
 #Copy and clean up folders

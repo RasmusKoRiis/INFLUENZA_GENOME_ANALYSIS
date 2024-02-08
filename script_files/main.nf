@@ -13,6 +13,7 @@ params.runname = ""
 params.runname2 = ""
 params.script_version = ""
 params.reference = ""
+params.samplesheet = ""
 
 
 
@@ -24,6 +25,7 @@ log.info """\
     fasta_out: ${params.out_fasta}
     mutation_out: ${params.out_mutation}
     runname: ${params.runname2}
+    samplesheet: ${params.samplesheet}
     """.stripIndent()
 
 Channel
@@ -38,6 +40,9 @@ Channel
 Channel
     .fromPath(params.in_stat + "/*.{stats,txt,csv}")
     .set { stat_files_ch }
+Channel
+    .fromPath(params.samplesheet + "/samplesheet.csv")
+    .set { samplesheet_ch }
 
 
 process REMOVE_HIGH_N_SAMPLES {
@@ -1062,6 +1067,8 @@ process FINALIZING_SUMMARY {
     path pa_mutations from pa_mutation_ch
     path coverage_file from merged_coverage_ch
     path subtype_file from merged_subtype_ch
+    path samplesheet from samplesheet_ch
+
     
    
     output:

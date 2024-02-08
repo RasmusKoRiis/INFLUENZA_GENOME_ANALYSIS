@@ -399,7 +399,7 @@ def main(csv_file, output_file, runname):
     final_merge = final_merge.replace("VIC", "B/Victoria")
 
     # FINAL OUTPUT
-    final_merge = final_merge[final_merge['average coverage'] >= 90]
+    #final_merge = final_merge[final_merge['average coverage'] >= 90]
 
     final_merge.to_csv(output_file, index=False)
     
@@ -413,5 +413,6 @@ if __name__ == "__main__":
     mutation_pa = sys.argv[6]
     coverage_file = sys.argv[7]
     subtype_file = sys.argv[8]
+    samplesheet = sys.argv[9]
     main(csv_file, output_file, runname)
 

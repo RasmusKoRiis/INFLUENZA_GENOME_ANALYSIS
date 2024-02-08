@@ -10,6 +10,7 @@ startdir=$(pwd)
 script="/app/script_files"
 runname=$(basename $startdir)
 runname2=$RUNNAME 
+samplesheet="/app/results/samplesheet.csv"
 
 cd $startdir
 
@@ -40,6 +41,7 @@ NXF_VER=22.10.6 nextflow run "script_files/main.nf" \
     --runname2 "$runname2"\
     --results "$result_folder"\
     --script_version "$INFLUENZA_V1_VERSION" \
+    --samplesheet "$samplesheet"
 
 
 
