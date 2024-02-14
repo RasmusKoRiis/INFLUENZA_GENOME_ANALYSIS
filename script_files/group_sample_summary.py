@@ -88,7 +88,8 @@ def process_dataframe(df, runname, required_columns, column_names_map, quality_c
     df['ScriptTimestamp'] = start_time
     df['ScriptVersion'] = script_version
     df['SampleApprovalStatus'] = ''
-    df['SequenceID'] = df['RunName'].astype(str) + "_" + df['sample'].astype(str)
+    #df['SequenceID'] = df['RunName'].astype(str) + "_" + df['sample'].astype(str)
+    df['SequenceID'] = df['sample'].astype(str)
 
     df = classify_quality(df, quality_columns)
 
@@ -426,7 +427,7 @@ def main(csv_file, output_file, runname):
 
 
 
-    final_merge.to_csv(output_file, index=False)    
+    final_merge.to_csv(output_file, index=False)
 
 if __name__ == "__main__":
     csv_file = sys.argv[1]

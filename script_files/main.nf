@@ -1086,7 +1086,6 @@ process FINALIZING_SUMMARY {
         "${coverage_file}" \
         "${subtype_file}" \
         "${samplesheet}" \
-        ${params.runname2} \
     """
 }
 
