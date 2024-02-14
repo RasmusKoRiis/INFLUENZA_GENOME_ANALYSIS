@@ -401,8 +401,32 @@ def main(csv_file, output_file, runname):
     # FINAL OUTPUT
     #final_merge = final_merge[final_merge['average coverage'] >= 90]
 
-    final_merge.to_csv(output_file, index=False)
+    samplesheet = pd.read_csv(samplesheet_file)
+    new_rows = []  # List to hold new rows to be appended
+
+    for index, row in samplesheet.iterrows():
+        sample_id = row['sampleid']
     
+    # Check if the sampleid exactly matches any SequenceID in final_merge
+        if sample_id not in final_merge['SequenceID'].values:
+            new_row = {'SequenceID': sample_id}
+            new_rows.append(new_row)
+
+# Append all new rows at once for better performance
+    if new_rows:  # Only append if there are new rows to add
+        new_rows_df = pd.DataFrame(new_rows)
+        final_merge = pd.concat([final_merge, new_rows_df], ignore_index=True)
+
+    final_merge['Mutations HA'] = final_merge['Mutations HA'].fillna(0)
+    final_merge['Mutations NA'] = final_merge['Mutations NA'].fillna(0)
+    final_merge['Subtype'] = final_merge['Subtype'].fillna('Feilet')
+    final_merge['Clade'] = final_merge['Clade'].fillna('Feilet')
+    final_merge['blast subtype'] = final_merge['blast subtype'].fillna('Feilet')
+    final_merge['Run Name'] = final_merge['Run Name'].fillna(runname)
+
+
+
+    final_merge.to_csv(output_file, index=False)    
 
 if __name__ == "__main__":
     csv_file = sys.argv[1]
@@ -413,6 +437,6 @@ if __name__ == "__main__":
     mutation_pa = sys.argv[6]
     coverage_file = sys.argv[7]
     subtype_file = sys.argv[8]
-    samplesheet = sys.argv[9]
+    samplesheet_file = sys.argv[9]
     main(csv_file, output_file, runname)
 
