@@ -425,6 +425,7 @@ def main(csv_file, output_file, runname):
     final_merge['blast subtype'] = final_merge['blast subtype'].fillna('Feilet')
     final_merge['Run Name'] = final_merge['Run Name'].fillna(runname)
     final_merge['Instrument ID'] = "Nanopore-GN_GBX03008"
+    final_merge = final_merge.dropna(subset=['SequenceID'])
 
 
 
