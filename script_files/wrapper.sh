@@ -140,7 +140,7 @@ cd $startdir
 #CHECK IF IRMA SHOULD RUN
 
 # EPI2ME NEXTFLOW 
-nextflow run epi2me-labs/wf-flu -r v0.0.6 --fastq $fastq_out_cleaned/  --out_dir $result_folder/epi2me_wf_flu_output --min_qscore 10  --min_coverage 50 --reference "$startdir/references/epi2me/reference_epi2me_FULL_NAMES.fasta" --downsample  300
+nextflow run epi2me-labs/wf-flu -r v0.0.6 --fastq $fastq_out_cleaned/  --out_dir $result_folder/epi2me_wf_flu_output --min_qscore 10  --min_coverage 50 --reference "$startdir/references/epi2me/reference_epi2me_FULL_NAMES.fasta"
 
 cd $startdir
 
