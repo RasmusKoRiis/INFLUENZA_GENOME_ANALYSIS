@@ -1057,7 +1057,7 @@ process MERGE_SUBTYPE {
 
 process FINALIZING_SUMMARY {
 
-    errorStrategy 'ignore'
+    
     
     publishDir params.out_stat, mode: 'copy'
     
