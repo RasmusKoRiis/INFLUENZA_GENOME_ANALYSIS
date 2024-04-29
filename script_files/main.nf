@@ -488,6 +488,8 @@ process MERGE_MUTATION_LIST_VACCINE {
 }
 
 process APPEND_MUTATION_LIST_TO_SUMMARY{
+
+    publishDir params.out_mutation, mode: 'copy'
     
     input:
     path csv_file from mutation_merged_summary_ch
@@ -529,6 +531,7 @@ process ADD_HA2_MUTATION_LIST_TO_SUMMARY {
 }
 
 process FIND_FLUSERVER_MUTATIONS {
+    publishDir params.out_bam, mode: 'copy'
 
     input:
     path csv_file from mutation_merged_summary_ch3
@@ -565,6 +568,7 @@ process FIND_PA_MUTATIONS {
 }
 
 process FIND_NA_LOW_MUTATIONS {
+    publishDir params.out_bam, mode: 'copy'
 
     input:
     path csv_file from mutation_merged_summary_ch4
@@ -582,6 +586,7 @@ process FIND_NA_LOW_MUTATIONS {
 }
 
 process FIND_NA_MEDIUM_MUTATIONS {
+    publishDir params.out_bam, mode: 'copy'
 
     input:
     path csv_file from mutation_merged_summary_ch5
@@ -599,6 +604,7 @@ process FIND_NA_MEDIUM_MUTATIONS {
 }
 
 process FIND_NA_HIGH_MUTATIONS {
+    publishDir params.out_bam, mode: 'copy'
 
     input:
     path csv_file from mutation_merged_summary_ch6
@@ -617,6 +623,7 @@ process FIND_NA_HIGH_MUTATIONS {
 
 process APPEND_FLUSERVER_LIST_TO_SUMMARY {
 
+    publishDir params.out_bam, mode: 'copy'
     input:
     path csv_file from fluserver_mutation_ch
     path main_summary from mutation_HA2_add_main_summary_ch
@@ -639,7 +646,7 @@ process APPEND_FLUSERVER_LIST_TO_SUMMARY {
 }
 
 process APPEND_NA_LOW_LIST_TO_SUMMARY {
-
+    publishDir params.out_bam, mode: 'copy'
     
     input:
     path csv_file from na_low_mutation_ch
@@ -663,7 +670,7 @@ process APPEND_NA_LOW_LIST_TO_SUMMARY {
 }
 
 process APPEND_NA_MEDIUM_LIST_TO_SUMMARY {
-
+    publishDir params.out_bam, mode: 'copy'
     
     input:
     path csv_file from na_medium_mutation_ch
@@ -688,7 +695,7 @@ process APPEND_NA_MEDIUM_LIST_TO_SUMMARY {
 
 process APPEND_NA_HIGH_LIST_TO_SUMMARY {
 
-    
+    publishDir params.out_bam, mode: 'copy'
     input:
     path csv_file from na_high_mutation_ch
     path main_summary from mutation_na_medium_add_main_summary_ch
@@ -713,6 +720,7 @@ process APPEND_NA_HIGH_LIST_TO_SUMMARY {
 process FIND_CLADE {
 
     publishDir params.out_stat, mode: 'copy'
+    publishDir params.out_bam, mode: 'copy'
     
     errorStrategy 'ignore'
 
