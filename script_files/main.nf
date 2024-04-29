@@ -715,6 +715,8 @@ process FIND_CLADE {
     publishDir params.out_stat, mode: 'copy'
     
     errorStrategy 'ignore'
+
+    debug true
     
     input:
     path fasta_file from merged_and_extracted_ch.flatten()
@@ -1057,7 +1059,9 @@ process MERGE_SUBTYPE {
 
 process FINALIZING_SUMMARY {
 
-    
+    errorStrategy 'ignore'
+
+    debug true
     
     publishDir params.out_stat, mode: 'copy'
     
