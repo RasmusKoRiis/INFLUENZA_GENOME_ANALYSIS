@@ -89,7 +89,7 @@ process ADD_NAME_INSIDE_FASTA {
     #part2=\$(echo "\$file_name" | cut -d '_' -f 2-)
     #sed "s/>\\(.*\\)/>\${part1}_\${part2}_\\1/" ${in_fasta} > "${in_fasta}.tmp"
 
-    sed "s/>\\(.*\\)/>${file_name}_\\1/" ${in_fasta} > "${in_fasta}.tmp"
+    sed "s/>\\(.*\\)/>\${file_name}_\\1/" ${in_fasta} > "${in_fasta}.tmp"
     mv "${in_fasta}.tmp" "names_added_${in_fasta.name}"
     """
 }
