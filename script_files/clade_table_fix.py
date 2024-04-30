@@ -10,7 +10,7 @@ df = pd.read_csv(orginal_summary, sep=";")
 df[['sample', 'Ref_Name']] = df['seqName'].str.split('_', n=1, expand=True)
 
 # Combine the last character of the "sample" column with the first character of the "Ref_Name" column
-df['sample'] = df['sample'] + '_' + df['Ref_Name'].str[:1]
+#df['sample'] = df['sample'] + '_' + df['Ref_Name'].str[:1]
 
 # Remove the first character of the "Ref_Name" column
 df['Ref_Name'] = df['Ref_Name'].str[2:]
