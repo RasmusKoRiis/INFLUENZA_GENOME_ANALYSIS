@@ -84,9 +84,12 @@ process ADD_NAME_INSIDE_FASTA {
     script:
     """
     file_name=\$(basename ${in_fasta} .fasta | sed 's/^n_removed_//' | cut -d '.' -f 1)
-    part1=\$(echo "\$file_name" | cut -d '_' -f 1)
-    part2=\$(echo "\$file_name" | cut -d '_' -f 2-)
-    sed "s/>\\(.*\\)/>\${part1}_\${part2}_\\1/" ${in_fasta} > "${in_fasta}.tmp"
+
+    #part1=\$(echo "\$file_name" | cut -d '_' -f 1)
+    #part2=\$(echo "\$file_name" | cut -d '_' -f 2-)
+    #sed "s/>\\(.*\\)/>\${part1}_\${part2}_\\1/" ${in_fasta} > "${in_fasta}.tmp"
+
+    sed "s/>\\(.*\\)/>${file_name}_\\1/" ${in_fasta} > "${in_fasta}.tmp"
     mv "${in_fasta}.tmp" "names_added_${in_fasta.name}"
     """
 }
