@@ -11,6 +11,6 @@ with open(output_file, 'w') as output_handle:
         seq = str(record.seq)
         n_count = seq.count('N') + seq.count('n')
         seq_length = len(seq)
-        if n_count/seq_length < 0.9:
+        if n_count/seq_length < 0.15:
             SeqIO.write(record, output_handle, 'fasta')
            
