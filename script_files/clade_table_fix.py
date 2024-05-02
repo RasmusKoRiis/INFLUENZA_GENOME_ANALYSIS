@@ -13,7 +13,7 @@ df[['sample', 'Ref_Name']] = df['seqName'].str.split('_', n=1, expand=True)
 #df['sample'] = df['sample'] + '_' + df['Ref_Name'].str[:1]
 
 # Remove the first character of the "Ref_Name" column
-df['Ref_Name'] = df['Ref_Name'].str[2:]
+#df['Ref_Name'] = df['Ref_Name'].str[2:]
 
 # Drop the original "ID" column
 df.drop(columns=['seqName'], inplace=True)
