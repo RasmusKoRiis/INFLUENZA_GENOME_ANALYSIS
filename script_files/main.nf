@@ -796,7 +796,7 @@ process APPEND_CLADES_TO_SUMMARY {
 
     ls ./
 
-    python3 "${params.script_files}/column_lookup_append.py"  \
+    python3 "${params.script_files}/column_lookup_append_clade.py"  \
         "${params.runname}_long_quality_mutation_summary.csv" \
         "${params.runname}_merged_clade.csv" \
         "${params.runname}_clade_summary.csv" \
@@ -804,10 +804,15 @@ process APPEND_CLADES_TO_SUMMARY {
         "," \
         "sample,Ref_Name" \
         "sample,Ref_Name" \
-        "clade"
-
+        "clade" \
+        "subclade" \
+        "glycosylation" \
+        "insertions" \
+        "frameShifts"
     """
 }
+
+
 
 process GENERATE_DEPTH_FILES {
 
