@@ -77,6 +77,8 @@ def add_mutation_columns(df):
 
 def process_dataframe(df, runname, required_columns, column_names_map, quality_columns):
     df = add_missing_columns(df, required_columns)
+
+    
     
     df = merge_and_rename_cols(df, 'Subtype', 'Subtype')
     df = merge_and_rename_cols(df, 'FluserverV1', 'FluserverV1')
