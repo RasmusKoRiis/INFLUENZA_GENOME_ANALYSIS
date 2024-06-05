@@ -25,15 +25,20 @@ def add_missing_columns(df, required_columns):
 def merge_and_rename_cols(df, search_str, new_col_name):
     cols = [col for col in df.columns if search_str in col]
     merged_col = df[cols].mode(axis=1)
+
     print(merged_col.head())
     print(merged_col.columns)
+    print(search_str)
 
     # If more than one mode, write 'MIXED' in the cell
-    merged_col = merged_col.apply(lambda row: 'MIXED' if row.count() > 1 else row[0], axis=1)
-    
+    merged_col = merged_col.apply(
+        lambda row: 'MIXED' if len(row.dropna()) > 1 else (row.dropna().iloc[0] if len(row.dropna()) > 0 else 'No Data'), axis=1
+    )
+
     df = df.drop(cols, axis=1)
-    df = pd.concat([df, merged_col.rename(new_col_name)], axis=1)
+    df[new_col_name] = merged_col
     return df
+
 
 def rename_columns(df, column_names_map):
     df = df.rename(columns=column_names_map)
@@ -79,10 +84,17 @@ def process_dataframe(df, runname, required_columns, column_names_map, quality_c
     df = add_missing_columns(df, required_columns)
 
     
+
+    
     
     df = merge_and_rename_cols(df, 'Subtype', 'Subtype')
     df = merge_and_rename_cols(df, 'FluserverV1', 'FluserverV1')
     df = merge_and_rename_cols(df, 'clade', 'Clade')
+    df = merge_and_rename_cols(df, 'sub', 'sub')
+    df = merge_and_rename_cols(df, 'glycosylation', 'glycosylation')
+    df = merge_and_rename_cols(df, 'insertions', 'insertions')
+    df = merge_and_rename_cols(df, 'frameShifts', 'frameShifts')
+
     df = merge_and_rename_cols(df, 'thymine_ratio__823', 'Thymine_ratio_823_N1')
     df = merge_and_rename_cols(df, 'cytosine_ratio__823', 'Cytosine_ratio_823_N1')
     
@@ -102,9 +114,20 @@ def process_dataframe(df, runname, required_columns, column_names_map, quality_c
 
 def main(csv_file, output_file, runname):
     df = pd.read_csv(csv_file)
+
+   
     df = df.pivot(index='sample', columns='Ref_Name')
+
+    df = df.rename(columns={'subclade': 'sub'})
+
     df.columns = ['_'.join(col).rstrip('_') for col in df.columns.values]
+    
     df = df.reset_index()
+
+   
+
+
+    
 
     required_columns = ['Subtype', 
                         'FluserverV1', 
@@ -168,7 +191,7 @@ def main(csv_file, output_file, runname):
         'Subtype': 'Subtype',
         'FluserverV1': 'Fluserver Mutations',
         'Clade': 'Clade',
-        'subclade': 'subclade',
+        'sub': 'sub',
         'glycosylation': 'glycosylation',
         'insertions': 'insertions',
         'frameShifts': 'frameShifts',
@@ -227,8 +250,12 @@ def main(csv_file, output_file, runname):
     }
 
     quality_columns = ['H1', 'H3', 'H5', 'H9', 'N1', 'N2', 'B']
+
+
     
     df = process_dataframe(df, runname, required_columns, column_names_map, quality_columns)
+
+  
 
     df = add_average_depth_columns(df)
 
