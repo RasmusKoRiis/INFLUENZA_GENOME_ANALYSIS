@@ -55,7 +55,8 @@ process REMOVE_HIGH_N_SAMPLES {
 
     script:
     """
-    python ${params.script_files}/failed_sequence_removal.py ${in_fasta} n_removed_${in_fasta.name}
+    seqkit grep -v -r -p "Rem" ${in_fasta} > removed.fasta
+    python ${params.script_files}/failed_sequence_removal.py removed.fasta n_removed_${in_fasta.name}
     """
 }
 
