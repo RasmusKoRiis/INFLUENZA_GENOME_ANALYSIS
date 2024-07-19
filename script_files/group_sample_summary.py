@@ -32,7 +32,7 @@ def merge_and_rename_cols(df, search_str, new_col_name):
 
     # If more than one mode, write 'MIXED' in the cell
     merged_col = merged_col.apply(
-        lambda row: 'MIXED' if len(row.dropna()) > 1 else (row.dropna().iloc[0] if len(row.dropna()) > 0 else 'No Data'), axis=1
+        lambda row: 'MIXED' if len(row.dropna()) > 1 else (row.dropna().iloc[0] if len(row.dropna()) > 0 else 'NA'), axis=1
     )
 
     df = df.drop(cols, axis=1)
@@ -453,9 +453,11 @@ def main(csv_file, output_file, runname):
 
     final_merge['Mutations HA'] = final_merge['Mutations HA'].fillna(0)
     final_merge['Mutations NA'] = final_merge['Mutations NA'].fillna(0)
-    final_merge['Subtype'] = final_merge['Subtype'].fillna('Feilet')
-    final_merge['Clade'] = final_merge['Clade'].fillna('Feilet')
-    final_merge['blast subtype'] = final_merge['blast subtype'].fillna('Feilet')
+    final_merge['Subtype'] = final_merge['Subtype'].fillna('NA')
+    final_merge['Clade'] = final_merge['Clade'].fillna('NA')
+    final_merge['Subclade'] = final_merge['Sublade'].fillna('NA')
+    final_merge['blast subtype'] = final_merge['blast subtype'].fillna('NA')
+    
     final_merge['Run Name'] = final_merge['Run Name'].fillna(runname)
     final_merge['Instrument ID'] = "Nanopore-GN_GBX03008"
     final_merge = final_merge.dropna(subset=['SequenceID'])
