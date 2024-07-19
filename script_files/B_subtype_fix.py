@@ -20,7 +20,13 @@ for index, row in df.iterrows():
             df.loc[index, 'Subtype'] = subtype_text    
             df.loc[index, 'Type'] = 'Type_B'
         if 'mixed' in row['Type']:
-            df.loc[index, 'Subtype'] = 'mixed'  
+            df.loc[index, 'Subtype'] = 'mixed' 
+
+for index, row df.iterrows():
+    if row['Subtype'] == 'Victoria':
+        subtype_text = 'B_Victoria'
+        df.loc[index, 'Subtype'] = subtype_text 
+ 
 
 
 # B-Subtype_fix
@@ -33,3 +39,4 @@ for index, row in df.iterrows():
 
 # Write the modified DataFrame back to a new CSV file
 df.to_csv(output_file, index=False)
+
