@@ -22,7 +22,7 @@ for index, row in df.iterrows():
         if 'mixed' in row['Type']:
             df.loc[index, 'Subtype'] = 'mixed' 
 
-for index, row df.iterrows():
+for index, row in df.iterrows():
     if row['Subtype'] == 'Victoria':
         subtype_text = 'B_Victoria'
         df.loc[index, 'Subtype'] = subtype_text 
