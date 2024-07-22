@@ -1076,7 +1076,7 @@ process MERGE_SUBTYPE {
 
 process FINALIZING_SUMMARY {
 
-    errorStrategy 'ignore'
+    
 
     debug true
     
