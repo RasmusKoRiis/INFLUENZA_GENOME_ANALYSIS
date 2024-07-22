@@ -455,7 +455,7 @@ def main(csv_file, output_file, runname):
     final_merge['Mutations NA'] = final_merge['Mutations NA'].fillna(0)
     final_merge['Subtype'] = final_merge['Subtype'].fillna('NA')
     final_merge['Clade'] = final_merge['Clade'].fillna('NA')
-    final_merge['Subclade'] = final_merge['Subclade'].fillna('NA')
+    final_merge['sub'] = final_merge['sub'].fillna('NA')
     final_merge['blast subtype'] = final_merge['blast subtype'].fillna('NA')
     
     final_merge['Run Name'] = final_merge['Run Name'].fillna(runname)
